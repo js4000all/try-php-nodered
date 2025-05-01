@@ -1,0 +1,123 @@
+[
+    {
+        "id": "f0020e205b0d4d02",
+        "type": "tab",
+        "label": "フロー 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fbe42d48d5ef483c",
+        "type": "http in",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "url": "/user/:name",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "cd40737c5c47b59c"
+            ]
+        ]
+    },
+    {
+        "id": "cd40737c5c47b59c",
+        "type": "switch",
+        "z": "f0020e205b0d4d02",
+        "name": "A>4",
+        "property": "req.params.name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "4",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 270,
+        "y": 360,
+        "wires": [
+            [
+                "04199d72d8639c73"
+            ],
+            [
+                "0e37ab1d2f1df0de"
+            ]
+        ]
+    },
+    {
+        "id": "63006f01d2cea77f",
+        "type": "http response",
+        "z": "f0020e205b0d4d02",
+        "name": "http out",
+        "statusCode": "",
+        "headers": {},
+        "x": 620,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "0e37ab1d2f1df0de",
+        "type": "change",
+        "z": "f0020e205b0d4d02",
+        "name": "set error info",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"message\":\"Invalid params\",\"status\":440}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "statusCode",
+                "pt": "msg",
+                "to": "400",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 400,
+        "wires": [
+            [
+                "63006f01d2cea77f"
+            ]
+        ]
+    },
+    {
+        "id": "04199d72d8639c73",
+        "type": "function",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "func": "msg.payload = `A-${msg.req.params.name}`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 340,
+        "wires": [
+            [
+                "63006f01d2cea77f"
+            ]
+        ]
+    }
+]
