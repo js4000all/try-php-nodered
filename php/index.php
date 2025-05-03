@@ -105,6 +105,7 @@ if (isset($_POST['register'])) {
         echo "ユーザー登録が完了しました。\n";
         $result = json_decode($response, true);
         echo "登録されたユーザー情報:\n";
+        echo "ID: " . $result['id'] . "\n";
         echo "名前: " . $result['name'] . "\n";
         echo "年齢: " . $result['age'] . "\n";
     } else {
