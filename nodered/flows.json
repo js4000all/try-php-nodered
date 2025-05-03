@@ -117,5 +117,343 @@
                 "63006f01d2cea77f"
             ]
         ]
+    },
+    {
+        "id": "5ecc383de041ac9c",
+        "type": "inject",
+        "z": "f0020e205b0d4d02",
+        "name": "Initialize users table once",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 840,
+        "wires": [
+            [
+                "02409b95bf14a835"
+            ]
+        ]
+    },
+    {
+        "id": "b673cdc6486e25e2",
+        "type": "alafile in",
+        "z": "f0020e205b0d4d02",
+        "name": "load users",
+        "filename": "/data/db/users",
+        "format": "json",
+        "columns": "*",
+        "headers": true,
+        "x": 230,
+        "y": 960,
+        "wires": [
+            [
+                "0b17f4d4a55aad81"
+            ]
+        ]
+    },
+    {
+        "id": "808645ce3216d769",
+        "type": "alafile out",
+        "z": "f0020e205b0d4d02",
+        "name": "save users",
+        "filename": "/data/db/users",
+        "format": "json",
+        "columns": "*",
+        "headers": true,
+        "x": 670,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "e6f213ee7e16ccf9",
+        "type": "alasql",
+        "z": "f0020e205b0d4d02",
+        "name": "insert user",
+        "query": "INSERT INTO users VALUES ?;\n",
+        "x": 510,
+        "y": 960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "15dc322bac7b10d3",
+        "type": "alasql",
+        "z": "f0020e205b0d4d02",
+        "name": "insert user",
+        "query": "INSERT INTO users VALUES ?;\n",
+        "x": 610,
+        "y": 480,
+        "wires": [
+            [
+                "dbea0c798f2b0956",
+                "eea38a64978c09d0"
+            ]
+        ]
+    },
+    {
+        "id": "6e01fcc108b4a04c",
+        "type": "inject",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 740,
+        "wires": [
+            [
+                "864e281a4164e85c"
+            ]
+        ]
+    },
+    {
+        "id": "3a6ffa808977b42e",
+        "type": "debug",
+        "z": "f0020e205b0d4d02",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "864e281a4164e85c",
+        "type": "alasql",
+        "z": "f0020e205b0d4d02",
+        "name": "select users",
+        "query": "SELECT * FROM users",
+        "x": 330,
+        "y": 740,
+        "wires": [
+            [
+                "3a6ffa808977b42e"
+            ]
+        ]
+    },
+    {
+        "id": "2392a3572cdbbde9",
+        "type": "inject",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 700,
+        "wires": [
+            [
+                "c73d3a9bed98a7e7"
+            ]
+        ]
+    },
+    {
+        "id": "c73d3a9bed98a7e7",
+        "type": "alasql",
+        "z": "f0020e205b0d4d02",
+        "name": "truncate users",
+        "query": "truncate table users",
+        "x": 340,
+        "y": 700,
+        "wires": [
+            [
+                "3a6ffa808977b42e"
+            ]
+        ]
+    },
+    {
+        "id": "02409b95bf14a835",
+        "type": "alasql",
+        "z": "f0020e205b0d4d02",
+        "name": "create users table",
+        "query": "CREATE TABLE IF NOT EXISTS users (id integer, name string, age integer);\n",
+        "x": 190,
+        "y": 900,
+        "wires": [
+            [
+                "e1da3ddd375d9a5e"
+            ]
+        ]
+    },
+    {
+        "id": "beac62771396e295",
+        "type": "function",
+        "z": "f0020e205b0d4d02",
+        "name": "make new user",
+        "func": "const users = msg.payload;\nconst body = msg.req.body;\nconst maxId = users.length==0 ? 0 : Math.max(...users.map(user => user.id));\nconst user = {\n    id: maxId + 1,\n    name: body.name,\n    age: Number(body.age)\n}\nmsg.inserted_user = user;\nmsg.payload = user;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 480,
+        "wires": [
+            [
+                "15dc322bac7b10d3"
+            ]
+        ]
+    },
+    {
+        "id": "86f4c0403449a746",
+        "type": "alasql",
+        "z": "f0020e205b0d4d02",
+        "name": "select users",
+        "query": "SELECT * FROM users",
+        "x": 270,
+        "y": 480,
+        "wires": [
+            [
+                "beac62771396e295"
+            ]
+        ]
+    },
+    {
+        "id": "86870e41ccbdc6f9",
+        "type": "http in",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "url": "users",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 480,
+        "wires": [
+            [
+                "86f4c0403449a746"
+            ]
+        ]
+    },
+    {
+        "id": "dbea0c798f2b0956",
+        "type": "change",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "inserted_user",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "statusCode",
+                "pt": "msg",
+                "to": "200",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "contentType",
+                "pt": "msg",
+                "to": "application/json",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 780,
+        "y": 440,
+        "wires": [
+            [
+                "63006f01d2cea77f"
+            ]
+        ]
+    },
+    {
+        "id": "eea38a64978c09d0",
+        "type": "alasql",
+        "z": "f0020e205b0d4d02",
+        "name": "select users",
+        "query": "SELECT * FROM users",
+        "x": 490,
+        "y": 540,
+        "wires": [
+            [
+                "808645ce3216d769"
+            ]
+        ]
+    },
+    {
+        "id": "0b17f4d4a55aad81",
+        "type": "split",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 370,
+        "y": 960,
+        "wires": [
+            [
+                "e6f213ee7e16ccf9"
+            ]
+        ]
+    },
+    {
+        "id": "e1da3ddd375d9a5e",
+        "type": "alasql",
+        "z": "f0020e205b0d4d02",
+        "name": "truncate users",
+        "query": "truncate table users",
+        "x": 380,
+        "y": 900,
+        "wires": [
+            [
+                "b673cdc6486e25e2"
+            ]
+        ]
     }
 ]

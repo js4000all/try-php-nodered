@@ -1,5 +1,9 @@
 <?php
 
+
+echo "<a href='/'>TOP</a>";
+echo "<br>";
+
 // 基本的なPHPの動作確認用コード
 $message = "情報統合思念体からの応答を確認。";
 echo $message;
@@ -55,6 +59,54 @@ if (isset($_GET['user_id'])) {
         echo "ユーザー情報:\n";
         echo "名前: " . $user_data['name'] . "\n";
         echo "年齢: " . $user_data['age'] . "\n";
+    } else {
+        $error_data = json_decode($response, true);
+        echo "エラー: " . ($error_data['error'] ?? '不明なエラー') . "\n";
+        echo "ステータスコード: " . $http_code;
+    }
+    echo "</pre>";
+    echo "</div>";
+}
+
+// ユーザー登録フォーム
+echo "<h2>ユーザー登録</h2>";
+echo "<form method='post' action=''>";
+echo "<input type='text' name='name' placeholder='名前' required><br>";
+echo "<input type='number' name='age' placeholder='年齢' required><br>";
+echo "<button type='submit' name='register'>登録</button>";
+echo "</form>";
+
+// ユーザー登録処理
+if (isset($_POST['register'])) {
+    $name = $_POST['name'];
+    $age = $_POST['age'];
+    
+    $api_url = "http://nodered:1880/api/users";
+    $data = json_encode(['name' => $name, 'age' => $age]);
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $api_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($data)
+    ]);
+    
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    echo "<div style='margin-top: 20px;'>";
+    echo "<h3>登録結果</h3>";
+    echo "<pre>";
+    if ($http_code === 200) {
+        echo "ユーザー登録が完了しました。\n";
+        $result = json_decode($response, true);
+        echo "登録されたユーザー情報:\n";
+        echo "名前: " . $result['name'] . "\n";
+        echo "年齢: " . $result['age'] . "\n";
     } else {
         $error_data = json_decode($response, true);
         echo "エラー: " . ($error_data['error'] ?? '不明なエラー') . "\n";
