@@ -17,7 +17,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 110,
-        "y": 320,
+        "y": 220,
         "wires": [
             [
                 "1a83e88eede0b665"
@@ -445,10 +445,10 @@
         "name": "select users",
         "query": "SELECT * FROM users \nWHERE id = ?;\n",
         "x": 470,
-        "y": 320,
+        "y": 220,
         "wires": [
             [
-                "cd52890164626986"
+                "39fd09aa89ef018e"
             ]
         ]
     },
@@ -485,8 +485,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 640,
-        "y": 320,
+        "x": 480,
+        "y": 280,
         "wires": [
             [
                 "63006f01d2cea77f"
@@ -513,10 +513,80 @@
         "to": "",
         "reg": false,
         "x": 300,
-        "y": 320,
+        "y": 220,
         "wires": [
             [
                 "0d1a89fd9063b649"
+            ]
+        ]
+    },
+    {
+        "id": "39fd09aa89ef018e",
+        "type": "switch",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 270,
+        "y": 280,
+        "wires": [
+            [
+                "cd52890164626986"
+            ],
+            [
+                "3291ed591c8da581"
+            ]
+        ]
+    },
+    {
+        "id": "3291ed591c8da581",
+        "type": "change",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "statusCode",
+                "pt": "msg",
+                "to": "404",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "contentType",
+                "pt": "msg",
+                "to": "application/json",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"error\":\"Not found user\",\"status\":404}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 320,
+        "wires": [
+            [
+                "63006f01d2cea77f"
             ]
         ]
     }
