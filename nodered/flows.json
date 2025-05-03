@@ -17,39 +17,10 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 110,
-        "y": 360,
+        "y": 320,
         "wires": [
             [
-                "cd40737c5c47b59c"
-            ]
-        ]
-    },
-    {
-        "id": "cd40737c5c47b59c",
-        "type": "switch",
-        "z": "f0020e205b0d4d02",
-        "name": "id指定の有無",
-        "property": "req.params.id",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "nempty"
-            },
-            {
-                "t": "else"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 2,
-        "x": 290,
-        "y": 360,
-        "wires": [
-            [
-                "04199d72d8639c73"
-            ],
-            [
-                "0e37ab1d2f1df0de"
+                "1a83e88eede0b665"
             ]
         ]
     },
@@ -60,63 +31,9 @@
         "name": "http out",
         "statusCode": "",
         "headers": {},
-        "x": 720,
-        "y": 320,
+        "x": 800,
+        "y": 380,
         "wires": []
-    },
-    {
-        "id": "0e37ab1d2f1df0de",
-        "type": "change",
-        "z": "f0020e205b0d4d02",
-        "name": "set error info",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{\"message\":\"Invalid params\",\"status\":440}",
-                "tot": "json"
-            },
-            {
-                "t": "set",
-                "p": "statusCode",
-                "pt": "msg",
-                "to": "400",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 470,
-        "y": 400,
-        "wires": [
-            [
-                "63006f01d2cea77f"
-            ]
-        ]
-    },
-    {
-        "id": "04199d72d8639c73",
-        "type": "function",
-        "z": "f0020e205b0d4d02",
-        "name": "user検索",
-        "func": "const users = {\n    \"a\": {\n        \"name\": \"Taro\", \"age\": 22\n    },\n    \"b\": {\n        \"name\": \"Jiro\", \"age\": 16\n    }\n}\n\nconst id = msg.req.params.id;\n\nif (users.hasOwnProperty(id)) {\n    msg.payload = users[id];\n} else {\n    msg.payload = { error: \"ユーザーが見つかりませんでした\", id: id };\n    msg.statusCode = 404;\n}\n\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 460,
-        "y": 320,
-        "wires": [
-            [
-                "63006f01d2cea77f"
-            ]
-        ]
     },
     {
         "id": "5ecc383de041ac9c",
@@ -453,6 +370,153 @@
         "wires": [
             [
                 "b673cdc6486e25e2"
+            ]
+        ]
+    },
+    {
+        "id": "37982cd980132310",
+        "type": "alasql",
+        "z": "f0020e205b0d4d02",
+        "name": "select users",
+        "query": "SELECT * FROM users",
+        "x": 270,
+        "y": 380,
+        "wires": [
+            [
+                "7451690366f7faab"
+            ]
+        ]
+    },
+    {
+        "id": "7451690366f7faab",
+        "type": "change",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "statusCode",
+                "pt": "msg",
+                "to": "200",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "contentType",
+                "pt": "msg",
+                "to": "application/json",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 380,
+        "wires": [
+            [
+                "63006f01d2cea77f"
+            ]
+        ]
+    },
+    {
+        "id": "901508bf3893668e",
+        "type": "http in",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "url": "/users/",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 380,
+        "wires": [
+            [
+                "37982cd980132310"
+            ]
+        ]
+    },
+    {
+        "id": "0d1a89fd9063b649",
+        "type": "alasql",
+        "z": "f0020e205b0d4d02",
+        "name": "select users",
+        "query": "SELECT * FROM users \nWHERE id = ?;\n",
+        "x": 470,
+        "y": 320,
+        "wires": [
+            [
+                "cd52890164626986"
+            ]
+        ]
+    },
+    {
+        "id": "cd52890164626986",
+        "type": "change",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "statusCode",
+                "pt": "msg",
+                "to": "200",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "contentType",
+                "pt": "msg",
+                "to": "application/json",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[0]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 320,
+        "wires": [
+            [
+                "63006f01d2cea77f"
+            ]
+        ]
+    },
+    {
+        "id": "1a83e88eede0b665",
+        "type": "change",
+        "z": "f0020e205b0d4d02",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$number(req.params.id)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 300,
+        "y": 320,
+        "wires": [
+            [
+                "0d1a89fd9063b649"
             ]
         ]
     }

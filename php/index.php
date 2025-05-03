@@ -103,6 +103,38 @@ if (isset($_POST['register'])) {
     echo "</div>";
 }
 
+// ユーザー一覧の取得と表示
+echo "<h2>ユーザー一覧</h2>";
+
+$api_url = "http://nodered:1880/api/users";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $api_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+
+$response = curl_exec($ch);
+$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+echo "<div style='margin-top: 20px;'>";
+if ($http_code === 200) {
+    $users = json_decode($response, true);
+    echo "<table border='1' style='border-collapse: collapse; width: 100%;'>";
+    echo "<tr><th>ID</th><th>名前</th><th>年齢</th></tr>";
+    foreach ($users as $user) {
+        echo "<tr>";
+        echo "<td>" . htmlspecialchars($user['id']) . "</td>";
+        echo "<td>" . htmlspecialchars($user['name']) . "</td>";
+        echo "<td>" . htmlspecialchars($user['age']) . "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+} else {
+    echo "ユーザー一覧の取得に失敗しました。";
+    echo "ステータスコード: " . $http_code;
+}
+echo "</div>";
+
 // 計算機能へのリンク
 echo "<br><br><a href='calc.php'>計算機能を実行</a>";
 
