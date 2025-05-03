@@ -4,20 +4,6 @@
 echo "<a href='/'>TOP</a>";
 echo "<br>";
 
-// 基本的なPHPの動作確認用コード
-$message = "情報統合思念体からの応答を確認。";
-echo $message;
-
-// 簡単なデータ処理のサンプル
-$data = [
-    'id' => 1,
-    'name' => '長門有希',
-    'role' => '文芸部部長'
-];
-
-echo "<pre>";
-print_r($data);
-echo "</pre>";
 
 // エラーハンドリングのサンプル
 try {
