@@ -17,8 +17,11 @@ services:
       - php-fpm
 
   nodered:
-    image: nodered/node-red:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.rednode
     ports:
       - "1880:1880"
     volumes:
       - ./nodered:/data
+    restart: unless-stopped

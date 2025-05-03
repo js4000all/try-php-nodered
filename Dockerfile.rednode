@@ -1,0 +1,5 @@
+FROM nodered/node-red:latest
+
+RUN set -x \
+    && npm install \
+        node-red-contrib-alasql@latest
