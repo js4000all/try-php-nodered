@@ -16,6 +16,106 @@
         "env": []
     },
     {
+        "id": "9c93b5a27f1f0d8c",
+        "type": "subflow",
+        "name": "delayed elements",
+        "info": "payloadが配列の場合のみ、2秒間隔で要素を出力。",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "fb17d1cbb12ca77b"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 660,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "427bd8d015228387",
+                        "port": 0
+                    },
+                    {
+                        "id": "0bd359638a80e03e",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {
+            "module": "delayed-elements",
+            "version": "0.1.0",
+            "author": "js4000all@gmail.com",
+            "desc": "payloadが配列の場合のみ、2秒間隔で要素を出力。",
+            "license": "MIT"
+        },
+        "color": "#DDAA99"
+    },
+    {
+        "id": "e24847f2f9e351d8",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "関数を定義して使い回す：flow contextに保存しておく方法",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "019b7347b3689076",
+            "41d09822f1916789",
+            "b91128fcf9ee2c2b",
+            "c42c1e1ec887fe6c",
+            "e6bfd74bb3e69eaa"
+        ],
+        "x": 34,
+        "y": 359,
+        "w": 532,
+        "h": 142
+    },
+    {
+        "id": "9fc439aff1a811ea",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "link callによるサブルーチン",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "b0568bb261bbf464",
+            "3742ce3df21d5969",
+            "391962ef9f3f92d1"
+        ],
+        "x": 38,
+        "y": 13,
+        "w": 784,
+        "h": 334
+    },
+    {
+        "id": "672e1650cb510dd9",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "サブフローサンプル",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "abe75cd6b803d317",
+            "03c7cc1007694929",
+            "b53f20d28cf93a9f",
+            "c9ecd84f167b1985"
+        ],
+        "x": 34,
+        "y": 519,
+        "w": 672,
+        "h": 142
+    },
+    {
         "id": "b0568bb261bbf464",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -33,7 +133,7 @@
             "e58e2a758922ba40"
         ],
         "x": 64,
-        "y": 259,
+        "y": 239,
         "w": 302,
         "h": 82,
         "info": "msg.payloadに受け取った文字列の長さをmsg.payloadとして返す。\n"
@@ -89,42 +189,181 @@
         "h": 82
     },
     {
-        "id": "e24847f2f9e351d8",
+        "id": "34acfae8448b43ac",
         "type": "group",
         "z": "b0836e657c45cee4",
-        "name": "関数を定義して使い回す：flow contextに保存しておく方法",
+        "name": "自力キュー",
         "style": {
             "label": true
         },
         "nodes": [
-            "019b7347b3689076",
-            "41d09822f1916789",
-            "b91128fcf9ee2c2b",
-            "c42c1e1ec887fe6c",
-            "e6bfd74bb3e69eaa"
+            "6ce15e22118b34e0",
+            "e7ec474e6c7b0546",
+            "1432fa1fe7c34b5b",
+            "8e0211b6922e56fd",
+            "3c64367caed32fbd",
+            "d07730c58261e945",
+            "182b768af015a078",
+            "132c0b5e6a93589a",
+            "313dbed4f7397e56",
+            "cd11cda063995142"
         ],
         "x": 34,
-        "y": 419,
-        "w": 532,
-        "h": 142
+        "y": 679,
+        "w": 1172,
+        "h": 488
     },
     {
-        "id": "9fc439aff1a811ea",
+        "id": "132c0b5e6a93589a",
         "type": "group",
         "z": "b0836e657c45cee4",
-        "name": "link callによるサブルーチン",
+        "g": "34acfae8448b43ac",
+        "name": "テスト用REST API",
         "style": {
             "label": true
         },
         "nodes": [
-            "b0568bb261bbf464",
-            "3742ce3df21d5969",
-            "391962ef9f3f92d1"
+            "2f745ae3548ce99d",
+            "89af74664eafcbb8",
+            "10fc73cf7410db30",
+            "ac66534468c23087"
         ],
-        "x": 38,
-        "y": 13,
-        "w": 784,
-        "h": 354
+        "x": 74,
+        "y": 1059,
+        "w": 732,
+        "h": 82
+    },
+    {
+        "id": "313dbed4f7397e56",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "キュー部分(msg.resetはキューを初期化、msg.doneはキューの先頭要素を排出)",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "28d9a5423150e4f2",
+            "213d69f0941b223e",
+            "7738d9f2c2d896c0",
+            "f10122392cbe2923",
+            "32a444f412de407d",
+            "31b26389a929d61d"
+        ],
+        "x": 114,
+        "y": 839,
+        "w": 912,
+        "h": 82
+    },
+    {
+        "id": "0bd359638a80e03e",
+        "type": "junction",
+        "z": "9c93b5a27f1f0d8c",
+        "x": 600,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fc2aa30ba24d6a60",
+        "type": "junction",
+        "z": "9c93b5a27f1f0d8c",
+        "x": 240,
+        "y": 140,
+        "wires": [
+            [
+                "0bd359638a80e03e"
+            ]
+        ]
+    },
+    {
+        "id": "31b26389a929d61d",
+        "type": "junction",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "x": 360,
+        "y": 880,
+        "wires": [
+            [
+                "7738d9f2c2d896c0",
+                "182b768af015a078"
+            ]
+        ]
+    },
+    {
+        "id": "fb17d1cbb12ca77b",
+        "type": "switch",
+        "z": "9c93b5a27f1f0d8c",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "array",
+                "vt": "array"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 150,
+        "y": 120,
+        "wires": [
+            [
+                "612754f744d7df39"
+            ],
+            [
+                "fc2aa30ba24d6a60"
+            ]
+        ]
+    },
+    {
+        "id": "612754f744d7df39",
+        "type": "split",
+        "z": "9c93b5a27f1f0d8c",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 310,
+        "y": 100,
+        "wires": [
+            [
+                "427bd8d015228387"
+            ]
+        ]
+    },
+    {
+        "id": "427bd8d015228387",
+        "type": "delay",
+        "z": "9c93b5a27f1f0d8c",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "2",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 100,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "fbe42d48d5ef483c",
@@ -811,7 +1050,7 @@
         "name": "func length",
         "links": [],
         "x": 105,
-        "y": 300,
+        "y": 280,
         "wires": [
             [
                 "6dbe6d628991d545"
@@ -832,7 +1071,7 @@
         "finalize": "",
         "libs": [],
         "x": 220,
-        "y": 300,
+        "y": 280,
         "wires": [
             [
                 "e58e2a758922ba40"
@@ -848,7 +1087,7 @@
         "mode": "return",
         "links": [],
         "x": 325,
-        "y": 300,
+        "y": 280,
         "wires": []
     },
     {
@@ -968,7 +1207,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 160,
-        "y": 460,
+        "y": 400,
         "wires": [
             [
                 "41d09822f1916789"
@@ -989,7 +1228,7 @@
         "finalize": "",
         "libs": [],
         "x": 330,
-        "y": 460,
+        "y": 400,
         "wires": [
             []
         ]
@@ -1013,7 +1252,7 @@
         "payload": "Taro",
         "payloadType": "str",
         "x": 130,
-        "y": 520,
+        "y": 460,
         "wires": [
             [
                 "c42c1e1ec887fe6c"
@@ -1034,7 +1273,7 @@
         "finalize": "",
         "libs": [],
         "x": 320,
-        "y": 520,
+        "y": 460,
         "wires": [
             [
                 "e6bfd74bb3e69eaa"
@@ -1055,7 +1294,447 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 460,
-        "y": 520,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "abe75cd6b803d317",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "672e1650cb510dd9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[1, 2, 3]",
+        "payloadType": "json",
+        "x": 130,
+        "y": 560,
+        "wires": [
+            [
+                "03c7cc1007694929"
+            ]
+        ]
+    },
+    {
+        "id": "03c7cc1007694929",
+        "type": "subflow:9c93b5a27f1f0d8c",
+        "z": "b0836e657c45cee4",
+        "g": "672e1650cb510dd9",
+        "name": "",
+        "x": 410,
+        "y": 560,
+        "wires": [
+            [
+                "c9ecd84f167b1985"
+            ]
+        ]
+    },
+    {
+        "id": "c9ecd84f167b1985",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "672e1650cb510dd9",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "b53f20d28cf93a9f",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "672e1650cb510dd9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 620,
+        "wires": [
+            [
+                "03c7cc1007694929"
+            ]
+        ]
+    },
+    {
+        "id": "6ce15e22118b34e0",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 740,
+        "wires": [
+            [
+                "1432fa1fe7c34b5b",
+                "28d9a5423150e4f2"
+            ]
+        ]
+    },
+    {
+        "id": "2f745ae3548ce99d",
+        "type": "http in",
+        "z": "b0836e657c45cee4",
+        "g": "132c0b5e6a93589a",
+        "name": "",
+        "url": "echo",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 1100,
+        "wires": [
+            [
+                "89af74664eafcbb8"
+            ]
+        ]
+    },
+    {
+        "id": "89af74664eafcbb8",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "132c0b5e6a93589a",
+        "name": "ランダムな遅延時間を設定",
+        "func": "const name = msg.req.query.name;\nconst delay = Math.floor(Math.random() * 3 + 1) * 1000;\nmsg.payload = {\n    name: name,\n    delay: delay,\n};\nmsg.delay = delay;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1100,
+        "wires": [
+            [
+                "ac66534468c23087"
+            ]
+        ]
+    },
+    {
+        "id": "10fc73cf7410db30",
+        "type": "http response",
+        "z": "b0836e657c45cee4",
+        "g": "132c0b5e6a93589a",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "213d69f0941b223e",
+        "type": "http request",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "fetch api: echo",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "query",
+        "url": "localhost:1880/api/echo",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 620,
+        "y": 880,
+        "wires": [
+            [
+                "32a444f412de407d"
+            ]
+        ]
+    },
+    {
+        "id": "e7ec474e6c7b0546",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "debug 7",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "ac66534468c23087",
+        "type": "delay",
+        "z": "b0836e657c45cee4",
+        "g": "132c0b5e6a93589a",
+        "name": "",
+        "pauseType": "delayv",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 580,
+        "y": 1100,
+        "wires": [
+            [
+                "10fc73cf7410db30"
+            ]
+        ]
+    },
+    {
+        "id": "1432fa1fe7c34b5b",
+        "type": "file in",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "read names",
+        "filename": "/data/names.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 270,
+        "y": 740,
+        "wires": [
+            [
+                "8e0211b6922e56fd"
+            ]
+        ]
+    },
+    {
+        "id": "8e0211b6922e56fd",
+        "type": "split",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 410,
+        "y": 740,
+        "wires": [
+            [
+                "3c64367caed32fbd"
+            ]
+        ]
+    },
+    {
+        "id": "7738d9f2c2d896c0",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "queue",
+        "func": "if(msg.reset){\n    context.set(\"queue\", []);\n    context.set(\"running\", false);\n    return null;\n}\n\nconst q = context.get(\"queue\");\nif(msg.done){\n    if(q.length > 0){\n        const [name, ...rest] = q;\n        msg.payload = { name: name };\n        context.set(\"queue\", rest);\n        context.set(\"running\", true);\n    }\n    else{\n        context.set(\"running\", false);\n        return null;\n    }\n}\nelse{\n    const name = msg.payload;\n    const running = context.get(\"running\");\n    if(running){\n        context.set(\"queue\", [...q, name]);\n        return null;\n    }\n    else{\n        msg.payload = { name: name };\n        context.set(\"queue\", []);\n        context.set(\"running\", true);\n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 880,
+        "wires": [
+            [
+                "213d69f0941b223e"
+            ]
+        ]
+    },
+    {
+        "id": "f10122392cbe2923",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "done",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 920,
+        "y": 880,
+        "wires": [
+            [
+                "e7ec474e6c7b0546",
+                "31b26389a929d61d"
+            ]
+        ]
+    },
+    {
+        "id": "3c64367caed32fbd",
+        "type": "switch",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "empty"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 550,
+        "y": 740,
+        "wires": [
+            [
+                "d07730c58261e945"
+            ],
+            [
+                "31b26389a929d61d"
+            ]
+        ]
+    },
+    {
+        "id": "32a444f412de407d",
+        "type": "json",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 770,
+        "y": 880,
+        "wires": [
+            [
+                "f10122392cbe2923"
+            ]
+        ]
+    },
+    {
+        "id": "d07730c58261e945",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "debug 10",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "28d9a5423150e4f2",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 220,
+        "y": 880,
+        "wires": [
+            [
+                "31b26389a929d61d"
+            ]
+        ]
+    },
+    {
+        "id": "182b768af015a078",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "cd11cda063995142",
+        "type": "comment",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "現在の実装では、初期化した時に既に処理中のメッセージまではキャンセルできない",
+        "info": "",
+        "x": 360,
+        "y": 960,
         "wires": []
     }
 ]
