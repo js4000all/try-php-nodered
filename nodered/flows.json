@@ -4,9 +4,86 @@
         "type": "tab",
         "label": "php-backend",
         "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b0836e657c45cee4",
+        "type": "tab",
+        "label": "sample",
         "disabled": false,
         "info": "",
         "env": []
+    },
+    {
+        "id": "b0568bb261bbf464",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "func length",
+        "style": {
+            "fill": "#ffefbf",
+            "label": true,
+            "fill-opacity": "0.5",
+            "color": "#000000"
+        },
+        "nodes": [
+            "f65164460314ac82",
+            "6dbe6d628991d545",
+            "e58e2a758922ba40"
+        ],
+        "x": 34,
+        "y": 259,
+        "w": 302,
+        "h": 82,
+        "info": "msg.payloadに受け取った文字列の長さをmsg.payloadとして返す。\n"
+    },
+    {
+        "id": "3742ce3df21d5969",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "9b34839620502d83",
+            "296118de600e8210",
+            "bf6458ec5f555f70",
+            "46c2ca2a51493a72"
+        ],
+        "x": 34,
+        "y": 39,
+        "w": 732,
+        "h": 82
+    },
+    {
+        "id": "391962ef9f3f92d1",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "e3a6bff644fad890",
+            "bc1f2932862bd4bd",
+            "db45b42e1f0f65b8",
+            "21ff19d41a20ceb1"
+        ],
+        "x": 34,
+        "y": 139,
+        "w": 732,
+        "h": 82
     },
     {
         "id": "fbe42d48d5ef483c",
@@ -588,6 +665,242 @@
         "wires": [
             [
                 "63006f01d2cea77f"
+            ]
+        ]
+    },
+    {
+        "id": "46c2ca2a51493a72",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "3742ce3df21d5969",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "bf6458ec5f555f70"
+            ]
+        ]
+    },
+    {
+        "id": "bf6458ec5f555f70",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "3742ce3df21d5969",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Taro",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 80,
+        "wires": [
+            [
+                "296118de600e8210"
+            ]
+        ]
+    },
+    {
+        "id": "296118de600e8210",
+        "type": "link call",
+        "z": "b0836e657c45cee4",
+        "g": "3742ce3df21d5969",
+        "name": "",
+        "links": [
+            "f65164460314ac82"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 510,
+        "y": 80,
+        "wires": [
+            [
+                "9b34839620502d83"
+            ]
+        ]
+    },
+    {
+        "id": "9b34839620502d83",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "3742ce3df21d5969",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "f65164460314ac82",
+        "type": "link in",
+        "z": "b0836e657c45cee4",
+        "g": "b0568bb261bbf464",
+        "name": "func length",
+        "links": [],
+        "x": 75,
+        "y": 300,
+        "wires": [
+            [
+                "6dbe6d628991d545"
+            ]
+        ]
+    },
+    {
+        "id": "6dbe6d628991d545",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "b0568bb261bbf464",
+        "name": "function 1",
+        "func": "msg.payload = msg.payload.length;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 300,
+        "wires": [
+            [
+                "e58e2a758922ba40"
+            ]
+        ]
+    },
+    {
+        "id": "e58e2a758922ba40",
+        "type": "link out",
+        "z": "b0836e657c45cee4",
+        "g": "b0568bb261bbf464",
+        "name": "link out 1",
+        "mode": "return",
+        "links": [],
+        "x": 295,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e3a6bff644fad890",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "391962ef9f3f92d1",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "bc1f2932862bd4bd",
+        "type": "link call",
+        "z": "b0836e657c45cee4",
+        "g": "391962ef9f3f92d1",
+        "name": "",
+        "links": [
+            "f65164460314ac82"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 510,
+        "y": 180,
+        "wires": [
+            [
+                "e3a6bff644fad890"
+            ]
+        ]
+    },
+    {
+        "id": "db45b42e1f0f65b8",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "391962ef9f3f92d1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Saburo",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 180,
+        "wires": [
+            [
+                "bc1f2932862bd4bd"
+            ]
+        ]
+    },
+    {
+        "id": "21ff19d41a20ceb1",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "391962ef9f3f92d1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 180,
+        "wires": [
+            [
+                "db45b42e1f0f65b8"
             ]
         ]
     }
