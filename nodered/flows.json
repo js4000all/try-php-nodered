@@ -59,6 +59,69 @@
         "color": "#DDAA99"
     },
     {
+        "id": "c86be1c12bedf207",
+        "type": "subflow",
+        "name": "ランダム分岐",
+        "info": "thresholdとして出力1に分岐する確率を指定する。\n\n## 出力\n- random  \n  生成した乱数。\n- threshold  \n  ノード上で設定した閾値。\n",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "38683cb766280f58"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 720,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "49af70dc50fe7a27",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 720,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "49af70dc50fe7a27",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "threshold",
+                "type": "num",
+                "value": "0.5",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "num"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {
+            "module": "random-switch",
+            "version": "0.1.0",
+            "author": "js4000all@gmail.com",
+            "desc": "指定した確率でランダムに分岐する",
+            "license": "MIT"
+        },
+        "color": "#DDAA99"
+    },
+    {
         "id": "e24847f2f9e351d8",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -257,6 +320,25 @@
         "h": 82
     },
     {
+        "id": "394b52483367cb8a",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "ランダム分岐デモ",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "3cd70725ab98a113",
+            "f77139e06707cd63",
+            "681e74f1c9d9e169",
+            "73346b1b78175063"
+        ],
+        "x": 34,
+        "y": 1179,
+        "w": 552,
+        "h": 122
+    },
+    {
         "id": "0bd359638a80e03e",
         "type": "junction",
         "z": "9c93b5a27f1f0d8c",
@@ -364,6 +446,80 @@
         "y": 100,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "38683cb766280f58",
+        "type": "function",
+        "z": "c86be1c12bedf207",
+        "name": "乱数生成",
+        "func": "msg.random = Math.random();\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 180,
+        "y": 120,
+        "wires": [
+            [
+                "0a5cc48edb8299a5"
+            ]
+        ]
+    },
+    {
+        "id": "49af70dc50fe7a27",
+        "type": "switch",
+        "z": "c86be1c12bedf207",
+        "name": "閾値と比較",
+        "property": "random",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "threshold",
+                "vt": "env"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 570,
+        "y": 120,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "0a5cc48edb8299a5",
+        "type": "change",
+        "z": "c86be1c12bedf207",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "threshold",
+                "pt": "msg",
+                "to": "threshold",
+                "tot": "env"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 120,
+        "wires": [
+            [
+                "49af70dc50fe7a27"
+            ]
         ]
     },
     {
@@ -1756,6 +1912,91 @@
         "statusType": "auto",
         "x": 630,
         "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "3cd70725ab98a113",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "394b52483367cb8a",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 1240,
+        "wires": [
+            [
+                "f77139e06707cd63"
+            ]
+        ]
+    },
+    {
+        "id": "f77139e06707cd63",
+        "type": "subflow:c86be1c12bedf207",
+        "z": "b0836e657c45cee4",
+        "g": "394b52483367cb8a",
+        "name": "",
+        "env": [
+            {
+                "name": "threshold",
+                "value": "0.8",
+                "type": "num"
+            },
+            {
+                "name": "出力1の確率",
+                "value": "0.7",
+                "type": "num"
+            }
+        ],
+        "x": 290,
+        "y": 1240,
+        "wires": [
+            [
+                "681e74f1c9d9e169"
+            ],
+            [
+                "73346b1b78175063"
+            ]
+        ]
+    },
+    {
+        "id": "681e74f1c9d9e169",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "394b52483367cb8a",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "73346b1b78175063",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "394b52483367cb8a",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 1260,
         "wires": []
     }
 ]
