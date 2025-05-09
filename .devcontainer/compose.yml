@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile.php
     volumes:
       - ../php:/var/www/html
+      - ../:/usr/src/app
 
   nginx:
     image: nginx:latest
