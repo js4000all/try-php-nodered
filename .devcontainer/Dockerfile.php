@@ -1,8 +1,23 @@
 FROM php:8.2-fpm
 
-WORKDIR /var/www/html
+RUN set -x \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y \
+        curl \
+        vim \
+        git \
+        less \
+        zip \
+        unzip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && adduser --disabled-password --home /home/app --shell /bin/bash app
 
-# 必要に応じて追加の拡張モジュールをインストール
-# RUN docker-php-ext-install pdo_mysql
+COPY ./profile.d /etc/profile.d
+
+WORKDIR /var/www/html
+RUN chown -R app:app /var/www/html
+USER app
 
 CMD ["php-fpm"]
