@@ -3,7 +3,7 @@
 {
   "name": "try-vibe-coding-with-nextjs",
   "dockerComposeFile": ["./compose.yml"],
-  "service": "dev",
+  "service": "php",
   "workspaceFolder": "/usr/src/app",
   "customizations": {
     "vscode": {
