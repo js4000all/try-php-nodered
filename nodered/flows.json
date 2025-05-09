@@ -2,10 +2,129 @@
     {
         "id": "f0020e205b0d4d02",
         "type": "tab",
-        "label": "フロー 1",
+        "label": "php-backend",
         "disabled": false,
         "info": "",
         "env": []
+    },
+    {
+        "id": "b0836e657c45cee4",
+        "type": "tab",
+        "label": "sample",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b0568bb261bbf464",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "g": "9fc439aff1a811ea",
+        "name": "func length",
+        "style": {
+            "fill": "#ffefbf",
+            "label": true,
+            "fill-opacity": "0.5",
+            "color": "#000000"
+        },
+        "nodes": [
+            "f65164460314ac82",
+            "6dbe6d628991d545",
+            "e58e2a758922ba40"
+        ],
+        "x": 64,
+        "y": 259,
+        "w": 302,
+        "h": 82,
+        "info": "msg.payloadに受け取った文字列の長さをmsg.payloadとして返す。\n"
+    },
+    {
+        "id": "3742ce3df21d5969",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "g": "9fc439aff1a811ea",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "9b34839620502d83",
+            "296118de600e8210",
+            "bf6458ec5f555f70",
+            "46c2ca2a51493a72"
+        ],
+        "x": 64,
+        "y": 39,
+        "w": 732,
+        "h": 82
+    },
+    {
+        "id": "391962ef9f3f92d1",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "g": "9fc439aff1a811ea",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "e3a6bff644fad890",
+            "bc1f2932862bd4bd",
+            "db45b42e1f0f65b8",
+            "21ff19d41a20ceb1"
+        ],
+        "x": 64,
+        "y": 139,
+        "w": 732,
+        "h": 82
+    },
+    {
+        "id": "e24847f2f9e351d8",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "関数を定義して使い回す：flow contextに保存しておく方法",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "019b7347b3689076",
+            "41d09822f1916789",
+            "b91128fcf9ee2c2b",
+            "c42c1e1ec887fe6c",
+            "e6bfd74bb3e69eaa"
+        ],
+        "x": 34,
+        "y": 419,
+        "w": 532,
+        "h": 142
+    },
+    {
+        "id": "9fc439aff1a811ea",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "link callによるサブルーチン",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "b0568bb261bbf464",
+            "3742ce3df21d5969",
+            "391962ef9f3f92d1"
+        ],
+        "x": 38,
+        "y": 13,
+        "w": 784,
+        "h": 354
     },
     {
         "id": "fbe42d48d5ef483c",
@@ -589,5 +708,354 @@
                 "63006f01d2cea77f"
             ]
         ]
+    },
+    {
+        "id": "46c2ca2a51493a72",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "3742ce3df21d5969",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 80,
+        "wires": [
+            [
+                "bf6458ec5f555f70"
+            ]
+        ]
+    },
+    {
+        "id": "bf6458ec5f555f70",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "3742ce3df21d5969",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Taro",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 80,
+        "wires": [
+            [
+                "296118de600e8210"
+            ]
+        ]
+    },
+    {
+        "id": "296118de600e8210",
+        "type": "link call",
+        "z": "b0836e657c45cee4",
+        "g": "3742ce3df21d5969",
+        "name": "",
+        "links": [
+            "f65164460314ac82"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 540,
+        "y": 80,
+        "wires": [
+            [
+                "9b34839620502d83"
+            ]
+        ]
+    },
+    {
+        "id": "9b34839620502d83",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "3742ce3df21d5969",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "f65164460314ac82",
+        "type": "link in",
+        "z": "b0836e657c45cee4",
+        "g": "b0568bb261bbf464",
+        "name": "func length",
+        "links": [],
+        "x": 105,
+        "y": 300,
+        "wires": [
+            [
+                "6dbe6d628991d545"
+            ]
+        ]
+    },
+    {
+        "id": "6dbe6d628991d545",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "b0568bb261bbf464",
+        "name": "function 1",
+        "func": "msg.payload = msg.payload.length;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 300,
+        "wires": [
+            [
+                "e58e2a758922ba40"
+            ]
+        ]
+    },
+    {
+        "id": "e58e2a758922ba40",
+        "type": "link out",
+        "z": "b0836e657c45cee4",
+        "g": "b0568bb261bbf464",
+        "name": "link out 1",
+        "mode": "return",
+        "links": [],
+        "x": 325,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e3a6bff644fad890",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "391962ef9f3f92d1",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "bc1f2932862bd4bd",
+        "type": "link call",
+        "z": "b0836e657c45cee4",
+        "g": "391962ef9f3f92d1",
+        "name": "",
+        "links": [
+            "f65164460314ac82"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 540,
+        "y": 180,
+        "wires": [
+            [
+                "e3a6bff644fad890"
+            ]
+        ]
+    },
+    {
+        "id": "db45b42e1f0f65b8",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "391962ef9f3f92d1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Saburo",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "bc1f2932862bd4bd"
+            ]
+        ]
+    },
+    {
+        "id": "21ff19d41a20ceb1",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "391962ef9f3f92d1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 180,
+        "wires": [
+            [
+                "db45b42e1f0f65b8"
+            ]
+        ]
+    },
+    {
+        "id": "019b7347b3689076",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "e24847f2f9e351d8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 460,
+        "wires": [
+            [
+                "41d09822f1916789"
+            ]
+        ]
+    },
+    {
+        "id": "41d09822f1916789",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "e24847f2f9e351d8",
+        "name": "Define utils",
+        "func": "const utils = {\n    length: (x) => x.length,\n    ohire: (s) => s + \"***\",\n};\nflow.set(\"utils\", utils);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b91128fcf9ee2c2b",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "e24847f2f9e351d8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Taro",
+        "payloadType": "str",
+        "x": 130,
+        "y": 520,
+        "wires": [
+            [
+                "c42c1e1ec887fe6c"
+            ]
+        ]
+    },
+    {
+        "id": "c42c1e1ec887fe6c",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "e24847f2f9e351d8",
+        "name": "Use utils",
+        "func": "const { length, ohire } = flow.get(\"utils\");\n\nconst s = msg.payload;\nmsg.payload = {\n    target: s,\n    len: length(s),\n    ohi: ohire(s),\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 520,
+        "wires": [
+            [
+                "e6bfd74bb3e69eaa"
+            ]
+        ]
+    },
+    {
+        "id": "e6bfd74bb3e69eaa",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "e24847f2f9e351d8",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 520,
+        "wires": []
     }
 ]
