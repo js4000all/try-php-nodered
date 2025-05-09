@@ -12,7 +12,7 @@ RUN set -x \
         unzip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && adduser --disabled-password --home /home/app --shell /bin/bash app
+    && useradd -m -s /bin/bash app
 
 COPY ./profile.d /etc/profile.d
 
