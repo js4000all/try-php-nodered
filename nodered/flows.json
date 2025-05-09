@@ -200,17 +200,17 @@
             "6ce15e22118b34e0",
             "e7ec474e6c7b0546",
             "1432fa1fe7c34b5b",
-            "8e0211b6922e56fd",
-            "3c64367caed32fbd",
             "d07730c58261e945",
             "182b768af015a078",
             "132c0b5e6a93589a",
             "313dbed4f7397e56",
-            "cd11cda063995142"
+            "cd11cda063995142",
+            "d047e55d49c4f7c3",
+            "f4353e4389a6bc05"
         ],
         "x": 34,
         "y": 679,
-        "w": 1172,
+        "w": 1292,
         "h": 488
     },
     {
@@ -248,11 +248,12 @@
             "7738d9f2c2d896c0",
             "f10122392cbe2923",
             "32a444f412de407d",
-            "31b26389a929d61d"
+            "31b26389a929d61d",
+            "659da199870741a3"
         ],
         "x": 114,
         "y": 839,
-        "w": 912,
+        "w": 1032,
         "h": 82
     },
     {
@@ -1429,7 +1430,7 @@
         "z": "b0836e657c45cee4",
         "g": "132c0b5e6a93589a",
         "name": "ランダムな遅延時間を設定",
-        "func": "const name = msg.req.query.name;\nconst delay = Math.floor(Math.random() * 3 + 1) * 1000;\nmsg.payload = {\n    name: name,\n    delay: delay,\n};\nmsg.delay = delay;\nreturn msg;",
+        "func": "const name = msg.req.query.name;\nconst delay = Math.floor(Math.random() * 5 + 1) * 500;\nmsg.payload = {\n    name: name,\n    delay: delay,\n};\nmsg.delay = delay;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1473,7 +1474,7 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 620,
+        "x": 740,
         "y": 880,
         "wires": [
             [
@@ -1494,8 +1495,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1100,
-        "y": 900,
+        "x": 1220,
+        "y": 880,
         "wires": []
     },
     {
@@ -1532,7 +1533,7 @@
         "name": "read names",
         "filename": "/data/names.csv",
         "filenameType": "str",
-        "format": "utf8",
+        "format": "lines",
         "chunk": false,
         "sendError": false,
         "encoding": "none",
@@ -1541,28 +1542,7 @@
         "y": 740,
         "wires": [
             [
-                "8e0211b6922e56fd"
-            ]
-        ]
-    },
-    {
-        "id": "8e0211b6922e56fd",
-        "type": "split",
-        "z": "b0836e657c45cee4",
-        "g": "34acfae8448b43ac",
-        "name": "",
-        "splt": "\\n",
-        "spltType": "str",
-        "arraySplt": 1,
-        "arraySpltType": "len",
-        "stream": false,
-        "addname": "",
-        "property": "payload",
-        "x": 410,
-        "y": 740,
-        "wires": [
-            [
-                "3c64367caed32fbd"
+                "d047e55d49c4f7c3"
             ]
         ]
     },
@@ -1572,7 +1552,7 @@
         "z": "b0836e657c45cee4",
         "g": "313dbed4f7397e56",
         "name": "queue",
-        "func": "if(msg.reset){\n    context.set(\"queue\", []);\n    context.set(\"running\", false);\n    return null;\n}\n\nconst q = context.get(\"queue\");\nif(msg.done){\n    if(q.length > 0){\n        const [name, ...rest] = q;\n        msg.payload = { name: name };\n        context.set(\"queue\", rest);\n        context.set(\"running\", true);\n    }\n    else{\n        context.set(\"running\", false);\n        return null;\n    }\n}\nelse{\n    const name = msg.payload;\n    const running = context.get(\"running\");\n    if(running){\n        context.set(\"queue\", [...q, name]);\n        return null;\n    }\n    else{\n        msg.payload = { name: name };\n        context.set(\"queue\", []);\n        context.set(\"running\", true);\n    }\n}\nreturn msg;",
+        "func": "// キューの初期化要請\nif(msg.reset){\n    context.set(\"queue\", []);\n    context.set(\"running\", false);\n    return;\n}\n\nconst q = context.get(\"queue\");\n\n// 後続処理の完了通知：キューが空でなければ先頭要素を放出する\nif(msg.done){\n    if(q.length > 0){\n        const [next_msg, ...rest] = q;\n        context.set(\"queue\", rest);\n        return next_msg;\n    }\n    else{\n        context.set(\"running\", false);\n        return;\n    }\n}\n// 新規メッセージの投入：処理中のメッセージがあればキューに追加し、なければそのまま流す\nelse{\n    const running = context.get(\"running\");\n    if(running){\n        context.set(\"queue\", [...q, msg]);\n        return;\n    }\n    else{\n        context.set(\"running\", true);\n        return msg;\n    }\n}\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1583,7 +1563,8 @@
         "y": 880,
         "wires": [
             [
-                "213d69f0941b223e"
+                "659da199870741a3",
+                "f4353e4389a6bc05"
             ]
         ]
     },
@@ -1607,41 +1588,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 920,
+        "x": 1040,
         "y": 880,
         "wires": [
             [
                 "e7ec474e6c7b0546",
-                "31b26389a929d61d"
-            ]
-        ]
-    },
-    {
-        "id": "3c64367caed32fbd",
-        "type": "switch",
-        "z": "b0836e657c45cee4",
-        "g": "34acfae8448b43ac",
-        "name": "",
-        "property": "payload",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "empty"
-            },
-            {
-                "t": "else"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 2,
-        "x": 550,
-        "y": 740,
-        "wires": [
-            [
-                "d07730c58261e945"
-            ],
-            [
                 "31b26389a929d61d"
             ]
         ]
@@ -1655,7 +1606,7 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 770,
+        "x": 890,
         "y": 880,
         "wires": [
             [
@@ -1677,7 +1628,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 690,
+        "x": 580,
         "y": 720,
         "wires": []
     },
@@ -1719,7 +1670,8 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
         "x": 440,
@@ -1735,6 +1687,75 @@
         "info": "",
         "x": 360,
         "y": 960,
+        "wires": []
+    },
+    {
+        "id": "d047e55d49c4f7c3",
+        "type": "switch",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "空行除去",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "empty"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 420,
+        "y": 740,
+        "wires": [
+            [
+                "d07730c58261e945"
+            ],
+            [
+                "31b26389a929d61d"
+            ]
+        ]
+    },
+    {
+        "id": "659da199870741a3",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "function 2",
+        "func": "msg.payload = { name: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 880,
+        "wires": [
+            [
+                "213d69f0941b223e"
+            ]
+        ]
+    },
+    {
+        "id": "f4353e4389a6bc05",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 1000,
         "wires": []
     }
 ]
