@@ -10,7 +10,6 @@ RUN set -x \
         less \
         zip \
         unzip \
-        socat \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m -s /bin/bash app

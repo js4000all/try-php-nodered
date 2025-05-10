@@ -2,11 +2,9 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
 {
   "name": "try-vibe-coding-with-nextjs",
-  "dockerComposeFile": ["./compose.yml"],
+  "dockerComposeFile": ["../compose.yml"],
   "service": "php",
   "workspaceFolder": "/usr/src/app",
-  "forwardPorts": [41880, 48080],
-  "postCreateCommand": "socat TCP-LISTEN:41880,fork TCP:nodered:1880 & socat TCP-LISTEN:48080,fork TCP:nginx:80",
   "customizations": {
     "vscode": {
       "extensions": [
