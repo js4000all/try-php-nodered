@@ -16,6 +16,222 @@
         "env": []
     },
     {
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+        "id": "9c93b5a27f1f0d8c",
+        "type": "subflow",
+        "name": "delayed elements",
+        "info": "payloadが配列の場合のみ、2秒間隔で要素を出力。",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "fb17d1cbb12ca77b"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 660,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "427bd8d015228387",
+                        "port": 0
+                    },
+                    {
+                        "id": "0bd359638a80e03e",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {
+            "module": "delayed-elements",
+            "version": "0.1.0",
+            "author": "js4000all@gmail.com",
+            "desc": "payloadが配列の場合のみ、2秒間隔で要素を出力。",
+            "license": "MIT"
+        },
+        "color": "#DDAA99"
+    },
+    {
+        "id": "c86be1c12bedf207",
+        "type": "subflow",
+        "name": "ランダム分岐",
+        "info": "thresholdとして出力1に分岐する確率を指定する。\n\n## 出力\n- random  \n  生成した乱数。\n- threshold  \n  ノード上で設定した閾値。\n",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "38683cb766280f58"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 720,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "49af70dc50fe7a27",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 720,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "49af70dc50fe7a27",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "threshold",
+                "type": "num",
+                "value": "0.5",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "num"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {
+            "module": "random-switch",
+            "version": "0.1.0",
+            "author": "js4000all@gmail.com",
+            "desc": "指定した確率でランダムに分岐する",
+            "license": "MIT"
+        },
+        "color": "#DDAA99"
+    },
+    {
+        "id": "e24847f2f9e351d8",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "関数を定義して使い回す：flow contextに保存しておく方法",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "019b7347b3689076",
+            "41d09822f1916789",
+            "b91128fcf9ee2c2b",
+            "c42c1e1ec887fe6c",
+            "e6bfd74bb3e69eaa"
+        ],
+        "x": 34,
+        "y": 359,
+        "w": 532,
+        "h": 142
+    },
+    {
+        "id": "9fc439aff1a811ea",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "link callによるサブルーチン",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "b0568bb261bbf464",
+            "3742ce3df21d5969",
+            "391962ef9f3f92d1"
+        ],
+        "x": 38,
+        "y": 13,
+        "w": 784,
+        "h": 334
+    },
+    {
+        "id": "672e1650cb510dd9",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "サブフローサンプル",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "abe75cd6b803d317",
+            "03c7cc1007694929",
+            "b53f20d28cf93a9f",
+            "c9ecd84f167b1985"
+        ],
+        "x": 34,
+        "y": 519,
+        "w": 672,
+        "h": 142
+    },
+    {
+<<<<<<< Updated upstream
+=======
+        "id": "34acfae8448b43ac",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "自力キュー",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "6ce15e22118b34e0",
+            "e7ec474e6c7b0546",
+            "1432fa1fe7c34b5b",
+            "d07730c58261e945",
+            "182b768af015a078",
+            "132c0b5e6a93589a",
+            "313dbed4f7397e56",
+            "cd11cda063995142",
+            "d047e55d49c4f7c3",
+            "f4353e4389a6bc05"
+        ],
+        "x": 34,
+        "y": 679,
+        "w": 1292,
+        "h": 488
+    },
+    {
+        "id": "394b52483367cb8a",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "ランダム分岐デモ",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "3cd70725ab98a113",
+            "f77139e06707cd63",
+            "681e74f1c9d9e169",
+            "73346b1b78175063"
+        ],
+        "x": 34,
+        "y": 1179,
+        "w": 552,
+        "h": 122
+    },
+    {
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         "id": "b0568bb261bbf464",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -33,7 +249,7 @@
             "e58e2a758922ba40"
         ],
         "x": 64,
-        "y": 259,
+        "y": 239,
         "w": 302,
         "h": 82,
         "info": "msg.payloadに受け取った文字列の長さをmsg.payloadとして返す。\n"
@@ -89,42 +305,303 @@
         "h": 82
     },
     {
+<<<<<<< Updated upstream
+        "id": "34acfae8448b43ac",
+=======
+<<<<<<< Updated upstream
         "id": "e24847f2f9e351d8",
+>>>>>>> Stashed changes
         "type": "group",
         "z": "b0836e657c45cee4",
-        "name": "関数を定義して使い回す：flow contextに保存しておく方法",
+        "name": "自力キュー",
         "style": {
             "label": true
         },
         "nodes": [
-            "019b7347b3689076",
-            "41d09822f1916789",
-            "b91128fcf9ee2c2b",
-            "c42c1e1ec887fe6c",
-            "e6bfd74bb3e69eaa"
+            "6ce15e22118b34e0",
+            "e7ec474e6c7b0546",
+            "1432fa1fe7c34b5b",
+            "d07730c58261e945",
+            "182b768af015a078",
+            "132c0b5e6a93589a",
+            "313dbed4f7397e56",
+            "cd11cda063995142",
+            "d047e55d49c4f7c3",
+            "f4353e4389a6bc05"
         ],
         "x": 34,
-        "y": 419,
-        "w": 532,
-        "h": 142
+        "y": 679,
+        "w": 1292,
+        "h": 488
     },
     {
+<<<<<<< Updated upstream
+        "id": "132c0b5e6a93589a",
+=======
         "id": "9fc439aff1a811ea",
+=======
+        "id": "132c0b5e6a93589a",
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         "type": "group",
         "z": "b0836e657c45cee4",
-        "name": "link callによるサブルーチン",
+        "g": "34acfae8448b43ac",
+        "name": "テスト用REST API",
         "style": {
             "label": true
         },
         "nodes": [
-            "b0568bb261bbf464",
-            "3742ce3df21d5969",
-            "391962ef9f3f92d1"
+            "2f745ae3548ce99d",
+            "89af74664eafcbb8",
+            "10fc73cf7410db30",
+            "ac66534468c23087"
         ],
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
         "x": 38,
         "y": 13,
         "w": 784,
         "h": 354
+=======
+>>>>>>> Stashed changes
+        "x": 74,
+        "y": 1059,
+        "w": 732,
+        "h": 82
+    },
+    {
+        "id": "313dbed4f7397e56",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "キュー部分(msg.resetはキューを初期化、msg.doneはキューの先頭要素を排出)",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "28d9a5423150e4f2",
+            "213d69f0941b223e",
+            "7738d9f2c2d896c0",
+            "f10122392cbe2923",
+            "32a444f412de407d",
+            "31b26389a929d61d",
+            "659da199870741a3"
+        ],
+        "x": 114,
+        "y": 839,
+        "w": 1032,
+        "h": 82
+    },
+    {
+<<<<<<< Updated upstream
+        "id": "394b52483367cb8a",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "ランダム分岐デモ",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "3cd70725ab98a113",
+            "f77139e06707cd63",
+            "681e74f1c9d9e169",
+            "73346b1b78175063"
+        ],
+        "x": 34,
+        "y": 1179,
+        "w": 552,
+        "h": 122
+    },
+    {
+=======
+>>>>>>> Stashed changes
+        "id": "0bd359638a80e03e",
+        "type": "junction",
+        "z": "9c93b5a27f1f0d8c",
+        "x": 600,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fc2aa30ba24d6a60",
+        "type": "junction",
+        "z": "9c93b5a27f1f0d8c",
+        "x": 240,
+        "y": 140,
+        "wires": [
+            [
+                "0bd359638a80e03e"
+            ]
+        ]
+    },
+    {
+        "id": "31b26389a929d61d",
+        "type": "junction",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "x": 360,
+        "y": 880,
+        "wires": [
+            [
+                "7738d9f2c2d896c0",
+                "182b768af015a078"
+            ]
+        ]
+    },
+    {
+        "id": "fb17d1cbb12ca77b",
+        "type": "switch",
+        "z": "9c93b5a27f1f0d8c",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "array",
+                "vt": "array"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 150,
+        "y": 120,
+        "wires": [
+            [
+                "612754f744d7df39"
+            ],
+            [
+                "fc2aa30ba24d6a60"
+            ]
+        ]
+    },
+    {
+        "id": "612754f744d7df39",
+        "type": "split",
+        "z": "9c93b5a27f1f0d8c",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 310,
+        "y": 100,
+        "wires": [
+            [
+                "427bd8d015228387"
+            ]
+        ]
+    },
+    {
+        "id": "427bd8d015228387",
+        "type": "delay",
+        "z": "9c93b5a27f1f0d8c",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "2",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "38683cb766280f58",
+        "type": "function",
+        "z": "c86be1c12bedf207",
+        "name": "乱数生成",
+        "func": "msg.random = Math.random();\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 180,
+        "y": 120,
+        "wires": [
+            [
+                "0a5cc48edb8299a5"
+            ]
+        ]
+    },
+    {
+        "id": "49af70dc50fe7a27",
+        "type": "switch",
+        "z": "c86be1c12bedf207",
+        "name": "閾値と比較",
+        "property": "random",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "threshold",
+                "vt": "env"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 570,
+        "y": 120,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "0a5cc48edb8299a5",
+        "type": "change",
+        "z": "c86be1c12bedf207",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "threshold",
+                "pt": "msg",
+                "to": "threshold",
+                "tot": "env"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 120,
+        "wires": [
+            [
+                "49af70dc50fe7a27"
+            ]
+        ]
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     },
     {
         "id": "fbe42d48d5ef483c",
@@ -149,7 +626,9 @@
         "z": "f0020e205b0d4d02",
         "name": "http out",
         "statusCode": "",
-        "headers": {},
+        "headers": {
+            "content-type": "application/json"
+        },
         "x": 800,
         "y": 380,
         "wires": []
@@ -415,20 +894,6 @@
                 "pt": "msg",
                 "to": "inserted_user",
                 "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "statusCode",
-                "pt": "msg",
-                "to": "200",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "contentType",
-                "pt": "msg",
-                "to": "application/json",
-                "tot": "str"
             }
         ],
         "action": "",
@@ -502,40 +967,6 @@
         "y": 380,
         "wires": [
             [
-                "7451690366f7faab"
-            ]
-        ]
-    },
-    {
-        "id": "7451690366f7faab",
-        "type": "change",
-        "z": "f0020e205b0d4d02",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "statusCode",
-                "pt": "msg",
-                "to": "200",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "contentType",
-                "pt": "msg",
-                "to": "application/json",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 440,
-        "y": 380,
-        "wires": [
-            [
                 "63006f01d2cea77f"
             ]
         ]
@@ -577,20 +1008,6 @@
         "z": "f0020e205b0d4d02",
         "name": "",
         "rules": [
-            {
-                "t": "set",
-                "p": "statusCode",
-                "pt": "msg",
-                "to": "200",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "contentType",
-                "pt": "msg",
-                "to": "application/json",
-                "tot": "str"
-            },
             {
                 "t": "set",
                 "p": "payload",
@@ -679,13 +1096,6 @@
                 "p": "statusCode",
                 "pt": "msg",
                 "to": "404",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "contentType",
-                "pt": "msg",
-                "to": "application/json",
                 "tot": "str"
             },
             {
@@ -811,7 +1221,7 @@
         "name": "func length",
         "links": [],
         "x": 105,
-        "y": 300,
+        "y": 280,
         "wires": [
             [
                 "6dbe6d628991d545"
@@ -832,7 +1242,7 @@
         "finalize": "",
         "libs": [],
         "x": 220,
-        "y": 300,
+        "y": 280,
         "wires": [
             [
                 "e58e2a758922ba40"
@@ -848,7 +1258,7 @@
         "mode": "return",
         "links": [],
         "x": 325,
-        "y": 300,
+        "y": 280,
         "wires": []
     },
     {
@@ -968,7 +1378,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 160,
-        "y": 460,
+        "y": 400,
         "wires": [
             [
                 "41d09822f1916789"
@@ -989,7 +1399,7 @@
         "finalize": "",
         "libs": [],
         "x": 330,
-        "y": 460,
+        "y": 400,
         "wires": [
             []
         ]
@@ -1013,7 +1423,7 @@
         "payload": "Taro",
         "payloadType": "str",
         "x": 130,
-        "y": 520,
+        "y": 460,
         "wires": [
             [
                 "c42c1e1ec887fe6c"
@@ -1034,7 +1444,7 @@
         "finalize": "",
         "libs": [],
         "x": 320,
-        "y": 520,
+        "y": 460,
         "wires": [
             [
                 "e6bfd74bb3e69eaa"
@@ -1055,7 +1465,552 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 460,
-        "y": 520,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "abe75cd6b803d317",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "672e1650cb510dd9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[1, 2, 3]",
+        "payloadType": "json",
+        "x": 130,
+        "y": 560,
+        "wires": [
+            [
+                "03c7cc1007694929"
+            ]
+        ]
+    },
+    {
+        "id": "03c7cc1007694929",
+        "type": "subflow:9c93b5a27f1f0d8c",
+        "z": "b0836e657c45cee4",
+        "g": "672e1650cb510dd9",
+        "name": "",
+        "x": 410,
+        "y": 560,
+        "wires": [
+            [
+                "c9ecd84f167b1985"
+            ]
+        ]
+    },
+    {
+        "id": "c9ecd84f167b1985",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "672e1650cb510dd9",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "b53f20d28cf93a9f",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "672e1650cb510dd9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 620,
+        "wires": [
+            [
+                "03c7cc1007694929"
+            ]
+        ]
+    },
+    {
+        "id": "6ce15e22118b34e0",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 740,
+        "wires": [
+            [
+                "1432fa1fe7c34b5b",
+                "28d9a5423150e4f2"
+            ]
+        ]
+    },
+    {
+        "id": "2f745ae3548ce99d",
+        "type": "http in",
+        "z": "b0836e657c45cee4",
+        "g": "132c0b5e6a93589a",
+        "name": "",
+        "url": "echo",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 1100,
+        "wires": [
+            [
+                "89af74664eafcbb8"
+            ]
+        ]
+    },
+    {
+        "id": "89af74664eafcbb8",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "132c0b5e6a93589a",
+        "name": "ランダムな遅延時間を設定",
+        "func": "const name = msg.req.query.name;\nconst delay = Math.floor(Math.random() * 5 + 1) * 500;\nmsg.payload = {\n    name: name,\n    delay: delay,\n};\nmsg.delay = delay;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1100,
+        "wires": [
+            [
+                "ac66534468c23087"
+            ]
+        ]
+    },
+    {
+        "id": "10fc73cf7410db30",
+        "type": "http response",
+        "z": "b0836e657c45cee4",
+        "g": "132c0b5e6a93589a",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "213d69f0941b223e",
+        "type": "http request",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "fetch api: echo",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "query",
+        "url": "localhost:1880/api/echo",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 740,
+        "y": 880,
+        "wires": [
+            [
+                "32a444f412de407d"
+            ]
+        ]
+    },
+    {
+        "id": "e7ec474e6c7b0546",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "debug 7",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "ac66534468c23087",
+        "type": "delay",
+        "z": "b0836e657c45cee4",
+        "g": "132c0b5e6a93589a",
+        "name": "",
+        "pauseType": "delayv",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 580,
+        "y": 1100,
+        "wires": [
+            [
+                "10fc73cf7410db30"
+            ]
+        ]
+    },
+    {
+        "id": "1432fa1fe7c34b5b",
+        "type": "file in",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "read names",
+        "filename": "/data/names.csv",
+        "filenameType": "str",
+        "format": "lines",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 270,
+        "y": 740,
+        "wires": [
+            [
+                "d047e55d49c4f7c3"
+            ]
+        ]
+    },
+    {
+        "id": "7738d9f2c2d896c0",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "queue",
+        "func": "// キューの初期化要請\nif(msg.reset){\n    context.set(\"queue\", []);\n    context.set(\"running\", false);\n    return;\n}\n\nconst q = context.get(\"queue\");\n\n// 後続処理の完了通知：キューが空でなければ先頭要素を放出する\nif(msg.done){\n    if(q.length > 0){\n        const [next_msg, ...rest] = q;\n        context.set(\"queue\", rest);\n        return next_msg;\n    }\n    else{\n        context.set(\"running\", false);\n        return;\n    }\n}\n// 新規メッセージの投入：処理中のメッセージがあればキューに追加し、なければそのまま流す\nelse{\n    const running = context.get(\"running\");\n    if(running){\n        context.set(\"queue\", [...q, msg]);\n        return;\n    }\n    else{\n        context.set(\"running\", true);\n        return msg;\n    }\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 880,
+        "wires": [
+            [
+                "659da199870741a3",
+                "f4353e4389a6bc05"
+            ]
+        ]
+    },
+    {
+        "id": "f10122392cbe2923",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "done",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 880,
+        "wires": [
+            [
+                "e7ec474e6c7b0546",
+                "31b26389a929d61d"
+            ]
+        ]
+    },
+    {
+        "id": "32a444f412de407d",
+        "type": "json",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 890,
+        "y": 880,
+        "wires": [
+            [
+                "f10122392cbe2923"
+            ]
+        ]
+    },
+    {
+        "id": "d07730c58261e945",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "debug 10",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "28d9a5423150e4f2",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 220,
+        "y": 880,
+        "wires": [
+            [
+                "31b26389a929d61d"
+            ]
+        ]
+    },
+    {
+        "id": "182b768af015a078",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "cd11cda063995142",
+        "type": "comment",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "現在の実装では、初期化した時に既に処理中のメッセージまではキャンセルできない",
+        "info": "",
+        "x": 360,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "d047e55d49c4f7c3",
+        "type": "switch",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "空行除去",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "empty"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 420,
+        "y": 740,
+        "wires": [
+            [
+                "d07730c58261e945"
+            ],
+            [
+                "31b26389a929d61d"
+            ]
+        ]
+    },
+    {
+        "id": "659da199870741a3",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "313dbed4f7397e56",
+        "name": "function 2",
+        "func": "msg.payload = { name: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 880,
+        "wires": [
+            [
+                "213d69f0941b223e"
+            ]
+        ]
+    },
+    {
+        "id": "f4353e4389a6bc05",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "34acfae8448b43ac",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "3cd70725ab98a113",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "394b52483367cb8a",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 1240,
+        "wires": [
+            [
+                "f77139e06707cd63"
+            ]
+        ]
+    },
+    {
+        "id": "f77139e06707cd63",
+        "type": "subflow:c86be1c12bedf207",
+        "z": "b0836e657c45cee4",
+        "g": "394b52483367cb8a",
+        "name": "",
+        "env": [
+            {
+                "name": "threshold",
+                "value": "0.8",
+                "type": "num"
+            },
+            {
+                "name": "出力1の確率",
+                "value": "0.7",
+                "type": "num"
+            }
+        ],
+        "x": 290,
+        "y": 1240,
+        "wires": [
+            [
+                "681e74f1c9d9e169"
+            ],
+            [
+                "73346b1b78175063"
+            ]
+        ]
+    },
+    {
+        "id": "681e74f1c9d9e169",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "394b52483367cb8a",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "73346b1b78175063",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "394b52483367cb8a",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 1260,
         "wires": []
     }
 ]
