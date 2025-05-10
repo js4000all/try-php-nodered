@@ -16,6 +16,11 @@
         "env": []
     },
     {
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
         "id": "9c93b5a27f1f0d8c",
         "type": "subflow",
         "name": "delayed elements",
@@ -179,6 +184,54 @@
         "h": 142
     },
     {
+<<<<<<< Updated upstream
+=======
+        "id": "34acfae8448b43ac",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "自力キュー",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "6ce15e22118b34e0",
+            "e7ec474e6c7b0546",
+            "1432fa1fe7c34b5b",
+            "d07730c58261e945",
+            "182b768af015a078",
+            "132c0b5e6a93589a",
+            "313dbed4f7397e56",
+            "cd11cda063995142",
+            "d047e55d49c4f7c3",
+            "f4353e4389a6bc05"
+        ],
+        "x": 34,
+        "y": 679,
+        "w": 1292,
+        "h": 488
+    },
+    {
+        "id": "394b52483367cb8a",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "ランダム分岐デモ",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "3cd70725ab98a113",
+            "f77139e06707cd63",
+            "681e74f1c9d9e169",
+            "73346b1b78175063"
+        ],
+        "x": 34,
+        "y": 1179,
+        "w": 552,
+        "h": 122
+    },
+    {
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         "id": "b0568bb261bbf464",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -252,7 +305,12 @@
         "h": 82
     },
     {
+<<<<<<< Updated upstream
         "id": "34acfae8448b43ac",
+=======
+<<<<<<< Updated upstream
+        "id": "e24847f2f9e351d8",
+>>>>>>> Stashed changes
         "type": "group",
         "z": "b0836e657c45cee4",
         "name": "自力キュー",
@@ -277,7 +335,14 @@
         "h": 488
     },
     {
+<<<<<<< Updated upstream
         "id": "132c0b5e6a93589a",
+=======
+        "id": "9fc439aff1a811ea",
+=======
+        "id": "132c0b5e6a93589a",
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         "type": "group",
         "z": "b0836e657c45cee4",
         "g": "34acfae8448b43ac",
@@ -291,6 +356,15 @@
             "10fc73cf7410db30",
             "ac66534468c23087"
         ],
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+        "x": 38,
+        "y": 13,
+        "w": 784,
+        "h": 354
+=======
+>>>>>>> Stashed changes
         "x": 74,
         "y": 1059,
         "w": 732,
@@ -320,6 +394,7 @@
         "h": 82
     },
     {
+<<<<<<< Updated upstream
         "id": "394b52483367cb8a",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -339,6 +414,8 @@
         "h": 122
     },
     {
+=======
+>>>>>>> Stashed changes
         "id": "0bd359638a80e03e",
         "type": "junction",
         "z": "9c93b5a27f1f0d8c",
@@ -521,6 +598,10 @@
                 "49af70dc50fe7a27"
             ]
         ]
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     },
     {
         "id": "fbe42d48d5ef483c",
@@ -545,7 +626,9 @@
         "z": "f0020e205b0d4d02",
         "name": "http out",
         "statusCode": "",
-        "headers": {},
+        "headers": {
+            "content-type": "application/json"
+        },
         "x": 800,
         "y": 380,
         "wires": []
@@ -811,20 +894,6 @@
                 "pt": "msg",
                 "to": "inserted_user",
                 "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "statusCode",
-                "pt": "msg",
-                "to": "200",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "contentType",
-                "pt": "msg",
-                "to": "application/json",
-                "tot": "str"
             }
         ],
         "action": "",
@@ -898,40 +967,6 @@
         "y": 380,
         "wires": [
             [
-                "7451690366f7faab"
-            ]
-        ]
-    },
-    {
-        "id": "7451690366f7faab",
-        "type": "change",
-        "z": "f0020e205b0d4d02",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "statusCode",
-                "pt": "msg",
-                "to": "200",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "contentType",
-                "pt": "msg",
-                "to": "application/json",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 440,
-        "y": 380,
-        "wires": [
-            [
                 "63006f01d2cea77f"
             ]
         ]
@@ -973,20 +1008,6 @@
         "z": "f0020e205b0d4d02",
         "name": "",
         "rules": [
-            {
-                "t": "set",
-                "p": "statusCode",
-                "pt": "msg",
-                "to": "200",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "contentType",
-                "pt": "msg",
-                "to": "application/json",
-                "tot": "str"
-            },
             {
                 "t": "set",
                 "p": "payload",
@@ -1075,13 +1096,6 @@
                 "p": "statusCode",
                 "pt": "msg",
                 "to": "404",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "contentType",
-                "pt": "msg",
-                "to": "application/json",
                 "tot": "str"
             },
             {
