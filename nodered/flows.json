@@ -339,6 +339,56 @@
         "h": 82
     },
     {
+        "id": "4f84f1b07d401ac0",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "各メッセージが持つ要素に対して順番に処理を実行する例",
+        "style": {
+            "label": true,
+            "color": "#999999"
+        },
+        "nodes": [
+            "29c9add31fba7dba",
+            "c959bfd6efc54e9e",
+            "cb979098d1b6e20e",
+            "eb42074c43e33963",
+            "e8abd482379157a9",
+            "a5da87b670473d47",
+            "c7e294783d9ae989",
+            "adaabcbd1c6bf857",
+            "c8898764c93c04b3"
+        ],
+        "x": 34,
+        "y": 1319,
+        "w": 752,
+        "h": 288
+    },
+    {
+        "id": "c7e294783d9ae989",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "g": "4f84f1b07d401ac0",
+        "name": "loop for devices: メッセージごとにデバイスの数だけループする",
+        "style": {
+            "label": true,
+            "color": "#000000",
+            "fill": "#bfdbef",
+            "fill-opacity": "0.5"
+        },
+        "nodes": [
+            "85735abab5441dda",
+            "206adcc2f3ffe981",
+            "ce603c74cfd2b2c6",
+            "2aac94f929500237",
+            "3af0cc66b6fa945c",
+            "c4178a60253a1070"
+        ],
+        "x": 64,
+        "y": 1499,
+        "w": 692,
+        "h": 82
+    },
+    {
         "id": "0bd359638a80e03e",
         "type": "junction",
         "z": "9c93b5a27f1f0d8c",
@@ -372,6 +422,17 @@
                 "7738d9f2c2d896c0",
                 "182b768af015a078"
             ]
+        ]
+    },
+    {
+        "id": "c4178a60253a1070",
+        "type": "junction",
+        "z": "b0836e657c45cee4",
+        "g": "c7e294783d9ae989",
+        "x": 670,
+        "y": 1540,
+        "wires": [
+            []
         ]
     },
     {
@@ -1931,5 +1992,271 @@
         "x": 480,
         "y": 1260,
         "wires": []
+    },
+    {
+        "id": "29c9add31fba7dba",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "4f84f1b07d401ac0",
+        "name": "timestamp",
+        "props": [
+            {
+                "p": "now",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 140,
+        "y": 1360,
+        "wires": [
+            [
+                "cb979098d1b6e20e"
+            ]
+        ]
+    },
+    {
+        "id": "c959bfd6efc54e9e",
+        "type": "yaml",
+        "z": "b0836e657c45cee4",
+        "g": "4f84f1b07d401ac0",
+        "property": "payload",
+        "name": "",
+        "x": 490,
+        "y": 1360,
+        "wires": [
+            [
+                "eb42074c43e33963"
+            ]
+        ],
+        "info": "想定するyamlの構造は次のとおり。\n\n```yaml\n<ip_addr>:\n    port: <port>\n    sensor_devices:\n        - no: <device number>\n          words: <words of data>\n          sensor_id: <sensor id>\n```\n接続先であるコントローラーの数だけIPアドレスがあり、\nその要素としてポート番号とセンサーデバイス一覧がある。\n一覧の各要素はデバイス番号、ワード数、センサーIDの\n３つの値で構成される。\n"
+    },
+    {
+        "id": "cb979098d1b6e20e",
+        "type": "file in",
+        "z": "b0836e657c45cee4",
+        "g": "4f84f1b07d401ac0",
+        "name": "",
+        "filename": "/data/controllers.yml",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 320,
+        "y": 1360,
+        "wires": [
+            [
+                "c959bfd6efc54e9e"
+            ]
+        ]
+    },
+    {
+        "id": "eb42074c43e33963",
+        "type": "split",
+        "z": "b0836e657c45cee4",
+        "g": "4f84f1b07d401ac0",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "payload.ip_addr",
+        "property": "payload",
+        "x": 610,
+        "y": 1360,
+        "wires": [
+            [
+                "adaabcbd1c6bf857"
+            ]
+        ]
+    },
+    {
+        "id": "e8abd482379157a9",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "4f84f1b07d401ac0",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 1440,
+        "wires": []
+    },
+    {
+        "id": "ce603c74cfd2b2c6",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "c7e294783d9ae989",
+        "name": "loop制御",
+        "func": "if(msg.loop === undefined){\n    const {ip_addr, port, sensor_devices} = msg.payload;\n    if(sensor_devices.length === 0){\n        return;\n    }\n\n    msg.loop = {\n        i: 0,\n        ip_addr: ip_addr,\n        port: port,\n        sensor_devices: sensor_devices,\n    };\n}\nelse{\n    const { i, sensor_devices } = msg.loop;\n    const len = sensor_devices.length;\n    const next = i + 1;\n    if (len === next) {\n        return;\n    }\n\n    msg.loop.i = next;\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 1540,
+        "wires": [
+            [
+                "2aac94f929500237"
+            ]
+        ]
+    },
+    {
+        "id": "2aac94f929500237",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "c7e294783d9ae989",
+        "name": "set query param",
+        "func": "const { i, ip_addr, port, sensor_devices} = msg.loop;\nconst device = sensor_devices[i];\nmsg.payload = { name: `[${ip_addr}:${port}] ${device.no} ${device.words}` };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 1540,
+        "wires": [
+            [
+                "3af0cc66b6fa945c"
+            ]
+        ]
+    },
+    {
+        "id": "3af0cc66b6fa945c",
+        "type": "http request",
+        "z": "b0836e657c45cee4",
+        "g": "c7e294783d9ae989",
+        "name": "fetch api: echo",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "query",
+        "url": "localhost:1880/api/echo",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 580,
+        "y": 1540,
+        "wires": [
+            [
+                "ce603c74cfd2b2c6",
+                "85735abab5441dda"
+            ]
+        ]
+    },
+    {
+        "id": "a5da87b670473d47",
+        "type": "json",
+        "z": "b0836e657c45cee4",
+        "g": "4f84f1b07d401ac0",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 390,
+        "y": 1440,
+        "wires": [
+            [
+                "c8898764c93c04b3"
+            ]
+        ]
+    },
+    {
+        "id": "773d0b975cf9680c",
+        "type": "link in",
+        "z": "b0836e657c45cee4",
+        "name": "link in 1",
+        "links": [],
+        "x": -25,
+        "y": 1420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "206adcc2f3ffe981",
+        "type": "link in",
+        "z": "b0836e657c45cee4",
+        "g": "c7e294783d9ae989",
+        "name": "loop for devices",
+        "links": [],
+        "x": 105,
+        "y": 1540,
+        "wires": [
+            [
+                "ce603c74cfd2b2c6"
+            ]
+        ]
+    },
+    {
+        "id": "85735abab5441dda",
+        "type": "link out",
+        "z": "b0836e657c45cee4",
+        "g": "c7e294783d9ae989",
+        "name": "link out 2",
+        "mode": "return",
+        "links": [],
+        "x": 715,
+        "y": 1540,
+        "wires": []
+    },
+    {
+        "id": "adaabcbd1c6bf857",
+        "type": "link call",
+        "z": "b0836e657c45cee4",
+        "g": "4f84f1b07d401ac0",
+        "name": "",
+        "links": [
+            "206adcc2f3ffe981"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 220,
+        "y": 1440,
+        "wires": [
+            [
+                "a5da87b670473d47"
+            ]
+        ]
+    },
+    {
+        "id": "c8898764c93c04b3",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "4f84f1b07d401ac0",
+        "name": "payload整理",
+        "func": "msg.payload.now = msg.now;\nconst {i, sensor_devices} = msg.loop;\nmsg.payload.sensor_id = sensor_devices[i].sensor_id;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 1440,
+        "wires": [
+            [
+                "e8abd482379157a9"
+            ]
+        ]
     }
 ]
