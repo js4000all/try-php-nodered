@@ -6,6 +6,13 @@ services:
     volumes:
       - ./php:/var/www/html
       - ./:/usr/src/app
+    environment:
+      - INFLUX_HOST=http://influxdb:8086
+      - INFLUX_ORG=org
+      - INFLUX_BUCKET=measurements
+      - INFLUX_TOKEN=my-secret-token
+    depends_on:
+      - influxdb
 
   nginx:
     image: nginx:latest
@@ -26,3 +33,17 @@ services:
     volumes:
       - ./nodered:/data
     restart: unless-stopped
+    depends_on:
+      - influxdb
+
+  influxdb:
+    image: influxdb:2-alpine
+    restart: unless-stopped
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=user
+      - DOCKER_INFLUXDB_INIT_PASSWORD=password
+      - DOCKER_INFLUXDB_INIT_ORG=org
+      - DOCKER_INFLUXDB_INIT_BUCKET=measurements
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-secret-token
+
