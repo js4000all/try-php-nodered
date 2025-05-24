@@ -1,33 +1,20 @@
-192.168.1.100:
+central:
+  ip_addr: 192.168.1.100
   port: 8080
   sensor_devices:
-    - no: R001
-      words: 1
-      sensor_id: 101001
-    - no: R002
-      words: 1
-      sensor_id: 101002
-    - no: MD001
-      words: 2
-      sensor_id: 102001
-192.168.1.101:
+    - {no: R001, words: 1, sensor_id: 101001}
+    - {no: R002, words: 1, sensor_id: 101002}
+    - {no: MD001, words: 2, sensor_id: 102001}
+area1:
+  ip_addr: 192.168.1.101
   port: 8080
   sensor_devices:
-    - no: R001
-      words: 1
-      sensor_id: 201001
-    - no: MD001
-      words: 2
-      sensor_id: 202001
-    - no: MD002
-      words: 6
-      sensor_id: 202002
-192.168.1.102:
+    - {no: R001, words: 1, sensor_id: 201001}
+    - {no: MD001, words: 2, sensor_id: 202001}
+    - {no: MD002, words: 6, sensor_id: 202002}
+area2:
+  ip_addr: 192.168.1.102
   port: 18080
   sensor_devices:
-    - no: R001
-      words: 1
-      sensor_id: 301001
-    - no: MD001
-      words: 2
-      sensor_id: 302001
+    - {no: R001, words: 1, sensor_id: 301001}
+    - {no: MD001, words: 2, sensor_id: 302001}

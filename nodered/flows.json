@@ -269,6 +269,25 @@
         "h": 328
     },
     {
+        "id": "3387b5fb01dacd2d",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "InfluxDBデータ投入デモ",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "21bfc3e854b9ad89",
+            "7544f802015e8c48",
+            "6a7d01488da61c34",
+            "661c02a18f849ee6"
+        ],
+        "x": 34,
+        "y": 1959,
+        "w": 632,
+        "h": 122
+    },
+    {
         "id": "b0568bb261bbf464",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -401,8 +420,7 @@
             "206adcc2f3ffe981",
             "ce603c74cfd2b2c6",
             "2aac94f929500237",
-            "3af0cc66b6fa945c",
-            "c4178a60253a1070"
+            "3af0cc66b6fa945c"
         ],
         "x": 64,
         "y": 1499,
@@ -449,25 +467,6 @@
         "h": 82
     },
     {
-        "id": "3387b5fb01dacd2d",
-        "type": "group",
-        "z": "b0836e657c45cee4",
-        "name": "InfluxDBデータ投入デモ",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "21bfc3e854b9ad89",
-            "7544f802015e8c48",
-            "6a7d01488da61c34",
-            "661c02a18f849ee6"
-        ],
-        "x": 34,
-        "y": 1959,
-        "w": 632,
-        "h": 122
-    },
-    {
         "id": "0bd359638a80e03e",
         "type": "junction",
         "z": "9c93b5a27f1f0d8c",
@@ -501,17 +500,6 @@
                 "7738d9f2c2d896c0",
                 "182b768af015a078"
             ]
-        ]
-    },
-    {
-        "id": "c4178a60253a1070",
-        "type": "junction",
-        "z": "b0836e657c45cee4",
-        "g": "c7e294783d9ae989",
-        "x": 670,
-        "y": 1540,
-        "wires": [
-            []
         ]
     },
     {
@@ -2205,7 +2193,7 @@
         "arraySplt": 1,
         "arraySpltType": "len",
         "stream": false,
-        "addname": "payload.ip_addr",
+        "addname": "",
         "property": "payload",
         "x": 610,
         "y": 1360,
@@ -2239,7 +2227,7 @@
         "z": "b0836e657c45cee4",
         "g": "c7e294783d9ae989",
         "name": "loop制御",
-        "func": "if(msg.loop === undefined){\n    const {ip_addr, port, sensor_devices} = msg.payload;\n    if(sensor_devices.length === 0){\n        return;\n    }\n\n    msg.loop = {\n        i: 0,\n        ip_addr: ip_addr,\n        port: port,\n        sensor_devices: sensor_devices,\n    };\n}\nelse{\n    const { i, sensor_devices } = msg.loop;\n    const len = sensor_devices.length;\n    const next = i + 1;\n    if (len === next) {\n        return;\n    }\n\n    msg.loop.i = next;\n}\nreturn msg;",
+        "func": "if(msg.loop === undefined){\n    const {ip_addr, port, sensor_devices} = msg.payload;\n    msg.loop = {\n        i: 0,\n        ip_addr,\n        port,\n        sensor_devices,\n    };\n}\nelse{\n    const { i, sensor_devices } = msg.loop;\n    const len = sensor_devices.length;\n    const next = i + 1;\n    if (len === next) {\n        return;\n    }\n\n    msg.loop.i = next;\n}\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
