@@ -3,4 +3,5 @@ FROM nodered/node-red:latest
 RUN set -x \
     && npm install \
         node-red-contrib-alasql@latest \
-        node-red-contrib-aedes@latest
+        node-red-contrib-aedes@latest \
+        node-red-contrib-influxdb@latest

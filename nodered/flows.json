@@ -248,6 +248,27 @@
         "h": 288
     },
     {
+        "id": "d1ede63e629f3ab0",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "timeout付きバッチ送信デモ",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "afcb18c873db5d92",
+            "8ff96bb61b8a35b2",
+            "068796fb50e7ab41",
+            "4cc08fd169a79a42",
+            "646683b4ad391d0c",
+            "450f6137e4299ea7"
+        ],
+        "x": 34,
+        "y": 1619,
+        "w": 738,
+        "h": 328
+    },
+    {
         "id": "b0568bb261bbf464",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -389,27 +410,6 @@
         "h": 82
     },
     {
-        "id": "d1ede63e629f3ab0",
-        "type": "group",
-        "z": "b0836e657c45cee4",
-        "name": "timeout付きバッチ送信デモ",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "afcb18c873db5d92",
-            "8ff96bb61b8a35b2",
-            "068796fb50e7ab41",
-            "4cc08fd169a79a42",
-            "646683b4ad391d0c",
-            "450f6137e4299ea7"
-        ],
-        "x": 34,
-        "y": 1619,
-        "w": 738,
-        "h": 328
-    },
-    {
         "id": "4cc08fd169a79a42",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -447,6 +447,25 @@
         "y": 1839,
         "w": 432,
         "h": 82
+    },
+    {
+        "id": "3387b5fb01dacd2d",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "InfluxDBデータ投入デモ",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "21bfc3e854b9ad89",
+            "7544f802015e8c48",
+            "6a7d01488da61c34",
+            "661c02a18f849ee6"
+        ],
+        "x": 34,
+        "y": 1959,
+        "w": 632,
+        "h": 122
     },
     {
         "id": "0bd359638a80e03e",
@@ -496,6 +515,19 @@
         ]
     },
     {
+        "id": "7544f802015e8c48",
+        "type": "junction",
+        "z": "b0836e657c45cee4",
+        "g": "3387b5fb01dacd2d",
+        "x": 180,
+        "y": 2000,
+        "wires": [
+            [
+                "661c02a18f849ee6"
+            ]
+        ]
+    },
+    {
         "id": "983d6a50321671e7",
         "type": "mqtt-broker",
         "name": "",
@@ -525,6 +557,21 @@
         "willMsg": {},
         "userProps": "",
         "sessionExpiry": ""
+    },
+    {
+        "id": "8f6c75aaad6009a5",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": 8086,
+        "protocol": "http",
+        "database": "database",
+        "name": "myinfluxdb",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://influxdb:8086",
+        "timeout": 10,
+        "rejectUnauthorized": true
     },
     {
         "id": "fb17d1cbb12ca77b",
@@ -2613,6 +2660,97 @@
         "wires": [
             [
                 "180ffc9d1ccb6136"
+            ]
+        ]
+    },
+    {
+        "id": "6a7d01488da61c34",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "3387b5fb01dacd2d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "now",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "measurement",
+                "v": "水温",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[ {\"value\":12}, {\"area\": 1, \"device\":\"pump\"}]",
+        "payloadType": "json",
+        "x": 130,
+        "y": 2000,
+        "wires": [
+            [
+                "7544f802015e8c48"
+            ]
+        ]
+    },
+    {
+        "id": "661c02a18f849ee6",
+        "type": "influxdb out",
+        "z": "b0836e657c45cee4",
+        "g": "3387b5fb01dacd2d",
+        "influxdb": "8f6c75aaad6009a5",
+        "name": "",
+        "measurement": "",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "org",
+        "bucket": "measurements",
+        "x": 550,
+        "y": 2000,
+        "wires": []
+    },
+    {
+        "id": "21bfc3e854b9ad89",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "3387b5fb01dacd2d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "now",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "measurement",
+                "v": "水温",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[ {\"入口\":99, \"出口\": 90}, {\"area\": 1, \"device\":\"heat-pump\"}]",
+        "payloadType": "json",
+        "x": 130,
+        "y": 2040,
+        "wires": [
+            [
+                "7544f802015e8c48"
             ]
         ]
     }
