@@ -122,6 +122,87 @@
         "color": "#DDAA99"
     },
     {
+        "id": "af1f1e0a0e3be714",
+        "type": "subflow",
+        "name": "Bulk insert",
+        "info": "バッチサイズごとにinsertを実行する。\n最後のメッセージを受信してから待機秒数が経過した場合は、\nその時点で蓄積しているメッセージをinsertする。\n",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "bdd72ea00d37c2ea"
+                    },
+                    {
+                        "id": "21b1e0ac64062ea9"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 900,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "3d85ae82a627e774",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "BatchSize",
+                "type": "num",
+                "value": "1000",
+                "ui": {
+                    "label": {
+                        "ja": "バッチサイズ"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "num",
+                            "bool",
+                            "json",
+                            "bin",
+                            "env",
+                            "conf-types"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "WaitSeconds",
+                "type": "num",
+                "value": "1",
+                "ui": {
+                    "label": {
+                        "ja": "待機秒数"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "num",
+                            "bool",
+                            "json",
+                            "bin",
+                            "env",
+                            "conf-types"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
         "id": "e24847f2f9e351d8",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -286,6 +367,54 @@
         "y": 1959,
         "w": 632,
         "h": 122
+    },
+    {
+        "id": "0052d4989496e2d8",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "node-red-contrib-loop使用例(メッセージが持つ各要素について同期的にフェッチ)",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "c5fb1e57032e795f",
+            "f1f8a665a1dac732",
+            "d664919f68f546aa",
+            "7241bdd76023aa5e",
+            "2a1a8ed6ff72407f",
+            "95c025ffb63714dc",
+            "10df7dd44d95743b",
+            "b3db36fdbbf0a805",
+            "46cb59e50b413c0e",
+            "139abe9fbf69808a",
+            "749954c910a4f674",
+            "856fea8cfa1b85a8"
+        ],
+        "x": 34,
+        "y": 2099,
+        "w": 652,
+        "h": 262
+    },
+    {
+        "id": "0cd868fae7fb89ef",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "MariaDBへのinsert例(Bulk insert)",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "334a4aee6c6add83",
+            "1ede4140a65d8d64",
+            "a43b008f6a63d31f",
+            "3ca52c402e3ea9ec",
+            "b7b4cf9e2518bd23",
+            "85a44b0a5a516357"
+        ],
+        "x": 34,
+        "y": 2379,
+        "w": 872,
+        "h": 82
     },
     {
         "id": "b0568bb261bbf464",
@@ -465,54 +594,6 @@
         "y": 1839,
         "w": 432,
         "h": 82
-    },
-    {
-        "id": "0052d4989496e2d8",
-        "type": "group",
-        "z": "b0836e657c45cee4",
-        "name": "node-red-contrib-loop使用例(メッセージが持つ各要素について同期的にフェッチ)",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "c5fb1e57032e795f",
-            "f1f8a665a1dac732",
-            "d664919f68f546aa",
-            "7241bdd76023aa5e",
-            "2a1a8ed6ff72407f",
-            "95c025ffb63714dc",
-            "10df7dd44d95743b",
-            "b3db36fdbbf0a805",
-            "46cb59e50b413c0e",
-            "139abe9fbf69808a",
-            "749954c910a4f674",
-            "856fea8cfa1b85a8"
-        ],
-        "x": 34,
-        "y": 2099,
-        "w": 652,
-        "h": 262
-    },
-    {
-        "id": "0cd868fae7fb89ef",
-        "type": "group",
-        "z": "b0836e657c45cee4",
-        "name": "MariaDBへのinsert例",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "334a4aee6c6add83",
-            "1ede4140a65d8d64",
-            "115e2e74d2b27759",
-            "b4e77dd29d491d9d",
-            "3d85ae82a627e774",
-            "fdca4045090f74bc"
-        ],
-        "x": 34,
-        "y": 2439,
-        "w": 792,
-        "h": 142
     },
     {
         "id": "0bd359638a80e03e",
@@ -764,6 +845,138 @@
         "wires": [
             [
                 "49af70dc50fe7a27"
+            ]
+        ]
+    },
+    {
+        "id": "3d85ae82a627e774",
+        "type": "mysql",
+        "z": "af1f1e0a0e3be714",
+        "mydb": "79aaa793b17a47c6",
+        "name": "insert to sample_db",
+        "x": 740,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2d6d9b1fde3530c1",
+        "type": "change",
+        "z": "af1f1e0a0e3be714",
+        "name": "make SQL",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "INSERT INTO measurements(sensor_id, timestamp, value) VALUES ?",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[[ payload ]]",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 80,
+        "wires": [
+            [
+                "3d85ae82a627e774"
+            ]
+        ]
+    },
+    {
+        "id": "bdd72ea00d37c2ea",
+        "type": "join",
+        "z": "af1f1e0a0e3be714",
+        "name": "join records",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "useparts": false,
+        "accumulate": false,
+        "timeout": "",
+        "count": "${BatchSize}",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 350,
+        "y": 80,
+        "wires": [
+            [
+                "2d6d9b1fde3530c1"
+            ]
+        ]
+    },
+    {
+        "id": "6a3c433f2e8ca3ca",
+        "type": "change",
+        "z": "af1f1e0a0e3be714",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "complete",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 140,
+        "wires": [
+            [
+                "bdd72ea00d37c2ea"
+            ]
+        ]
+    },
+    {
+        "id": "21b1e0ac64062ea9",
+        "type": "trigger",
+        "z": "af1f1e0a0e3be714",
+        "name": "",
+        "op1": "",
+        "op2": "0",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "${WaitSeconds}",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 260,
+        "y": 140,
+        "wires": [
+            [
+                "6a3c433f2e8ca3ca"
             ]
         ]
     },
@@ -2805,8 +3018,15 @@
         "type": "change",
         "z": "b0836e657c45cee4",
         "g": "0052d4989496e2d8",
-        "name": "payload整理",
+        "name": "make sql",
         "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "INSERT INTO measurements(sensor_id, timestamp, value) VALUES(:sensor_id, :now, :delay)",
+                "tot": "str"
+            },
             {
                 "t": "set",
                 "p": "payload.sensor_id",
@@ -2818,15 +3038,8 @@
                 "t": "set",
                 "p": "payload.now",
                 "pt": "msg",
-                "to": "now / 1000",
+                "to": "$ceil(now / 1000)",
                 "tot": "jsonata"
-            },
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "INSERT INTO measurements(sensor_id, timestamp, value) VALUES(:sensor_id, :now, :delay)",
-                "tot": "str"
             }
         ],
         "action": "",
@@ -2834,7 +3047,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 190,
+        "x": 180,
         "y": 2320,
         "wires": [
             [
@@ -3072,59 +3285,17 @@
         "z": "b0836e657c45cee4",
         "g": "0cd868fae7fb89ef",
         "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
+        "props": [],
         "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "[123, 224, 925]",
-        "payloadType": "json",
-        "x": 160,
-        "y": 2480,
+        "x": 130,
+        "y": 2420,
         "wires": [
             [
-                "1ede4140a65d8d64"
-            ]
-        ]
-    },
-    {
-        "id": "b4e77dd29d491d9d",
-        "type": "function",
-        "z": "b0836e657c45cee4",
-        "g": "0cd868fae7fb89ef",
-        "name": "make sql",
-        "func": "msg.topic = `\n    INSERT INTO measurements (sensor_id, timestamp, value)\n    VALUES (:sensor_id, :timestamp, :value)\n`;\nmsg.payload = {\n    sensor_id: msg.payload,\n    timestamp: msg.now / 1000,\n    value: Math.random() * 10,\n};\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 320,
-        "y": 2540,
-        "wires": [
-            [
-                "3d85ae82a627e774"
-            ]
-        ]
-    },
-    {
-        "id": "3d85ae82a627e774",
-        "type": "mysql",
-        "z": "b0836e657c45cee4",
-        "g": "0cd868fae7fb89ef",
-        "mydb": "79aaa793b17a47c6",
-        "name": "insert to sample_db",
-        "x": 520,
-        "y": 2540,
-        "wires": [
-            [
-                "fdca4045090f74bc"
+                "3ca52c402e3ea9ec"
             ]
         ]
     },
@@ -3141,58 +3312,13 @@
         "stream": false,
         "addname": "",
         "property": "payload",
-        "x": 340,
-        "y": 2480,
+        "x": 390,
+        "y": 2420,
         "wires": [
             [
-                "115e2e74d2b27759"
+                "a43b008f6a63d31f"
             ]
         ]
-    },
-    {
-        "id": "115e2e74d2b27759",
-        "type": "change",
-        "z": "b0836e657c45cee4",
-        "g": "0cd868fae7fb89ef",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "now",
-                "pt": "msg",
-                "to": "",
-                "tot": "date"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 490,
-        "y": 2480,
-        "wires": [
-            [
-                "b4e77dd29d491d9d"
-            ]
-        ]
-    },
-    {
-        "id": "fdca4045090f74bc",
-        "type": "debug",
-        "z": "b0836e657c45cee4",
-        "g": "0cd868fae7fb89ef",
-        "name": "debug 14",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 720,
-        "y": 2540,
-        "wires": []
     },
     {
         "id": "749954c910a4f674",
@@ -3224,6 +3350,119 @@
         "statusType": "auto",
         "x": 570,
         "y": 2320,
+        "wires": []
+    },
+    {
+        "id": "a43b008f6a63d31f",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "name": "to record",
+        "rules": [
+            {
+                "t": "set",
+                "p": "value",
+                "pt": "msg",
+                "to": "$random() * 10",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "now",
+                "pt": "msg",
+                "to": "",
+                "tot": "date"
+            },
+            {
+                "t": "set",
+                "p": "now",
+                "pt": "msg",
+                "to": "$ceil(now / 1000)",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[ payload, now, value]",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 520,
+        "y": 2420,
+        "wires": [
+            [
+                "b7b4cf9e2518bd23"
+            ]
+        ]
+    },
+    {
+        "id": "3ca52c402e3ea9ec",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "name": "make IDs",
+        "func": "msg.payload = [...Array(100)].map((_, i) => 330+i);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 2420,
+        "wires": [
+            [
+                "1ede4140a65d8d64"
+            ]
+        ]
+    },
+    {
+        "id": "b7b4cf9e2518bd23",
+        "type": "subflow:af1f1e0a0e3be714",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "name": "",
+        "env": [
+            {
+                "name": "BatchSize",
+                "value": "99",
+                "type": "num"
+            },
+            {
+                "name": "WaitSeconds",
+                "value": "3",
+                "type": "num"
+            }
+        ],
+        "x": 660,
+        "y": 2420,
+        "wires": [
+            [
+                "85a44b0a5a516357"
+            ]
+        ]
+    },
+    {
+        "id": "85a44b0a5a516357",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 2420,
         "wires": []
     }
 ]
