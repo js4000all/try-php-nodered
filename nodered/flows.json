@@ -475,7 +475,6 @@
             "label": true
         },
         "nodes": [
-            "fd998b808e9df482",
             "c5fb1e57032e795f",
             "f1f8a665a1dac732",
             "d664919f68f546aa",
@@ -485,12 +484,35 @@
             "10df7dd44d95743b",
             "b3db36fdbbf0a805",
             "46cb59e50b413c0e",
-            "139abe9fbf69808a"
+            "139abe9fbf69808a",
+            "749954c910a4f674",
+            "856fea8cfa1b85a8"
         ],
         "x": 34,
         "y": 2099,
         "w": 652,
         "h": 262
+    },
+    {
+        "id": "0cd868fae7fb89ef",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "MariaDBへのinsert例",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "334a4aee6c6add83",
+            "1ede4140a65d8d64",
+            "115e2e74d2b27759",
+            "b4e77dd29d491d9d",
+            "3d85ae82a627e774",
+            "fdca4045090f74bc"
+        ],
+        "x": 34,
+        "y": 2439,
+        "w": 792,
+        "h": 142
     },
     {
         "id": "0bd359638a80e03e",
@@ -586,6 +608,16 @@
         "url": "http://influxdb:8086",
         "timeout": 10,
         "rejectUnauthorized": true
+    },
+    {
+        "id": "79aaa793b17a47c6",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "mariadb",
+        "port": "3306",
+        "db": "sample_db",
+        "tz": "",
+        "charset": "UTF8"
     },
     {
         "id": "fb17d1cbb12ca77b",
@@ -2769,36 +2801,12 @@
         ]
     },
     {
-        "id": "fd998b808e9df482",
-        "type": "debug",
-        "z": "b0836e657c45cee4",
-        "g": "0052d4989496e2d8",
-        "name": "debug 16",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 360,
-        "y": 2320,
-        "wires": []
-    },
-    {
         "id": "c5fb1e57032e795f",
         "type": "change",
         "z": "b0836e657c45cee4",
         "g": "0052d4989496e2d8",
         "name": "payload整理",
         "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{}",
-                "tot": "json"
-            },
             {
                 "t": "set",
                 "p": "payload.sensor_id",
@@ -2808,17 +2816,17 @@
             },
             {
                 "t": "set",
-                "p": "payload.timestamp",
+                "p": "payload.now",
                 "pt": "msg",
-                "to": "now",
-                "tot": "msg"
+                "to": "now / 1000",
+                "tot": "jsonata"
             },
             {
                 "t": "set",
-                "p": "payload.value",
+                "p": "topic",
                 "pt": "msg",
-                "to": "payload.delay",
-                "tot": "msg"
+                "to": "INSERT INTO measurements(sensor_id, timestamp, value) VALUES(:sensor_id, :now, :delay)",
+                "tot": "str"
             }
         ],
         "action": "",
@@ -2830,7 +2838,7 @@
         "y": 2320,
         "wires": [
             [
-                "fd998b808e9df482"
+                "749954c910a4f674"
             ]
         ]
     },
@@ -3057,5 +3065,165 @@
                 "46cb59e50b413c0e"
             ]
         ]
+    },
+    {
+        "id": "334a4aee6c6add83",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[123, 224, 925]",
+        "payloadType": "json",
+        "x": 160,
+        "y": 2480,
+        "wires": [
+            [
+                "1ede4140a65d8d64"
+            ]
+        ]
+    },
+    {
+        "id": "b4e77dd29d491d9d",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "name": "make sql",
+        "func": "msg.topic = `\n    INSERT INTO measurements (sensor_id, timestamp, value)\n    VALUES (:sensor_id, :timestamp, :value)\n`;\nmsg.payload = {\n    sensor_id: msg.payload,\n    timestamp: msg.now / 1000,\n    value: Math.random() * 10,\n};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 2540,
+        "wires": [
+            [
+                "3d85ae82a627e774"
+            ]
+        ]
+    },
+    {
+        "id": "3d85ae82a627e774",
+        "type": "mysql",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "mydb": "79aaa793b17a47c6",
+        "name": "insert to sample_db",
+        "x": 520,
+        "y": 2540,
+        "wires": [
+            [
+                "fdca4045090f74bc"
+            ]
+        ]
+    },
+    {
+        "id": "1ede4140a65d8d64",
+        "type": "split",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 340,
+        "y": 2480,
+        "wires": [
+            [
+                "115e2e74d2b27759"
+            ]
+        ]
+    },
+    {
+        "id": "115e2e74d2b27759",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "now",
+                "pt": "msg",
+                "to": "",
+                "tot": "date"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 490,
+        "y": 2480,
+        "wires": [
+            [
+                "b4e77dd29d491d9d"
+            ]
+        ]
+    },
+    {
+        "id": "fdca4045090f74bc",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 2540,
+        "wires": []
+    },
+    {
+        "id": "749954c910a4f674",
+        "type": "mysql",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "mydb": "79aaa793b17a47c6",
+        "name": "insert to sample_db",
+        "x": 380,
+        "y": 2320,
+        "wires": [
+            [
+                "856fea8cfa1b85a8"
+            ]
+        ]
+    },
+    {
+        "id": "856fea8cfa1b85a8",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 2320,
+        "wires": []
     }
 ]
