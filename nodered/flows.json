@@ -467,6 +467,32 @@
         "h": 82
     },
     {
+        "id": "0052d4989496e2d8",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "node-red-contrib-loop使用例(メッセージが持つ各要素について同期的にフェッチ)",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "fd998b808e9df482",
+            "c5fb1e57032e795f",
+            "f1f8a665a1dac732",
+            "d664919f68f546aa",
+            "7241bdd76023aa5e",
+            "2a1a8ed6ff72407f",
+            "95c025ffb63714dc",
+            "10df7dd44d95743b",
+            "b3db36fdbbf0a805",
+            "46cb59e50b413c0e",
+            "139abe9fbf69808a"
+        ],
+        "x": 34,
+        "y": 2099,
+        "w": 652,
+        "h": 262
+    },
+    {
         "id": "0bd359638a80e03e",
         "type": "junction",
         "z": "9c93b5a27f1f0d8c",
@@ -2739,6 +2765,296 @@
         "wires": [
             [
                 "7544f802015e8c48"
+            ]
+        ]
+    },
+    {
+        "id": "fd998b808e9df482",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 360,
+        "y": 2320,
+        "wires": []
+    },
+    {
+        "id": "c5fb1e57032e795f",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "payload整理",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "payload.sensor_id",
+                "pt": "msg",
+                "to": "sensor_id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.timestamp",
+                "pt": "msg",
+                "to": "now",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.value",
+                "pt": "msg",
+                "to": "payload.delay",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 190,
+        "y": 2320,
+        "wires": [
+            [
+                "fd998b808e9df482"
+            ]
+        ]
+    },
+    {
+        "id": "f1f8a665a1dac732",
+        "type": "json",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 590,
+        "y": 2260,
+        "wires": [
+            [
+                "c5fb1e57032e795f"
+            ]
+        ]
+    },
+    {
+        "id": "d664919f68f546aa",
+        "type": "http request",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "fetch api: echo",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "query",
+        "url": "localhost:1880/api/echo",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 420,
+        "y": 2260,
+        "wires": [
+            [
+                "f1f8a665a1dac732",
+                "2a1a8ed6ff72407f"
+            ]
+        ]
+    },
+    {
+        "id": "7241bdd76023aa5e",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "make query param",
+        "rules": [
+            {
+                "t": "set",
+                "p": "sensor_id",
+                "pt": "msg",
+                "to": "payload.sensor_id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t    \"name\": payload.no & \" \" & payload.words & \"-> [\" & ip_addr & \":\" & port & \"]\"\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 210,
+        "y": 2260,
+        "wires": [
+            [
+                "d664919f68f546aa"
+            ]
+        ]
+    },
+    {
+        "id": "2a1a8ed6ff72407f",
+        "type": "loop",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "",
+        "kind": "enum",
+        "count": "",
+        "initial": "1",
+        "step": "1",
+        "condition": "",
+        "conditionType": "js",
+        "when": "before",
+        "enumeration": "payload.sensor_devices",
+        "enumerationType": "msg",
+        "limit": "",
+        "loopPayload": "loop-val",
+        "finalPayload": "final-count",
+        "x": 390,
+        "y": 2200,
+        "wires": [
+            [],
+            [
+                "7241bdd76023aa5e"
+            ]
+        ]
+    },
+    {
+        "id": "95c025ffb63714dc",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "ip_addr, port退避",
+        "rules": [
+            {
+                "t": "set",
+                "p": "ip_addr",
+                "pt": "msg",
+                "to": "payload.ip_addr",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "port",
+                "pt": "msg",
+                "to": "payload.port",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 170,
+        "y": 2200,
+        "wires": [
+            [
+                "2a1a8ed6ff72407f"
+            ]
+        ]
+    },
+    {
+        "id": "10df7dd44d95743b",
+        "type": "split",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 610,
+        "y": 2140,
+        "wires": [
+            [
+                "95c025ffb63714dc"
+            ]
+        ]
+    },
+    {
+        "id": "b3db36fdbbf0a805",
+        "type": "yaml",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "property": "payload",
+        "name": "",
+        "x": 490,
+        "y": 2140,
+        "wires": [
+            [
+                "10df7dd44d95743b"
+            ]
+        ],
+        "info": "想定するyamlの構造は次のとおり。\n\n```yaml\n<ip_addr>:\n    port: <port>\n    sensor_devices:\n        - no: <device number>\n          words: <words of data>\n          sensor_id: <sensor id>\n```\n接続先であるコントローラーの数だけIPアドレスがあり、\nその要素としてポート番号とセンサーデバイス一覧がある。\n一覧の各要素はデバイス番号、ワード数、センサーIDの\n３つの値で構成される。\n"
+    },
+    {
+        "id": "46cb59e50b413c0e",
+        "type": "file in",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "",
+        "filename": "/data/controllers.yml",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 320,
+        "y": 2140,
+        "wires": [
+            [
+                "b3db36fdbbf0a805"
+            ]
+        ]
+    },
+    {
+        "id": "139abe9fbf69808a",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "timestamp",
+        "props": [
+            {
+                "p": "now",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 140,
+        "y": 2140,
+        "wires": [
+            [
+                "46cb59e50b413c0e"
             ]
         ]
     }
