@@ -47,3 +47,9 @@ services:
       - DOCKER_INFLUXDB_INIT_BUCKET=measurements
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-secret-token
 
+  mariadb:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    environment:
+      - MYSQL_ROOT_PASSWORD=password

@@ -10,6 +10,7 @@ RUN set -x \
         less \
         zip \
         unzip \
+        default-mysql-client \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m -s /bin/bash app
