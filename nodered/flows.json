@@ -389,14 +389,14 @@
             "56a0ace550412e9d",
             "9b308c514c03d7f8",
             "446f443d28107626",
-            "c66768b2e751f3ba",
-            "386f5e9e47dabe16",
-            "96cb23b5c1d59c87"
+            "521413b0ca040f9a",
+            "775a62a55e2ea00c",
+            "2cb8cf0cf1dfdbff"
         ],
         "x": 34,
         "y": 2099,
-        "w": 912,
-        "h": 402
+        "w": 882,
+        "h": 548
     },
     {
         "id": "0cd868fae7fb89ef",
@@ -410,11 +410,13 @@
             "334a4aee6c6add83",
             "1ede4140a65d8d64",
             "a43b008f6a63d31f",
-            "3ca52c402e3ea9ec"
+            "3ca52c402e3ea9ec",
+            "124ddb12c1aa49e9",
+            "2cda698271fc0340"
         ],
         "x": 34,
-        "y": 2539,
-        "w": 572,
+        "y": 2679,
+        "w": 872,
         "h": 82
     },
     {
@@ -594,6 +596,28 @@
         "x": 74,
         "y": 1839,
         "w": 432,
+        "h": 82
+    },
+    {
+        "id": "521413b0ca040f9a",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "DB登録処理。[sensor_id, timestamp, value]の束が送られてくることを想定",
+        "style": {
+            "label": true,
+            "fill": "#ffbfbf",
+            "fill-opacity": "0.25"
+        },
+        "nodes": [
+            "c66768b2e751f3ba",
+            "65972a4bc69996ef",
+            "386f5e9e47dabe16",
+            "96cb23b5c1d59c87"
+        ],
+        "x": 94,
+        "y": 2539,
+        "w": 752,
         "h": 82
     },
     {
@@ -2987,7 +3011,7 @@
         "to": "",
         "reg": false,
         "x": 200,
-        "y": 2420,
+        "y": 2440,
         "wires": [
             [
                 "1063b456e28e48a7"
@@ -3004,7 +3028,7 @@
         "action": "",
         "pretty": false,
         "x": 190,
-        "y": 2380,
+        "y": 2400,
         "wires": [
             [
                 "c5fb1e57032e795f"
@@ -3194,7 +3218,7 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 130,
-        "y": 2580,
+        "y": 2720,
         "wires": [
             [
                 "3ca52c402e3ea9ec"
@@ -3215,7 +3239,7 @@
         "addname": "",
         "property": "payload",
         "x": 390,
-        "y": 2580,
+        "y": 2720,
         "wires": [
             [
                 "a43b008f6a63d31f"
@@ -3250,10 +3274,10 @@
         "to": "",
         "reg": false,
         "x": 520,
-        "y": 2580,
+        "y": 2720,
         "wires": [
             [
-                "1063b456e28e48a7"
+                "124ddb12c1aa49e9"
             ]
         ]
     },
@@ -3271,7 +3295,7 @@
         "finalize": "",
         "libs": [],
         "x": 260,
-        "y": 2580,
+        "y": 2720,
         "wires": [
             [
                 "1ede4140a65d8d64"
@@ -3285,10 +3309,10 @@
         "g": "0052d4989496e2d8",
         "name": "",
         "x": 200,
-        "y": 2460,
+        "y": 2480,
         "wires": [
             [
-                "c66768b2e751f3ba"
+                "775a62a55e2ea00c"
             ]
         ]
     },
@@ -3297,7 +3321,7 @@
         "type": "template",
         "z": "b0836e657c45cee4",
         "g": "0052d4989496e2d8",
-        "name": "controllers定義",
+        "name": "controllers.yml",
         "field": "payload",
         "fieldType": "msg",
         "format": "yaml",
@@ -3347,7 +3371,7 @@
         "id": "c66768b2e751f3ba",
         "type": "change",
         "z": "b0836e657c45cee4",
-        "g": "0052d4989496e2d8",
+        "g": "521413b0ca040f9a",
         "name": "make SQL",
         "rules": [
             {
@@ -3370,8 +3394,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 470,
-        "y": 2460,
+        "x": 370,
+        "y": 2580,
         "wires": [
             [
                 "386f5e9e47dabe16"
@@ -3382,11 +3406,11 @@
         "id": "386f5e9e47dabe16",
         "type": "mysql",
         "z": "b0836e657c45cee4",
-        "g": "0052d4989496e2d8",
+        "g": "521413b0ca040f9a",
         "mydb": "79aaa793b17a47c6",
         "name": "insert to sample_db",
-        "x": 660,
-        "y": 2460,
+        "x": 560,
+        "y": 2580,
         "wires": [
             [
                 "96cb23b5c1d59c87"
@@ -3397,7 +3421,7 @@
         "id": "96cb23b5c1d59c87",
         "type": "debug",
         "z": "b0836e657c45cee4",
-        "g": "0052d4989496e2d8",
+        "g": "521413b0ca040f9a",
         "name": "debug 14",
         "active": true,
         "tosidebar": true,
@@ -3406,8 +3430,100 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 840,
-        "y": 2460,
+        "x": 740,
+        "y": 2580,
         "wires": []
+    },
+    {
+        "id": "65972a4bc69996ef",
+        "type": "mqtt in",
+        "z": "b0836e657c45cee4",
+        "g": "521413b0ca040f9a",
+        "name": "",
+        "topic": "test/sensor",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "983d6a50321671e7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 2580,
+        "wires": [
+            [
+                "c66768b2e751f3ba"
+            ]
+        ]
+    },
+    {
+        "id": "775a62a55e2ea00c",
+        "type": "mqtt out",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "",
+        "topic": "test/sensor",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "983d6a50321671e7",
+        "x": 350,
+        "y": 2480,
+        "wires": []
+    },
+    {
+        "id": "124ddb12c1aa49e9",
+        "type": "subflow:af1f1e0a0e3be714",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "name": "",
+        "x": 660,
+        "y": 2720,
+        "wires": [
+            [
+                "2cda698271fc0340"
+            ]
+        ]
+    },
+    {
+        "id": "2cda698271fc0340",
+        "type": "mqtt out",
+        "z": "b0836e657c45cee4",
+        "g": "0cd868fae7fb89ef",
+        "name": "",
+        "topic": "test/sensor",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "983d6a50321671e7",
+        "x": 810,
+        "y": 2720,
+        "wires": []
+    },
+    {
+        "id": "2cb8cf0cf1dfdbff",
+        "type": "template",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "sensors.yml",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "yaml",
+        "syntax": "plain",
+        "template": "101001:\n  measurement: 運転状態\n  data_type: binary\n  area: 1号機\n  device: ローラー\n101002:\n  measurement: 故障状態\n  data_type: binary\n  area: 1号機\n  device: ローラー\n102001:\n  measurement: 炉内温度\n  data_type: analog\n  area: 1号機\n  device: 炉\n  port: 上層\n102002:\n  measurement: 炉内温度\n  data_type: analog\n  area: 1号機\n  device: 炉\n  port: 下層\n201001:\n  measurement: 運転状態\n  data_type: binary\n  area: 2号機\n  device: ローラー\n201002:\n  measurement: 故障状態\n  data_type: binary\n  area: 2号機\n  device: ローラー\n202001:\n  measurement: 炉内温度\n  data_type: analog\n  area: 2号機\n  device: 炉\n  port: 上層\n202002:\n  measurement: 炉内温度\n  data_type: analog\n  area: 2号機\n  device: 炉\n  port: 下層\n301001:\n  measurement: 運転状態\n  data_type: binary\n  area: 3号機\n  device: ローラー\n302001:\n  measurement: 炉内温度\n  data_type: analog\n  area: 3号機\n  device: 炉\n  port: 上層\n302002:\n  measurement: 炉内温度\n  data_type: analog\n  area: 3号機\n  device: 炉\n  port: 下層\n",
+        "output": "yaml",
+        "x": 590,
+        "y": 2180,
+        "wires": [
+            []
+        ]
     }
 ]
