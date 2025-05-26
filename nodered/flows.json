@@ -125,18 +125,18 @@
         "id": "af1f1e0a0e3be714",
         "type": "subflow",
         "name": "Bulk insert",
-        "info": "バッチサイズごとにinsertを実行する。\n最後のメッセージを受信してから待機秒数が経過した場合は、\nその時点で蓄積しているメッセージをinsertする。\n",
+        "info": "バッチサイズごとにinsertを実行する。\n最後のメッセージを受信してから待機秒数が経過した場合は、\nその時点で蓄積しているメッセージをinsertする。\n\n個々のメッセージのpayloadは、sensor_id, \ntimestamp, valueの３つのプロパティを持つ。\ntimestampにはエポックからの経過ミリ秒数を指定すること。\n",
         "category": "",
         "in": [
             {
-                "x": 80,
+                "x": 40,
                 "y": 80,
                 "wires": [
                     {
-                        "id": "bdd72ea00d37c2ea"
+                        "id": "21b1e0ac64062ea9"
                     },
                     {
-                        "id": "21b1e0ac64062ea9"
+                        "id": "8411d1941638e6ec"
                     }
                 ]
             }
@@ -387,13 +387,14 @@
             "b3db36fdbbf0a805",
             "46cb59e50b413c0e",
             "139abe9fbf69808a",
-            "749954c910a4f674",
-            "856fea8cfa1b85a8"
+            "856fea8cfa1b85a8",
+            "1063b456e28e48a7",
+            "48141184e2c86858"
         ],
         "x": 34,
         "y": 2099,
-        "w": 652,
-        "h": 262
+        "w": 872,
+        "h": 342
     },
     {
         "id": "0cd868fae7fb89ef",
@@ -412,7 +413,7 @@
             "85a44b0a5a516357"
         ],
         "x": 34,
-        "y": 2379,
+        "y": 2459,
         "w": 872,
         "h": 82
     },
@@ -870,7 +871,7 @@
                 "t": "set",
                 "p": "topic",
                 "pt": "msg",
-                "to": "INSERT INTO measurements(sensor_id, timestamp, value) VALUES ?",
+                "to": "INSERT INTO measurements(sensor_id, timestamp, value) VALUES ? ON DUPLICATE KEY UPDATE value = VALUES(value)",
                 "tot": "str"
             },
             {
@@ -915,7 +916,7 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 350,
+        "x": 390,
         "y": 80,
         "wires": [
             [
@@ -977,6 +978,33 @@
         "wires": [
             [
                 "6a3c433f2e8ca3ca"
+            ]
+        ]
+    },
+    {
+        "id": "8411d1941638e6ec",
+        "type": "change",
+        "z": "af1f1e0a0e3be714",
+        "name": "登録値の配列化",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[ payload.sensor_id, $ceil(payload.timestamp / 1000), payload.value ]",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 200,
+        "y": 80,
+        "wires": [
+            [
+                "bdd72ea00d37c2ea"
             ]
         ]
     },
@@ -3018,15 +3046,8 @@
         "type": "change",
         "z": "b0836e657c45cee4",
         "g": "0052d4989496e2d8",
-        "name": "make sql",
+        "name": "to record",
         "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "INSERT INTO measurements(sensor_id, timestamp, value) VALUES(:sensor_id, :now, :delay)",
-                "tot": "str"
-            },
             {
                 "t": "set",
                 "p": "payload.sensor_id",
@@ -3036,10 +3057,17 @@
             },
             {
                 "t": "set",
-                "p": "payload.now",
+                "p": "payload.timestamp",
                 "pt": "msg",
-                "to": "$ceil(now / 1000)",
-                "tot": "jsonata"
+                "to": "now",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.value",
+                "pt": "msg",
+                "to": "payload.delay",
+                "tot": "msg"
             }
         ],
         "action": "",
@@ -3047,11 +3075,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 180,
-        "y": 2320,
+        "x": 620,
+        "y": 2180,
         "wires": [
             [
-                "749954c910a4f674"
+                "1063b456e28e48a7"
             ]
         ]
     },
@@ -3064,11 +3092,12 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 590,
-        "y": 2260,
+        "x": 610,
+        "y": 2140,
         "wires": [
             [
-                "c5fb1e57032e795f"
+                "c5fb1e57032e795f",
+                "48141184e2c86858"
             ]
         ]
     },
@@ -3077,7 +3106,7 @@
         "type": "http request",
         "z": "b0836e657c45cee4",
         "g": "0052d4989496e2d8",
-        "name": "fetch api: echo",
+        "name": "同じip_addrの各deviceについて同期的に実行したい処理",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "query",
@@ -3089,8 +3118,8 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 420,
-        "y": 2260,
+        "x": 530,
+        "y": 2400,
         "wires": [
             [
                 "f1f8a665a1dac732",
@@ -3126,7 +3155,7 @@
         "to": "",
         "reg": false,
         "x": 210,
-        "y": 2260,
+        "y": 2400,
         "wires": [
             [
                 "d664919f68f546aa"
@@ -3138,7 +3167,7 @@
         "type": "loop",
         "z": "b0836e657c45cee4",
         "g": "0052d4989496e2d8",
-        "name": "",
+        "name": "ip_addrあたりのsensor_devicesでループ",
         "kind": "enum",
         "count": "",
         "initial": "1",
@@ -3151,8 +3180,8 @@
         "limit": "",
         "loopPayload": "loop-val",
         "finalPayload": "final-count",
-        "x": 390,
-        "y": 2200,
+        "x": 240,
+        "y": 2340,
         "wires": [
             [],
             [
@@ -3188,7 +3217,7 @@
         "to": "",
         "reg": false,
         "x": 170,
-        "y": 2200,
+        "y": 2300,
         "wires": [
             [
                 "2a1a8ed6ff72407f"
@@ -3208,8 +3237,8 @@
         "stream": false,
         "addname": "",
         "property": "payload",
-        "x": 610,
-        "y": 2140,
+        "x": 130,
+        "y": 2260,
         "wires": [
             [
                 "95c025ffb63714dc"
@@ -3223,8 +3252,8 @@
         "g": "0052d4989496e2d8",
         "property": "payload",
         "name": "",
-        "x": 490,
-        "y": 2140,
+        "x": 130,
+        "y": 2220,
         "wires": [
             [
                 "10df7dd44d95743b"
@@ -3245,8 +3274,8 @@
         "sendError": false,
         "encoding": "none",
         "allProps": false,
-        "x": 320,
-        "y": 2140,
+        "x": 180,
+        "y": 2180,
         "wires": [
             [
                 "b3db36fdbbf0a805"
@@ -3292,7 +3321,7 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 130,
-        "y": 2420,
+        "y": 2500,
         "wires": [
             [
                 "3ca52c402e3ea9ec"
@@ -3313,25 +3342,10 @@
         "addname": "",
         "property": "payload",
         "x": 390,
-        "y": 2420,
+        "y": 2500,
         "wires": [
             [
                 "a43b008f6a63d31f"
-            ]
-        ]
-    },
-    {
-        "id": "749954c910a4f674",
-        "type": "mysql",
-        "z": "b0836e657c45cee4",
-        "g": "0052d4989496e2d8",
-        "mydb": "79aaa793b17a47c6",
-        "name": "insert to sample_db",
-        "x": 380,
-        "y": 2320,
-        "wires": [
-            [
-                "856fea8cfa1b85a8"
             ]
         ]
     },
@@ -3348,8 +3362,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 570,
-        "y": 2320,
+        "x": 800,
+        "y": 2220,
         "wires": []
     },
     {
@@ -3361,30 +3375,23 @@
         "rules": [
             {
                 "t": "set",
-                "p": "value",
+                "p": "payload",
                 "pt": "msg",
-                "to": "$random() * 10",
+                "to": "{ \"sensor_id\": payload }",
                 "tot": "jsonata"
             },
             {
                 "t": "set",
-                "p": "now",
+                "p": "payload.timestamp",
                 "pt": "msg",
                 "to": "",
                 "tot": "date"
             },
             {
                 "t": "set",
-                "p": "now",
+                "p": "payload.value",
                 "pt": "msg",
-                "to": "$ceil(now / 1000)",
-                "tot": "jsonata"
-            },
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "[ payload, now, value]",
+                "to": "$random() * 10",
                 "tot": "jsonata"
             }
         ],
@@ -3394,7 +3401,7 @@
         "to": "",
         "reg": false,
         "x": 520,
-        "y": 2420,
+        "y": 2500,
         "wires": [
             [
                 "b7b4cf9e2518bd23"
@@ -3415,7 +3422,7 @@
         "finalize": "",
         "libs": [],
         "x": 260,
-        "y": 2420,
+        "y": 2500,
         "wires": [
             [
                 "1ede4140a65d8d64"
@@ -3441,7 +3448,7 @@
             }
         ],
         "x": 660,
-        "y": 2420,
+        "y": 2500,
         "wires": [
             [
                 "85a44b0a5a516357"
@@ -3462,7 +3469,38 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 800,
-        "y": 2420,
+        "y": 2500,
+        "wires": []
+    },
+    {
+        "id": "1063b456e28e48a7",
+        "type": "subflow:af1f1e0a0e3be714",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "",
+        "x": 630,
+        "y": 2220,
+        "wires": [
+            [
+                "856fea8cfa1b85a8"
+            ]
+        ]
+    },
+    {
+        "id": "48141184e2c86858",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "debug 17",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 2140,
         "wires": []
     }
 ]
