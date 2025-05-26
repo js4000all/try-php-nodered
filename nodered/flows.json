@@ -137,18 +137,21 @@
                     },
                     {
                         "id": "bdd72ea00d37c2ea"
+                    },
+                    {
+                        "id": "aa119e8a98e92aa1"
                     }
                 ]
             }
         ],
         "out": [
             {
-                "x": 700,
+                "x": 880,
                 "y": 80,
                 "wires": [
                     {
-                        "id": "bdd72ea00d37c2ea",
-                        "port": 0
+                        "id": "38c6e3b04f05c5b3",
+                        "port": 1
                     }
                 ]
             }
@@ -200,7 +203,17 @@
             }
         ],
         "meta": {},
-        "color": "#DDAA99"
+        "color": "#DDAA99",
+        "status": {
+            "x": 940,
+            "y": 160,
+            "wires": [
+                {
+                    "id": "33146a7040dc0880",
+                    "port": 0
+                }
+            ]
+        }
     },
     {
         "id": "e24847f2f9e351d8",
@@ -670,6 +683,18 @@
         ]
     },
     {
+        "id": "aa119e8a98e92aa1",
+        "type": "junction",
+        "z": "af1f1e0a0e3be714",
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "5246c57486e17676"
+            ]
+        ]
+    },
+    {
         "id": "983d6a50321671e7",
         "type": "mqtt-broker",
         "name": "",
@@ -894,17 +919,20 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 590,
+        "x": 610,
         "y": 80,
         "wires": [
-            []
+            [
+                "33146a7040dc0880",
+                "38c6e3b04f05c5b3"
+            ]
         ]
     },
     {
         "id": "6a3c433f2e8ca3ca",
         "type": "change",
         "z": "af1f1e0a0e3be714",
-        "name": "",
+        "name": "make complete msg",
         "rules": [
             {
                 "t": "set",
@@ -924,7 +952,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 380,
+        "x": 400,
         "y": 120,
         "wires": [
             [
@@ -956,6 +984,94 @@
                 "6a3c433f2e8ca3ca"
             ]
         ]
+    },
+    {
+        "id": "33146a7040dc0880",
+        "type": "function",
+        "z": "af1f1e0a0e3be714",
+        "name": "count buffer",
+        "func": "const buffered = context.get('buffered') || 0;\nconst after = msg._inlet ?\n    buffered + 1 :\n    buffered - msg.payload.length;\ncontext.set('buffered', after);\nmsg.payload = {\n    shape: \"ring\",\n    fill: \"blue\",\n    text: `buffered: ${after}`,\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5246c57486e17676",
+        "type": "change",
+        "z": "af1f1e0a0e3be714",
+        "name": "mark inlet",
+        "rules": [
+            {
+                "t": "set",
+                "p": "_inlet",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 160,
+        "wires": [
+            [
+                "33146a7040dc0880"
+            ]
+        ]
+    },
+    {
+        "id": "38c6e3b04f05c5b3",
+        "type": "switch",
+        "z": "af1f1e0a0e3be714",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "empty"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 770,
+        "y": 80,
+        "wires": [
+            [
+                "81e2ed5c2ce24648"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "81e2ed5c2ce24648",
+        "type": "debug",
+        "z": "af1f1e0a0e3be714",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 40,
+        "wires": []
     },
     {
         "id": "fbe42d48d5ef483c",
@@ -3394,7 +3510,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 370,
+        "x": 330,
         "y": 2580,
         "wires": [
             [
