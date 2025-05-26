@@ -404,12 +404,15 @@
             "446f443d28107626",
             "521413b0ca040f9a",
             "775a62a55e2ea00c",
-            "2cb8cf0cf1dfdbff"
+            "2cb8cf0cf1dfdbff",
+            "32e987dbfa07b8d7",
+            "4007106ca1f66ab3",
+            "da4178cae1a0f354"
         ],
         "x": 34,
         "y": 2099,
-        "w": 882,
-        "h": 548
+        "w": 798,
+        "h": 688
     },
     {
         "id": "0cd868fae7fb89ef",
@@ -428,7 +431,7 @@
             "2cda698271fc0340"
         ],
         "x": 34,
-        "y": 2679,
+        "y": 2859,
         "w": 872,
         "h": 82
     },
@@ -629,8 +632,26 @@
             "96cb23b5c1d59c87"
         ],
         "x": 94,
-        "y": 2539,
-        "w": 752,
+        "y": 2679,
+        "w": 712,
+        "h": 82
+    },
+    {
+        "id": "da4178cae1a0f354",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "binary値の場合、前回と同じ値ならスキップ",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "3b4c1c8a929b330b",
+            "53f42f5b186224ec"
+        ],
+        "x": 414,
+        "y": 2479,
+        "w": 352,
         "h": 82
     },
     {
@@ -3111,13 +3132,13 @@
         "type": "change",
         "z": "b0836e657c45cee4",
         "g": "0052d4989496e2d8",
-        "name": "to record",
+        "name": "to [sensor_id, timestamp, value]",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "[ sensor_id, now / 1000, payload.delay ]",
+                "to": "[ sensor_id, now / 1000, payload ]",
                 "tot": "jsonata"
             }
         ],
@@ -3126,8 +3147,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 200,
-        "y": 2440,
+        "x": 270,
+        "y": 2580,
         "wires": [
             [
                 "1063b456e28e48a7"
@@ -3139,15 +3160,15 @@
         "type": "json",
         "z": "b0836e657c45cee4",
         "g": "0052d4989496e2d8",
-        "name": "",
+        "name": "payload(json) to obj",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 190,
-        "y": 2400,
+        "x": 230,
+        "y": 2440,
         "wires": [
             [
-                "c5fb1e57032e795f"
+                "4007106ca1f66ab3"
             ]
         ]
     },
@@ -3156,7 +3177,7 @@
         "type": "http request",
         "z": "b0836e657c45cee4",
         "g": "0052d4989496e2d8",
-        "name": "同じip_addrの各deviceについて同期的に実行したい処理",
+        "name": "controllerの全deviceに対して同期的に実行したい処理",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "query",
@@ -3168,12 +3189,12 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 610,
-        "y": 2340,
+        "x": 400,
+        "y": 2380,
         "wires": [
             [
-                "f1f8a665a1dac732",
-                "446f443d28107626"
+                "446f443d28107626",
+                "f1f8a665a1dac732"
             ]
         ]
     },
@@ -3189,6 +3210,13 @@
                 "p": "sensor_id",
                 "pt": "msg",
                 "to": "payload.sensor_id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "is_binary",
+                "pt": "msg",
+                "to": "payload.is_binary",
                 "tot": "msg"
             },
             {
@@ -3217,7 +3245,7 @@
         "type": "loop",
         "z": "b0836e657c45cee4",
         "g": "0052d4989496e2d8",
-        "name": "ip_addrあたりのsensor_devicesでループ",
+        "name": "controllerのsensor_devicesでループ",
         "kind": "enum",
         "count": "",
         "initial": "1",
@@ -3230,7 +3258,7 @@
         "limit": "",
         "loopPayload": "loop-val",
         "finalPayload": "final-count",
-        "x": 300,
+        "x": 290,
         "y": 2300,
         "wires": [
             [],
@@ -3279,7 +3307,7 @@
         "type": "split",
         "z": "b0836e657c45cee4",
         "g": "0052d4989496e2d8",
-        "name": "",
+        "name": "controllerごとのメッセージに分離",
         "splt": "\\n",
         "spltType": "str",
         "arraySplt": 1,
@@ -3287,7 +3315,7 @@
         "stream": false,
         "addname": "",
         "property": "payload",
-        "x": 190,
+        "x": 280,
         "y": 2220,
         "wires": [
             [
@@ -3334,7 +3362,7 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 130,
-        "y": 2720,
+        "y": 2900,
         "wires": [
             [
                 "3ca52c402e3ea9ec"
@@ -3355,7 +3383,7 @@
         "addname": "",
         "property": "payload",
         "x": 390,
-        "y": 2720,
+        "y": 2900,
         "wires": [
             [
                 "a43b008f6a63d31f"
@@ -3390,7 +3418,7 @@
         "to": "",
         "reg": false,
         "x": 520,
-        "y": 2720,
+        "y": 2900,
         "wires": [
             [
                 "124ddb12c1aa49e9"
@@ -3411,7 +3439,7 @@
         "finalize": "",
         "libs": [],
         "x": 260,
-        "y": 2720,
+        "y": 2900,
         "wires": [
             [
                 "1ede4140a65d8d64"
@@ -3425,7 +3453,7 @@
         "g": "0052d4989496e2d8",
         "name": "",
         "x": 200,
-        "y": 2480,
+        "y": 2620,
         "wires": [
             [
                 "775a62a55e2ea00c"
@@ -3442,7 +3470,7 @@
         "fieldType": "msg",
         "format": "yaml",
         "syntax": "plain",
-        "template": "central:\n  ip_addr: 192.168.1.100\n  port: 8080\n  sensor_devices:\n    - {no: R001, words: 1, sensor_id: 101001}\n    - {no: R002, words: 1, sensor_id: 101002}\n    - {no: MD001, words: 2, sensor_id: 102001}\narea1:\n  ip_addr: 192.168.1.101\n  port: 8080\n  sensor_devices:\n    - {no: R001, words: 1, sensor_id: 201001}\n    - {no: MD001, words: 2, sensor_id: 202001}\n    - {no: MD002, words: 6, sensor_id: 202002}\narea2:\n  ip_addr: 192.168.1.102\n  port: 18080\n  sensor_devices:\n    - {no: R001, words: 1, sensor_id: 301001}\n    - {no: MD001, words: 2, sensor_id: 302001}\n",
+        "template": "central:\n  ip_addr: 192.168.1.100\n  port: 8080\n  sensor_devices:\n    - {no: R001, words: 1, sensor_id: 101001, is_binary: true}\n    - {no: R002, words: 1, sensor_id: 101002, is_binary: true}\n    - {no: MD001, words: 2, sensor_id: 102001}\narea1:\n  ip_addr: 192.168.1.101\n  port: 8080\n  sensor_devices:\n    - {no: R001, words: 1, sensor_id: 201001, is_binary: true}\n    - {no: MD001, words: 2, sensor_id: 202001}\n    - {no: MD003, words: 6, sensor_id: 202002}\narea2:\n  ip_addr: 192.168.1.102\n  port: 18080\n  sensor_devices:\n    - {no: R001, words: 1, sensor_id: 301001, is_binary: true}\n    - {no: MD001, words: 2, sensor_id: 302001}\n",
         "output": "yaml",
         "x": 220,
         "y": 2180,
@@ -3462,8 +3490,8 @@
         "links": [
             "9b308c514c03d7f8"
         ],
-        "x": 875,
-        "y": 2340,
+        "x": 695,
+        "y": 2380,
         "wires": []
     },
     {
@@ -3511,7 +3539,7 @@
         "to": "",
         "reg": false,
         "x": 330,
-        "y": 2580,
+        "y": 2720,
         "wires": [
             [
                 "386f5e9e47dabe16"
@@ -3525,8 +3553,8 @@
         "g": "521413b0ca040f9a",
         "mydb": "79aaa793b17a47c6",
         "name": "insert to sample_db",
-        "x": 560,
-        "y": 2580,
+        "x": 520,
+        "y": 2720,
         "wires": [
             [
                 "96cb23b5c1d59c87"
@@ -3546,8 +3574,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 740,
-        "y": 2580,
+        "x": 700,
+        "y": 2720,
         "wires": []
     },
     {
@@ -3565,7 +3593,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 180,
-        "y": 2580,
+        "y": 2720,
         "wires": [
             [
                 "c66768b2e751f3ba"
@@ -3588,7 +3616,7 @@
         "expiry": "",
         "broker": "983d6a50321671e7",
         "x": 350,
-        "y": 2480,
+        "y": 2620,
         "wires": []
     },
     {
@@ -3598,7 +3626,7 @@
         "g": "0cd868fae7fb89ef",
         "name": "",
         "x": 660,
-        "y": 2720,
+        "y": 2900,
         "wires": [
             [
                 "2cda698271fc0340"
@@ -3621,7 +3649,7 @@
         "expiry": "",
         "broker": "983d6a50321671e7",
         "x": 810,
-        "y": 2720,
+        "y": 2900,
         "wires": []
     },
     {
@@ -3640,6 +3668,113 @@
         "y": 2180,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "32e987dbfa07b8d7",
+        "type": "switch",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "is binary?",
+        "property": "is_binary",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 200,
+        "y": 2520,
+        "wires": [
+            [
+                "3b4c1c8a929b330b"
+            ],
+            [
+                "c5fb1e57032e795f"
+            ]
+        ]
+    },
+    {
+        "id": "3b4c1c8a929b330b",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "da4178cae1a0f354",
+        "name": "sensor_id as topic",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "sensor_id",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 2520,
+        "wires": [
+            [
+                "53f42f5b186224ec"
+            ]
+        ]
+    },
+    {
+        "id": "53f42f5b186224ec",
+        "type": "rbe",
+        "z": "b0836e657c45cee4",
+        "g": "da4178cae1a0f354",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 690,
+        "y": 2520,
+        "wires": [
+            [
+                "c5fb1e57032e795f"
+            ]
+        ]
+    },
+    {
+        "id": "4007106ca1f66ab3",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "0052d4989496e2d8",
+        "name": "payload=センサー値",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.delay",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 240,
+        "y": 2480,
+        "wires": [
+            [
+                "32e987dbfa07b8d7"
+            ]
         ]
     }
 ]
