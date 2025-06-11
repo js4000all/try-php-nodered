@@ -8,3 +8,5 @@ RUN set -x \
         node-red-node-mysql@latest \
         node-red-contrib-prib-functions@latest \
         node-red-contrib-influxdb@latest
+
+COPY ./profile.d /etc/profile.d
