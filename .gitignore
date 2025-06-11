@@ -3,4 +3,5 @@
 nodered/lib/
 nodered/node_modules/
 nodered/db/
+.npm/
 *_cred.json
