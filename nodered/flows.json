@@ -216,6 +216,162 @@
         }
     },
     {
+        "id": "ac5048950933a04b",
+        "type": "subflow",
+        "name": "MQTT Out",
+        "info": "MQTT publishを行うノード。\npayloadはJSON化し、必要に応じて圧縮して送信する。\n\n内部的に２つのトピックを使うことで、圧縮と非圧縮を\n自動的に使い分ける。\n",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "681551b822232510"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [
+            {
+                "name": "broker",
+                "type": "mqtt-broker",
+                "value": "1883",
+                "ui": {
+                    "type": "conf-types"
+                }
+            },
+            {
+                "name": "baseTopic",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "トピック"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "env"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "qos",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "QoS"
+                    },
+                    "type": "select",
+                    "opts": {
+                        "opts": [
+                            {
+                                "l": {
+                                    "ja": "0: 到達確認なし"
+                                },
+                                "v": "0"
+                            },
+                            {
+                                "l": {
+                                    "ja": "1: 1回以上到達"
+                                },
+                                "v": "1"
+                            },
+                            {
+                                "l": {
+                                    "ja": "2: 1回のみ到達"
+                                },
+                                "v": "2"
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#3FADB5",
+        "icon": "node-red/bridge.svg",
+        "status": {
+            "x": 620,
+            "y": 300,
+            "wires": [
+                {
+                    "id": "801174ac9f404356",
+                    "port": 0
+                }
+            ]
+        }
+    },
+    {
+        "id": "fd83750d091a61b8",
+        "type": "subflow",
+        "name": "MQTT In",
+        "info": "MQTT subscribeを行うノード。\nMQTT Outとセットで使うことを前提とする。\n\n内部的に２つのトピックを使うことで、圧縮と非圧縮を\n自動的に使い分ける。\n",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 820,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "ea5c767a3801bb10",
+                        "port": 0
+                    },
+                    {
+                        "id": "b97b962bde89652d",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "broker",
+                "type": "mqtt-broker",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "MQTTブローカー"
+                    },
+                    "type": "conf-types"
+                }
+            },
+            {
+                "name": "baseTopic",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "env"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#3FADB5",
+        "icon": "node-red/bridge.svg",
+        "status": {
+            "x": 400,
+            "y": 220,
+            "wires": [
+                {
+                    "id": "5ca1c4960af3c97e",
+                    "port": 0
+                }
+            ]
+        }
+    },
+    {
         "id": "e24847f2f9e351d8",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -434,6 +590,30 @@
         "y": 2859,
         "w": 872,
         "h": 82
+    },
+    {
+        "id": "0480a53cabf92f0e",
+        "type": "group",
+        "z": "ac5048950933a04b",
+        "name": "publish側",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "e45c6eaa6614defa",
+            "8d644531d2a1110c",
+            "4a6a1245835376cd",
+            "3d01741187172ef8",
+            "081c214cc948b124",
+            "71086a27a20a36e9",
+            "681551b822232510",
+            "801174ac9f404356",
+            "7b036e33926e0acc"
+        ],
+        "x": 114,
+        "y": 59,
+        "w": 672,
+        "h": 282
     },
     {
         "id": "b0568bb261bbf464",
@@ -655,6 +835,49 @@
         "h": 82
     },
     {
+        "id": "2bd4ec960b7df48e",
+        "type": "group",
+        "z": "fd83750d091a61b8",
+        "name": "subscribe側",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "4eec89ca0c30e46f",
+            "8154ce220c26cabb",
+            "ea5c767a3801bb10",
+            "d831a86b951cdb4e",
+            "5ca1c4960af3c97e",
+            "23450bf7ea63562e",
+            "b97b962bde89652d"
+        ],
+        "x": 34,
+        "y": 99,
+        "w": 712,
+        "h": 162
+    },
+    {
+        "id": "36ccd2916a3aa324",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "自動圧縮MQTT",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "26c1a7dd7edd1683",
+            "6b767fb10f5cd09a",
+            "816022e9feae772d",
+            "1db4e163c069c466",
+            "74dbb6d2d3746185",
+            "6ffdc8e504f83042"
+        ],
+        "x": 34,
+        "y": 2959,
+        "w": 672,
+        "h": 122
+    },
+    {
         "id": "0bd359638a80e03e",
         "type": "junction",
         "z": "9c93b5a27f1f0d8c",
@@ -713,6 +936,17 @@
             [
                 "5246c57486e17676"
             ]
+        ]
+    },
+    {
+        "id": "ea5c767a3801bb10",
+        "type": "junction",
+        "z": "fd83750d091a61b8",
+        "g": "2bd4ec960b7df48e",
+        "x": 720,
+        "y": 180,
+        "wires": [
+            []
         ]
     },
     {
@@ -1093,6 +1327,387 @@
         "x": 920,
         "y": 40,
         "wires": []
+    },
+    {
+        "id": "8d644531d2a1110c",
+        "type": "transform",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "string→圧縮: compressed",
+        "actionSource": "String",
+        "deleteSource": "false",
+        "deleteSourceType": "bool",
+        "actionTarget": "Compressed",
+        "sourceProperty": "msg.payload",
+        "targetProperty": "msg.compressed",
+        "topicProperty": "",
+        "index": 0,
+        "maxMessages": 1000,
+        "maxDate": "",
+        "minDate": "",
+        "maxNumber": 0,
+        "minNumber": 0,
+        "maxString": "",
+        "minString": "",
+        "radix": 10,
+        "schema": "{\"type\":\"record\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"}]}",
+        "schemaType": "str",
+        "skipLeading": 0,
+        "skipTrailing": 0,
+        "string": "",
+        "stringType": "str",
+        "delimiter": ",",
+        "compressionType": "setFlate",
+        "x": 250,
+        "y": 180,
+        "wires": [
+            [
+                "e45c6eaa6614defa",
+                "7b036e33926e0acc"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "e45c6eaa6614defa",
+        "type": "switch",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "圧縮した方が小さい？",
+        "property": "compressed.length",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "$length(payload)",
+                "vt": "jsonata"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 240,
+        "y": 220,
+        "wires": [
+            [
+                "4a6a1245835376cd"
+            ],
+            [
+                "3d01741187172ef8"
+            ]
+        ]
+    },
+    {
+        "id": "4a6a1245835376cd",
+        "type": "change",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "compressed→payload",
+        "rules": [
+            {
+                "t": "move",
+                "p": "compressed",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "baseTopic",
+                "tot": "env"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "topic & \"/__comp__\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 520,
+        "y": 220,
+        "wires": [
+            [
+                "71086a27a20a36e9"
+            ]
+        ]
+    },
+    {
+        "id": "71086a27a20a36e9",
+        "type": "mqtt out",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "${broker}",
+        "x": 710,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "3d01741187172ef8",
+        "type": "mqtt out",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "",
+        "topic": "${baseTopic}",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "${broker}",
+        "x": 490,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "081c214cc948b124",
+        "type": "json",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "obj→JSON",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 210,
+        "y": 140,
+        "wires": [
+            [
+                "8d644531d2a1110c"
+            ]
+        ]
+    },
+    {
+        "id": "681551b822232510",
+        "type": "change",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "qos設定",
+        "rules": [
+            {
+                "t": "set",
+                "p": "qos",
+                "pt": "msg",
+                "to": "qos",
+                "tot": "env"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 200,
+        "y": 100,
+        "wires": [
+            [
+                "081c214cc948b124"
+            ]
+        ]
+    },
+    {
+        "id": "801174ac9f404356",
+        "type": "status",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "",
+        "scope": [
+            "71086a27a20a36e9",
+            "3d01741187172ef8"
+        ],
+        "x": 480,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7b036e33926e0acc",
+        "type": "debug",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "debug 18",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "\"json: \" & $length(payload) & \" compressed: \" & compressed.length",
+        "targetType": "jsonata",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "4eec89ca0c30e46f",
+        "type": "mqtt in",
+        "z": "fd83750d091a61b8",
+        "g": "2bd4ec960b7df48e",
+        "name": "",
+        "topic": "",
+        "qos": "2",
+        "datatype": "buffer",
+        "broker": "${broker}",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 1,
+        "x": 270,
+        "y": 140,
+        "wires": [
+            [
+                "8154ce220c26cabb"
+            ]
+        ]
+    },
+    {
+        "id": "8154ce220c26cabb",
+        "type": "transform",
+        "z": "fd83750d091a61b8",
+        "g": "2bd4ec960b7df48e",
+        "name": "",
+        "actionSource": "Compressed",
+        "deleteSource": "true",
+        "deleteSourceType": "bool",
+        "actionTarget": "String",
+        "sourceProperty": "msg.payload",
+        "targetProperty": "msg.payload",
+        "topicProperty": "msg.topic",
+        "index": 0,
+        "maxMessages": 1000,
+        "maxDate": "",
+        "minDate": "",
+        "maxNumber": 0,
+        "minNumber": 0,
+        "maxString": "",
+        "minString": "",
+        "radix": 10,
+        "schema": "{\"type\":\"record\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"}]}",
+        "schemaType": "str",
+        "skipLeading": 0,
+        "skipTrailing": 0,
+        "string": "",
+        "stringType": "str",
+        "delimiter": ",",
+        "compressionType": "setFlate",
+        "x": 480,
+        "y": 140,
+        "wires": [
+            [
+                "b97b962bde89652d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "d831a86b951cdb4e",
+        "type": "mqtt in",
+        "z": "fd83750d091a61b8",
+        "g": "2bd4ec960b7df48e",
+        "name": "",
+        "topic": "${baseTopic}",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "${broker}",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 290,
+        "y": 180,
+        "wires": [
+            [
+                "ea5c767a3801bb10"
+            ]
+        ]
+    },
+    {
+        "id": "5ca1c4960af3c97e",
+        "type": "status",
+        "z": "fd83750d091a61b8",
+        "g": "2bd4ec960b7df48e",
+        "name": "",
+        "scope": [
+            "4eec89ca0c30e46f",
+            "d831a86b951cdb4e"
+        ],
+        "x": 280,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "23450bf7ea63562e",
+        "type": "inject",
+        "z": "fd83750d091a61b8",
+        "g": "2bd4ec960b7df48e",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "v": "baseTopic",
+                "vt": "env"
+            },
+            {
+                "p": "topic",
+                "v": "topic & \"/__comp__\"",
+                "vt": "jsonata"
+            },
+            {
+                "p": "action",
+                "v": "subscribe",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 140,
+        "wires": [
+            [
+                "4eec89ca0c30e46f"
+            ]
+        ]
+    },
+    {
+        "id": "b97b962bde89652d",
+        "type": "json",
+        "z": "fd83750d091a61b8",
+        "g": "2bd4ec960b7df48e",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 670,
+        "y": 140,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "fbe42d48d5ef483c",
@@ -3776,5 +4391,154 @@
                 "32e987dbfa07b8d7"
             ]
         ]
+    },
+    {
+        "id": "26c1a7dd7edd1683",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "36ccd2916a3aa324",
+        "name": "小さいデータ",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"name\":\"Taro\",\"age\":33}",
+        "payloadType": "json",
+        "x": 150,
+        "y": 3000,
+        "wires": [
+            [
+                "6b767fb10f5cd09a"
+            ]
+        ]
+    },
+    {
+        "id": "6b767fb10f5cd09a",
+        "type": "subflow:ac5048950933a04b",
+        "z": "b0836e657c45cee4",
+        "g": "36ccd2916a3aa324",
+        "name": "",
+        "env": [
+            {
+                "name": "broker",
+                "value": "983d6a50321671e7",
+                "type": "conf-type"
+            },
+            {
+                "name": "baseTopic",
+                "value": "test/out/no_compress",
+                "type": "str"
+            },
+            {
+                "name": "qos",
+                "value": "0",
+                "type": "str"
+            }
+        ],
+        "x": 310,
+        "y": 3000,
+        "wires": []
+    },
+    {
+        "id": "816022e9feae772d",
+        "type": "subflow:fd83750d091a61b8",
+        "z": "b0836e657c45cee4",
+        "g": "36ccd2916a3aa324",
+        "name": "",
+        "env": [
+            {
+                "name": "broker",
+                "value": "983d6a50321671e7",
+                "type": "conf-type"
+            },
+            {
+                "name": "baseTopic",
+                "value": "test/out/no_compress",
+                "type": "str"
+            }
+        ],
+        "x": 460,
+        "y": 3000,
+        "wires": [
+            [
+                "1db4e163c069c466"
+            ]
+        ]
+    },
+    {
+        "id": "1db4e163c069c466",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "36ccd2916a3aa324",
+        "name": "debug 17",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 3000,
+        "wires": []
+    },
+    {
+        "id": "74dbb6d2d3746185",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "36ccd2916a3aa324",
+        "name": "大きいデータ",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"_id\":\"6849a24839853a160172d755\",\"index\":0,\"guid\":\"13f1feff-b7b6-47e8-b18d-35f1ab6bd803\",\"isActive\":false,\"balance\":\"$2,552.43\",\"picture\":\"http://placehold.it/32x32\",\"age\":34,\"eyeColor\":\"blue\",\"name\":\"Tasha Jennings\",\"gender\":\"female\",\"company\":\"SINGAVERA\",\"email\":\"tashajennings@singavera.com\",\"phone\":\"+1 (945) 454-2964\",\"address\":\"299 Amber Street, Allendale, Alabama, 7281\",\"about\":\"Exercitation amet Lorem do cillum irure eiusmod. Sunt enim eu sunt culpa tempor voluptate nisi ut dolore sit Lorem laboris. Ullamco minim aute veniam eu ut consequat incididunt nostrud. Reprehenderit deserunt tempor ea dolore ea et velit. Velit reprehenderit voluptate deserunt et non consectetur eu dolore adipisicing sint ad incididunt. Aute ad ad ea occaecat culpa labore reprehenderit esse amet minim reprehenderit.\\r\\n\",\"registered\":\"2022-02-08T08:23:37 -09:00\",\"latitude\":-87.247896,\"longitude\":86.993193,\"tags\":[\"consectetur\",\"commodo\",\"anim\",\"irure\",\"voluptate\",\"amet\",\"ullamco\"],\"friends\":[{\"id\":0,\"name\":\"Kim Booth\"},{\"id\":1,\"name\":\"Mindy Leon\"},{\"id\":2,\"name\":\"Ball Carson\"}],\"greeting\":\"Hello, Tasha Jennings! You have 6 unread messages.\",\"favoriteFruit\":\"strawberry\"},{\"_id\":\"6849a24883d8d5e62b27fc11\",\"index\":1,\"guid\":\"b96248a0-18b3-4dd4-b443-458f74a0f24b\",\"isActive\":false,\"balance\":\"$2,172.21\",\"picture\":\"http://placehold.it/32x32\",\"age\":20,\"eyeColor\":\"blue\",\"name\":\"Carlene Newton\",\"gender\":\"female\",\"company\":\"ZILLACTIC\",\"email\":\"carlenenewton@zillactic.com\",\"phone\":\"+1 (920) 454-3338\",\"address\":\"542 Cyrus Avenue, Bendon, North Carolina, 242\",\"about\":\"Nulla sit cupidatat pariatur nostrud in non. Labore pariatur duis esse aute nulla. Veniam deserunt reprehenderit excepteur quis velit nulla consectetur aliqua. Commodo labore est minim nulla eiusmod ut et incididunt aute. Aute exercitation laborum eiusmod dolor elit cillum.\\r\\n\",\"registered\":\"2015-08-25T09:06:28 -09:00\",\"latitude\":-2.35402,\"longitude\":-116.47222,\"tags\":[\"incididunt\",\"sit\",\"nulla\",\"dolor\",\"pariatur\",\"id\",\"veniam\"],\"friends\":[{\"id\":0,\"name\":\"Sabrina Beasley\"},{\"id\":1,\"name\":\"Wyatt Bryan\"},{\"id\":2,\"name\":\"Sandy Stephens\"}],\"greeting\":\"Hello, Carlene Newton! You have 2 unread messages.\",\"favoriteFruit\":\"strawberry\"},{\"_id\":\"6849a2481243fe77478ff31b\",\"index\":2,\"guid\":\"32d7c618-7d95-4e70-9cc7-cf298bd0b797\",\"isActive\":true,\"balance\":\"$2,447.27\",\"picture\":\"http://placehold.it/32x32\",\"age\":33,\"eyeColor\":\"blue\",\"name\":\"Maria Sweet\",\"gender\":\"female\",\"company\":\"LUMBREX\",\"email\":\"mariasweet@lumbrex.com\",\"phone\":\"+1 (954) 400-2809\",\"address\":\"714 Newport Street, Oasis, Federated States Of Micronesia, 1639\",\"about\":\"Velit magna fugiat ad deserunt cillum. Eiusmod ut cillum in esse consectetur reprehenderit mollit incididunt. Laborum in nostrud culpa laborum ut enim. Mollit ullamco quis non esse fugiat dolore pariatur.\\r\\n\",\"registered\":\"2020-03-16T05:42:22 -09:00\",\"latitude\":-23.915219,\"longitude\":-156.370837,\"tags\":[\"irure\",\"officia\",\"nostrud\",\"quis\",\"magna\",\"sint\",\"reprehenderit\"],\"friends\":[{\"id\":0,\"name\":\"Bradshaw Wiggins\"},{\"id\":1,\"name\":\"Kayla Woods\"},{\"id\":2,\"name\":\"Church Jimenez\"}],\"greeting\":\"Hello, Maria Sweet! You have 1 unread messages.\",\"favoriteFruit\":\"strawberry\"},{\"_id\":\"6849a248a5109ede392875b2\",\"index\":3,\"guid\":\"3cb4c629-d474-4f45-bc82-87b3f2c1cfb4\",\"isActive\":false,\"balance\":\"$2,295.50\",\"picture\":\"http://placehold.it/32x32\",\"age\":21,\"eyeColor\":\"brown\",\"name\":\"Stark Doyle\",\"gender\":\"male\",\"company\":\"RODEOMAD\",\"email\":\"starkdoyle@rodeomad.com\",\"phone\":\"+1 (860) 597-3003\",\"address\":\"230 Montieth Street, Henrietta, Palau, 5365\",\"about\":\"Incididunt commodo ullamco labore enim. Deserunt ea duis officia ut excepteur ipsum anim laboris reprehenderit. Amet ad proident ex velit Lorem. Incididunt ipsum occaecat sit commodo sint dolor et dolor Lorem nostrud esse. Aute nulla veniam ut reprehenderit magna. Lorem occaecat aliquip laboris tempor est nulla proident dolore aliquip commodo consectetur non laborum. Lorem aute ex dolore magna nostrud nulla duis ullamco nulla adipisicing magna in eiusmod.\\r\\n\",\"registered\":\"2023-12-13T10:57:59 -09:00\",\"latitude\":-4.853008,\"longitude\":-98.172279,\"tags\":[\"nostrud\",\"esse\",\"sunt\",\"excepteur\",\"minim\",\"velit\",\"nostrud\"],\"friends\":[{\"id\":0,\"name\":\"Jenifer Marsh\"},{\"id\":1,\"name\":\"Winters Lewis\"},{\"id\":2,\"name\":\"Buck Wilkins\"}],\"greeting\":\"Hello, Stark Doyle! You have 5 unread messages.\",\"favoriteFruit\":\"banana\"},{\"_id\":\"6849a2482243f43b7648109c\",\"index\":4,\"guid\":\"cfc014a5-05eb-4f47-835a-cb86b3b43658\",\"isActive\":false,\"balance\":\"$3,525.72\",\"picture\":\"http://placehold.it/32x32\",\"age\":27,\"eyeColor\":\"blue\",\"name\":\"Reba Hendricks\",\"gender\":\"female\",\"company\":\"ORBOID\",\"email\":\"rebahendricks@orboid.com\",\"phone\":\"+1 (806) 566-2158\",\"address\":\"604 Flatbush Avenue, Mooresburg, Virginia, 6265\",\"about\":\"Elit adipisicing laborum adipisicing commodo magna adipisicing duis consequat. In magna id aliqua duis sint Lorem est exercitation. Aliqua est exercitation Lorem duis ullamco amet qui do incididunt labore duis aliquip exercitation. Sit occaecat deserunt occaecat non eiusmod. Reprehenderit voluptate eu laborum eiusmod esse. Esse elit commodo pariatur dolor ut ex. Exercitation esse nisi irure duis proident dolor qui.\\r\\n\",\"registered\":\"2016-01-09T08:08:42 -09:00\",\"latitude\":36.582268,\"longitude\":82.389072,\"tags\":[\"aliquip\",\"quis\",\"Lorem\",\"velit\",\"aliqua\",\"Lorem\",\"et\"],\"friends\":[{\"id\":0,\"name\":\"Tyson Velez\"},{\"id\":1,\"name\":\"Dejesus Berry\"},{\"id\":2,\"name\":\"Marguerite Keith\"}],\"greeting\":\"Hello, Reba Hendricks! You have 10 unread messages.\",\"favoriteFruit\":\"banana\"},{\"_id\":\"6849a248c2db6bc93a0cf6c2\",\"index\":5,\"guid\":\"902bc70d-c778-44ac-815f-000332d260d1\",\"isActive\":true,\"balance\":\"$1,648.07\",\"picture\":\"http://placehold.it/32x32\",\"age\":29,\"eyeColor\":\"green\",\"name\":\"Wallace Slater\",\"gender\":\"male\",\"company\":\"ZAJ\",\"email\":\"wallaceslater@zaj.com\",\"phone\":\"+1 (882) 503-3200\",\"address\":\"283 Newkirk Placez, Freelandville, Montana, 4612\",\"about\":\"Ea labore duis duis id aute culpa aute cillum magna commodo ad Lorem. Fugiat magna aliqua sit esse id. Consectetur ullamco mollit enim consectetur id deserunt. Dolore consequat tempor magna incididunt qui proident nulla mollit laboris. Pariatur adipisicing officia do fugiat sint excepteur et amet proident elit. Reprehenderit et velit occaecat elit ex duis esse adipisicing magna adipisicing culpa commodo qui officia. Id pariatur eiusmod excepteur nulla ea tempor fugiat culpa ea nisi culpa id aliquip.\\r\\n\",\"registered\":\"2021-11-05T08:23:45 -09:00\",\"latitude\":-4.26906,\"longitude\":31.573716,\"tags\":[\"eu\",\"aliqua\",\"ad\",\"duis\",\"eu\",\"nulla\",\"qui\"],\"friends\":[{\"id\":0,\"name\":\"Thornton Huff\"},{\"id\":1,\"name\":\"Waters Hogan\"},{\"id\":2,\"name\":\"Bradley Randall\"}],\"greeting\":\"Hello, Wallace Slater! You have 8 unread messages.\",\"favoriteFruit\":\"apple\"},{\"_id\":\"6849a2482e72787c069df009\",\"index\":6,\"guid\":\"a90f3a54-d5bd-4789-8e1b-ec96a32cec81\",\"isActive\":true,\"balance\":\"$2,573.38\",\"picture\":\"http://placehold.it/32x32\",\"age\":20,\"eyeColor\":\"blue\",\"name\":\"Opal Perry\",\"gender\":\"female\",\"company\":\"SULTRAX\",\"email\":\"opalperry@sultrax.com\",\"phone\":\"+1 (926) 548-2098\",\"address\":\"327 Cypress Avenue, Groton, Idaho, 2369\",\"about\":\"Sunt ea culpa ex commodo ex dolore veniam veniam nulla. Velit est sunt voluptate veniam consectetur id. Officia Lorem aute ea aliquip culpa exercitation cupidatat ullamco aliquip aliqua mollit esse.\\r\\n\",\"registered\":\"2015-07-01T03:40:13 -09:00\",\"latitude\":72.440664,\"longitude\":160.150091,\"tags\":[\"mollit\",\"ex\",\"minim\",\"amet\",\"voluptate\",\"incididunt\",\"exercitation\"],\"friends\":[{\"id\":0,\"name\":\"Pearson Maddox\"},{\"id\":1,\"name\":\"Jenny Erickson\"},{\"id\":2,\"name\":\"Spencer Mullins\"}],\"greeting\":\"Hello, Opal Perry! You have 3 unread messages.\",\"favoriteFruit\":\"banana\"}]",
+        "payloadType": "json",
+        "x": 150,
+        "y": 3040,
+        "wires": [
+            [
+                "6ffdc8e504f83042"
+            ]
+        ]
+    },
+    {
+        "id": "6ffdc8e504f83042",
+        "type": "subflow:ac5048950933a04b",
+        "z": "b0836e657c45cee4",
+        "g": "36ccd2916a3aa324",
+        "name": "",
+        "env": [
+            {
+                "name": "broker",
+                "value": "983d6a50321671e7",
+                "type": "conf-type"
+            },
+            {
+                "name": "baseTopic",
+                "value": "test/out/no_compress",
+                "type": "str"
+            },
+            {
+                "name": "qos",
+                "value": "0",
+                "type": "str"
+            }
+        ],
+        "x": 310,
+        "y": 3040,
+        "wires": []
     }
 ]
