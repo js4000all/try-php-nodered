@@ -298,7 +298,7 @@
         "icon": "node-red/bridge.svg",
         "status": {
             "x": 620,
-            "y": 300,
+            "y": 320,
             "wires": [
                 {
                     "id": "801174ac9f404356",
@@ -370,6 +370,76 @@
                 }
             ]
         }
+    },
+    {
+        "id": "9c8c299fe4180b28",
+        "type": "subflow",
+        "name": "named queue",
+        "info": "同じtopicを持つメッセージを個別にキューイングする。\n\n以下の条件の時に、当該topicのキューの先頭のメッセージを送信する。\n- 対象topicについて戻ってきていないメッセージがない状態で入力された場合\n- 送信したメッセージが戻ってきた場合\n- topicごとに最後の送信からタイムアウト時間が経過した場合\n\nタイムアウト時間が経過した場合は、戻ってこなかった\nメッセージを第２出力から送信する。\n",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "37779635cb8703b3"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 590,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "37779635cb8703b3",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 560,
+                "y": 260,
+                "wires": [
+                    {
+                        "id": "e3872f2325686bb5",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "nq_timeoutMsec",
+                "type": "num",
+                "value": "500",
+                "ui": {
+                    "icon": "font-awesome/fa-clock-o",
+                    "label": {
+                        "ja": "タイムアウト(msec)"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "num",
+                            "env"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#3FADB5",
+        "inputLabels": [
+            "キューイングするメッセージ"
+        ],
+        "outputLabels": [
+            "topicごとのキューの先頭メッセージ",
+            "タイムアウトしたメッセージ"
+        ],
+        "icon": "font-awesome/fa-step-forward"
     },
     {
         "id": "e24847f2f9e351d8",
@@ -601,19 +671,64 @@
         },
         "nodes": [
             "e45c6eaa6614defa",
-            "8d644531d2a1110c",
-            "4a6a1245835376cd",
             "3d01741187172ef8",
             "081c214cc948b124",
             "71086a27a20a36e9",
             "681551b822232510",
             "801174ac9f404356",
-            "7b036e33926e0acc"
+            "7b036e33926e0acc",
+            "8c32a88e5c8bdceb",
+            "e2577824a985464d",
+            "cce9ef6278c2c304",
+            "6f78a21a49efb725"
         ],
         "x": 114,
         "y": 59,
+        "w": 712,
+        "h": 302
+    },
+    {
+        "id": "2bd4ec960b7df48e",
+        "type": "group",
+        "z": "fd83750d091a61b8",
+        "name": "subscribe側",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "4eec89ca0c30e46f",
+            "ea5c767a3801bb10",
+            "d831a86b951cdb4e",
+            "5ca1c4960af3c97e",
+            "23450bf7ea63562e",
+            "b97b962bde89652d",
+            "3011c9dd58e8c5dc"
+        ],
+        "x": 34,
+        "y": 99,
+        "w": 712,
+        "h": 162
+    },
+    {
+        "id": "36ccd2916a3aa324",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "自動圧縮MQTT",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "26c1a7dd7edd1683",
+            "6b767fb10f5cd09a",
+            "816022e9feae772d",
+            "1db4e163c069c466",
+            "74dbb6d2d3746185",
+            "6ffdc8e504f83042"
+        ],
+        "x": 34,
+        "y": 2959,
         "w": 672,
-        "h": 282
+        "h": 122
     },
     {
         "id": "b0568bb261bbf464",
@@ -835,47 +950,27 @@
         "h": 82
     },
     {
-        "id": "2bd4ec960b7df48e",
-        "type": "group",
-        "z": "fd83750d091a61b8",
-        "name": "subscribe側",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "4eec89ca0c30e46f",
-            "8154ce220c26cabb",
-            "ea5c767a3801bb10",
-            "d831a86b951cdb4e",
-            "5ca1c4960af3c97e",
-            "23450bf7ea63562e",
-            "b97b962bde89652d"
-        ],
-        "x": 34,
-        "y": 99,
-        "w": 712,
-        "h": 162
-    },
-    {
-        "id": "36ccd2916a3aa324",
+        "id": "c9554ad7c87a8eec",
         "type": "group",
         "z": "b0836e657c45cee4",
-        "name": "自動圧縮MQTT",
+        "name": "標準ライブラリで圧縮解凍",
         "style": {
             "label": true
         },
         "nodes": [
-            "26c1a7dd7edd1683",
-            "6b767fb10f5cd09a",
-            "816022e9feae772d",
-            "1db4e163c069c466",
-            "74dbb6d2d3746185",
-            "6ffdc8e504f83042"
+            "500fc059def91c52",
+            "57a0d5a8e6a22d58",
+            "11ace1d9ba513ef7",
+            "6627bfbfb3203533",
+            "9595dfe6a278d8a9",
+            "68bd11244a684801",
+            "ee69b0f8fe4fcd29",
+            "5bf30697200334ce"
         ],
         "x": 34,
-        "y": 2959,
-        "w": 672,
-        "h": 122
+        "y": 3179,
+        "w": 972,
+        "h": 162
     },
     {
         "id": "0bd359638a80e03e",
@@ -1329,57 +1424,17 @@
         "wires": []
     },
     {
-        "id": "8d644531d2a1110c",
-        "type": "transform",
-        "z": "ac5048950933a04b",
-        "g": "0480a53cabf92f0e",
-        "name": "string→圧縮: compressed",
-        "actionSource": "String",
-        "deleteSource": "false",
-        "deleteSourceType": "bool",
-        "actionTarget": "Compressed",
-        "sourceProperty": "msg.payload",
-        "targetProperty": "msg.compressed",
-        "topicProperty": "",
-        "index": 0,
-        "maxMessages": 1000,
-        "maxDate": "",
-        "minDate": "",
-        "maxNumber": 0,
-        "minNumber": 0,
-        "maxString": "",
-        "minString": "",
-        "radix": 10,
-        "schema": "{\"type\":\"record\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"}]}",
-        "schemaType": "str",
-        "skipLeading": 0,
-        "skipTrailing": 0,
-        "string": "",
-        "stringType": "str",
-        "delimiter": ",",
-        "compressionType": "setFlate",
-        "x": 250,
-        "y": 180,
-        "wires": [
-            [
-                "e45c6eaa6614defa",
-                "7b036e33926e0acc"
-            ],
-            []
-        ]
-    },
-    {
         "id": "e45c6eaa6614defa",
         "type": "switch",
         "z": "ac5048950933a04b",
         "g": "0480a53cabf92f0e",
         "name": "圧縮した方が小さい？",
-        "property": "compressed.length",
+        "property": "payload.length",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "lt",
-                "v": "$length(payload)",
+                "v": "$length(json)",
                 "vt": "jsonata"
             },
             {
@@ -1390,55 +1445,13 @@
         "repair": false,
         "outputs": 2,
         "x": 240,
-        "y": 220,
+        "y": 260,
         "wires": [
             [
-                "4a6a1245835376cd"
+                "6f78a21a49efb725"
             ],
             [
-                "3d01741187172ef8"
-            ]
-        ]
-    },
-    {
-        "id": "4a6a1245835376cd",
-        "type": "change",
-        "z": "ac5048950933a04b",
-        "g": "0480a53cabf92f0e",
-        "name": "compressed→payload",
-        "rules": [
-            {
-                "t": "move",
-                "p": "compressed",
-                "pt": "msg",
-                "to": "payload",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "baseTopic",
-                "tot": "env"
-            },
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "topic & \"/__comp__\"",
-                "tot": "jsonata"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 520,
-        "y": 220,
-        "wires": [
-            [
-                "71086a27a20a36e9"
+                "cce9ef6278c2c304"
             ]
         ]
     },
@@ -1458,7 +1471,7 @@
         "expiry": "",
         "broker": "${broker}",
         "x": 710,
-        "y": 220,
+        "y": 240,
         "wires": []
     },
     {
@@ -1476,8 +1489,8 @@
         "correl": "",
         "expiry": "",
         "broker": "${broker}",
-        "x": 490,
-        "y": 260,
+        "x": 730,
+        "y": 280,
         "wires": []
     },
     {
@@ -1493,7 +1506,7 @@
         "y": 140,
         "wires": [
             [
-                "8d644531d2a1110c"
+                "e2577824a985464d"
             ]
         ]
     },
@@ -1536,7 +1549,7 @@
             "3d01741187172ef8"
         ],
         "x": 480,
-        "y": 300,
+        "y": 320,
         "wires": [
             []
         ]
@@ -1551,13 +1564,131 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "\"json: \" & $length(payload) & \" compressed: \" & compressed.length",
+        "complete": "\"json: \" & $length(json) & \" compressed: \" & payload.length",
         "targetType": "jsonata",
         "statusVal": "",
         "statusType": "auto",
-        "x": 490,
-        "y": 140,
+        "x": 480,
+        "y": 200,
         "wires": []
+    },
+    {
+        "id": "8c32a88e5c8bdceb",
+        "type": "function",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "圧縮",
+        "func": "zlib.deflate(Buffer.from(msg.payload), (err, buffer) => {\n    if (err) throw err;\n    msg.payload = buffer;\n    node.send(msg);\n});\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "zlib",
+                "module": "zlib"
+            }
+        ],
+        "x": 190,
+        "y": 220,
+        "wires": [
+            [
+                "e45c6eaa6614defa",
+                "7b036e33926e0acc"
+            ]
+        ]
+    },
+    {
+        "id": "e2577824a985464d",
+        "type": "change",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "payload→msg.jsonに退避",
+        "rules": [
+            {
+                "t": "set",
+                "p": "json",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 180,
+        "wires": [
+            [
+                "8c32a88e5c8bdceb"
+            ]
+        ]
+    },
+    {
+        "id": "cce9ef6278c2c304",
+        "type": "change",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "msg.json→payload",
+        "rules": [
+            {
+                "t": "move",
+                "p": "json",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 510,
+        "y": 280,
+        "wires": [
+            [
+                "3d01741187172ef8"
+            ]
+        ]
+    },
+    {
+        "id": "6f78a21a49efb725",
+        "type": "change",
+        "z": "ac5048950933a04b",
+        "g": "0480a53cabf92f0e",
+        "name": "トピック名作成",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "baseTopic",
+                "tot": "env"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "topic & \"/__comp__\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 500,
+        "y": 240,
+        "wires": [
+            [
+                "71086a27a20a36e9"
+            ]
+        ]
     },
     {
         "id": "4eec89ca0c30e46f",
@@ -1577,47 +1708,8 @@
         "y": 140,
         "wires": [
             [
-                "8154ce220c26cabb"
+                "3011c9dd58e8c5dc"
             ]
-        ]
-    },
-    {
-        "id": "8154ce220c26cabb",
-        "type": "transform",
-        "z": "fd83750d091a61b8",
-        "g": "2bd4ec960b7df48e",
-        "name": "",
-        "actionSource": "Compressed",
-        "deleteSource": "true",
-        "deleteSourceType": "bool",
-        "actionTarget": "String",
-        "sourceProperty": "msg.payload",
-        "targetProperty": "msg.payload",
-        "topicProperty": "msg.topic",
-        "index": 0,
-        "maxMessages": 1000,
-        "maxDate": "",
-        "minDate": "",
-        "maxNumber": 0,
-        "minNumber": 0,
-        "maxString": "",
-        "minString": "",
-        "radix": 10,
-        "schema": "{\"type\":\"record\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"}]}",
-        "schemaType": "str",
-        "skipLeading": 0,
-        "skipTrailing": 0,
-        "string": "",
-        "stringType": "str",
-        "delimiter": ",",
-        "compressionType": "setFlate",
-        "x": 480,
-        "y": 140,
-        "wires": [
-            [
-                "b97b962bde89652d"
-            ],
-            []
         ]
     },
     {
@@ -1707,6 +1799,85 @@
         "y": 140,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "3011c9dd58e8c5dc",
+        "type": "function",
+        "z": "fd83750d091a61b8",
+        "g": "2bd4ec960b7df48e",
+        "name": "解凍",
+        "func": "zlib.inflate(msg.payload, (err, buffer) => {\n    if(err) throw err;\n    msg.payload = buffer.toString('utf8');\n    node.send(msg);\n});\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "zlib",
+                "module": "zlib"
+            }
+        ],
+        "x": 470,
+        "y": 140,
+        "wires": [
+            [
+                "b97b962bde89652d"
+            ]
+        ]
+    },
+    {
+        "id": "37779635cb8703b3",
+        "type": "function",
+        "z": "9c8c299fe4180b28",
+        "name": "q",
+        "func": "/**\n * topicごとの状態は以下の構造を持つ。\n * - runnningSince: 現在フローを流れているメッセージの送出時刻\n * - q: 未送出のメッセージ\n */\nconst INITIAL_Q = { runningSince: null, q: [] };\n\n/** 送り出したメッセージが戻って来たのであればtrue */\nconst isReply = msg.nq !== undefined;\n\nconst qname = isReply ? msg.nq.name : msg.topic;\n/**　今回対象としているキューの状態を上書きする */\nfunction setState(runningSince, q) {\n    context.set(qname, { runningSince, q });\n}\n/** 送出するメッセージに本カスタムノード固有のプロパティを設定する */\nfunction addOwnProps(targetMsg) {\n    targetMsg.nq = { runningSince: Date.now(), name: qname };\n    return targetMsg;\n}\n\nconst { runningSince, q } = context.get(qname) || INITIAL_Q;\n\nif (isReply) {\n    if (msg.nq.runningSince < runningSince) {\n        // runningSinceは最後に送信した時刻である。\n        // この条件を満たしたということは到着したメッセージより後に送信したものがあるということ。\n        // つまり、今回到着したメッセージは既にタイムアウトになっており、\n        // 現在は後続のメッセージが既にrunning状態だということである。\n        // 到着したメッセージ自体はタイムアウト時点で本カスタムノードの出力2から送出済み。\n        // 今回到着したメッセージは破棄する。\n        // node.log(`[nq][$qname] dropped msg: ${msg}`);\n        return;\n    }\n    else if (q.length > 0) {\n        const [next, ...rest] = q;\n        addOwnProps(next);\n        setState(next.runningSince, rest);\n        // node.log(`[nq][${qname}] dequeued msg: ${next}`);\n        return [next, next];\n    }\n    else {\n        setState(INITIAL_Q.runningSince, INITIAL_Q.q);\n        // 送り出すメッセージがないのでtriggerノードのタイムアウトを取り消す\n        // node.log(`[nq][${qname}] no msg in queue`);\n        msg.reset = true;\n        return [null, msg];\n    }\n}\nelse {\n    if (runningSince === null) {\n        addOwnProps(msg);\n        setState(msg.runningSince, []);\n        // node.log(`[nq][${qname}] pass-through: ${msg}`);\n        return [msg, msg];\n    }\n    else {\n        setState(runningSince, [...q, msg])\n        // node.log(`[nq][${qname}] enqueued msg: ${msg}`);\n        return;\n    }\n}\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 210,
+        "y": 140,
+        "wires": [
+            [],
+            [
+                "e3872f2325686bb5"
+            ]
+        ],
+        "inputLabels": [
+            "新着メッセージ or 戻ってきた送信済みメッセージ or タイムアウト時間経過によりtriggerが送信した送信済みメッセージ"
+        ],
+        "outputLabels": [
+            "キューの先頭のメッセージとして送信するメッセージ",
+            "triggerに一時保存するメッセージ or triggerへのリセット指示"
+        ]
+    },
+    {
+        "id": "e3872f2325686bb5",
+        "type": "trigger",
+        "z": "9c8c299fe4180b28",
+        "name": "",
+        "op1": "",
+        "op2": "",
+        "op1type": "nul",
+        "op2type": "payl",
+        "duration": "${nq_timeoutMsec}",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "",
+        "bytopic": "topic",
+        "topic": "nq.name",
+        "outputs": 1,
+        "x": 220,
+        "y": 260,
+        "wires": [
+            [
+                "37779635cb8703b3"
+            ]
         ]
     },
     {
@@ -4481,7 +4652,8 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
         "x": 600,
@@ -4539,6 +4711,246 @@
         ],
         "x": 310,
         "y": 3040,
+        "wires": []
+    },
+    {
+        "id": "75121d8198202d75",
+        "type": "subflow:9c8c299fe4180b28",
+        "z": "b0836e657c45cee4",
+        "name": "",
+        "x": 360,
+        "y": 3120,
+        "wires": [
+            [
+                "95ed0c94c16a3a15"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "95ed0c94c16a3a15",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "name": "debug 19",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 3120,
+        "wires": []
+    },
+    {
+        "id": "fa4a05b2dd6ec1be",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 3120,
+        "wires": [
+            [
+                "75121d8198202d75"
+            ]
+        ]
+    },
+    {
+        "id": "500fc059def91c52",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "c9554ad7c87a8eec",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 3240,
+        "wires": [
+            [
+                "57a0d5a8e6a22d58"
+            ]
+        ]
+    },
+    {
+        "id": "6627bfbfb3203533",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "c9554ad7c87a8eec",
+        "name": "compress",
+        "func": "zlib.deflate(Buffer.from(msg.payload), (err, buffer) => {\n    if (err) throw err;\n    msg.payload = buffer;\n    node.send(msg);\n});\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "zlib",
+                "module": "zlib"
+            }
+        ],
+        "x": 560,
+        "y": 3220,
+        "wires": [
+            [
+                "9595dfe6a278d8a9",
+                "68bd11244a684801"
+            ]
+        ]
+    },
+    {
+        "id": "9595dfe6a278d8a9",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "c9554ad7c87a8eec",
+        "name": "decompress",
+        "func": "zlib.inflate(msg.payload, (err, buffer) => {\n    if(err) throw err;\n    msg.payload = buffer.toString('utf8');\n    node.send(msg);\n});\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "zlib",
+                "module": "zlib"
+            }
+        ],
+        "x": 590,
+        "y": 3260,
+        "wires": [
+            [
+                "ee69b0f8fe4fcd29"
+            ]
+        ]
+    },
+    {
+        "id": "5bf30697200334ce",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "c9554ad7c87a8eec",
+        "name": "debug 20",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 3300,
+        "wires": []
+    },
+    {
+        "id": "57a0d5a8e6a22d58",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "c9554ad7c87a8eec",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"name\":\"Taro\",\"age\":33,\"address\":\"Tokyo\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 220,
+        "y": 3280,
+        "wires": [
+            [
+                "11ace1d9ba513ef7"
+            ]
+        ]
+    },
+    {
+        "id": "11ace1d9ba513ef7",
+        "type": "json",
+        "z": "b0836e657c45cee4",
+        "g": "c9554ad7c87a8eec",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 390,
+        "y": 3280,
+        "wires": [
+            [
+                "6627bfbfb3203533"
+            ]
+        ]
+    },
+    {
+        "id": "ee69b0f8fe4fcd29",
+        "type": "json",
+        "z": "b0836e657c45cee4",
+        "g": "c9554ad7c87a8eec",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 750,
+        "y": 3260,
+        "wires": [
+            [
+                "5bf30697200334ce"
+            ]
+        ]
+    },
+    {
+        "id": "68bd11244a684801",
+        "type": "mqtt out",
+        "z": "b0836e657c45cee4",
+        "g": "c9554ad7c87a8eec",
+        "name": "",
+        "topic": "test/out/no_compress/__comp__",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "983d6a50321671e7",
+        "x": 840,
+        "y": 3220,
         "wires": []
     }
 ]
