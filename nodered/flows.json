@@ -442,6 +442,136 @@
         "icon": "font-awesome/fa-step-forward"
     },
     {
+        "id": "30e34f3603ea8a90",
+        "type": "subflow",
+        "name": "release mutex",
+        "info": "メッセージに割り当てられているmutexを解放する。\nメッセージがmutex_nameを持たない場合は、\nノードのMUTEX_NAMEプロパティに指定された名前に\n対応するmutexを解放する。\n",
+        "category": "",
+        "in": [
+            {
+                "x": 100,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "b15fb015cfd08b9e"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 600,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "b15fb015cfd08b9e",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "MUTEX_NAME",
+                "type": "str",
+                "value": "default",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "env"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "5368df95c04acfc4",
+        "type": "subflow",
+        "name": "get mutex",
+        "info": "投入されたメッセージにmutexを割り当て、送出する。\nmutexが既に使われている場合は、メッセージをキューに保存する。\n一定秒数(INTERVALプロパティ)ごとにmutexの状態を確認し、空いていれば\nキューの先頭メッセージに割り当てる。\n\n同じMUTEX_NAMEを指定したノード同士はmutexを共有する。\nmutexの状態はグローバルコンテキストに保存される。\n一方で、キューは各ノードが個別に持つ。\n",
+        "category": "",
+        "in": [
+            {
+                "x": 140,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "9a2c358a84ab881b"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 660,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "9a2c358a84ab881b",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 660,
+                "y": 180,
+                "wires": [
+                    {
+                        "id": "9a2c358a84ab881b",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "MUTEX_NAME",
+                "type": "str",
+                "value": "default",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "env"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "INTERVAL",
+                "type": "num",
+                "value": "1",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "num",
+                            "env"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99",
+        "status": {
+            "x": 660,
+            "y": 240,
+            "wires": [
+                {
+                    "id": "9a2c358a84ab881b",
+                    "port": 2
+                }
+            ]
+        }
+    },
+    {
         "id": "e24847f2f9e351d8",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -731,6 +861,29 @@
         "h": 122
     },
     {
+        "id": "c9554ad7c87a8eec",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "標準ライブラリで圧縮解凍",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "500fc059def91c52",
+            "57a0d5a8e6a22d58",
+            "11ace1d9ba513ef7",
+            "6627bfbfb3203533",
+            "9595dfe6a278d8a9",
+            "68bd11244a684801",
+            "ee69b0f8fe4fcd29",
+            "5bf30697200334ce"
+        ],
+        "x": 34,
+        "y": 3179,
+        "w": 972,
+        "h": 162
+    },
+    {
         "id": "b0568bb261bbf464",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -950,27 +1103,31 @@
         "h": 82
     },
     {
-        "id": "c9554ad7c87a8eec",
+        "id": "273aa06cc521ed23",
         "type": "group",
         "z": "b0836e657c45cee4",
-        "name": "標準ライブラリで圧縮解凍",
+        "name": "mutex的なもの",
         "style": {
             "label": true
         },
         "nodes": [
-            "500fc059def91c52",
-            "57a0d5a8e6a22d58",
-            "11ace1d9ba513ef7",
-            "6627bfbfb3203533",
-            "9595dfe6a278d8a9",
-            "68bd11244a684801",
-            "ee69b0f8fe4fcd29",
-            "5bf30697200334ce"
+            "bf7587febea05b78",
+            "0dd347921a1d2f85",
+            "aa2a14568cbda5af",
+            "e2fe275e2465b1ec",
+            "c79244df8c81810d",
+            "094259532edc7402",
+            "c357863a2ab4ca3e",
+            "c6179ed0f36c07d2",
+            "f904421acb5858a1",
+            "87da5a6473f11010",
+            "e4afb21b1e2923a9",
+            "bc6706e0849d5f78"
         ],
         "x": 34,
-        "y": 3179,
-        "w": 972,
-        "h": 162
+        "y": 3359,
+        "w": 872,
+        "h": 282
     },
     {
         "id": "0bd359638a80e03e",
@@ -1877,6 +2034,94 @@
         "wires": [
             [
                 "37779635cb8703b3"
+            ]
+        ]
+    },
+    {
+        "id": "b15fb015cfd08b9e",
+        "type": "function",
+        "z": "30e34f3603ea8a90",
+        "name": "reset mutex",
+        "func": "const mutexName = msg.mutexName || \"__mutex_\" + env.get(\"MUTEX_NAME\");\nglobal.get(mutexName).lock = false;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9a2c358a84ab881b",
+        "type": "function",
+        "z": "5368df95c04acfc4",
+        "name": "mutex制御",
+        "func": "const mutexName = \"__mutex_\" + env.get(\"MUTEX_NAME\");\nif(!global.get(mutexName) || msg.reset){\n    global.set(mutexName, { lock: false });\n    context.set(\"q\", []);\n}\nconst mutex = global.get(mutexName);\nconst q = context.get(\"q\");\nfunction getStatus(){\n    return {\n        payload: `[${mutexName}] queued: ${q.length}, lock: ${mutex.lock}`\n    };\n}\n\nif (msg.reset) {\n    msg.isControl = true;\n}\n\nif (msg.isControl) {\n    // 監視メッセージの場合\n    if (!mutex.lock && q.length > 0) {\n        // mutex空き & キューに要素あり → 先頭要素を送出しロック\n        const nextMsg = q.shift();\n        mutex.lock = true;\n        return [nextMsg, null, getStatus()];\n    }\n    else{\n        return [null, msg, getStatus()];\n    }\n}\n\n// 通常メッセージの場合\nmsg.mutexName = mutexName;\nif (mutex.lock) {\n    // mutex使用中 → キューに格納\n    q.push(msg);\n    return [null, msg, getStatus()];\n}\nelse{\n    // mutex空き → 即時送出しmutexロック\n    mutex.lock = true;\n    return [msg, null, getStatus()];\n}\n",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// ここに記述したコードは、ノードをデプロイした時に\n// 一度だけ実行されます。\ncontext.set(\"q\", []);\n",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 120,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "ebdda64cf5e13960",
+        "type": "inject",
+        "z": "5368df95c04acfc4",
+        "name": "mutex監視",
+        "props": [
+            {
+                "p": "isControl",
+                "v": "true",
+                "vt": "bool"
+            }
+        ],
+        "repeat": "${INTERVAL}",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 190,
+        "y": 280,
+        "wires": [
+            [
+                "a7c7d2df69891c8f"
+            ]
+        ]
+    },
+    {
+        "id": "a7c7d2df69891c8f",
+        "type": "delay",
+        "z": "5368df95c04acfc4",
+        "name": "監視タイミングをずらす",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "20",
+        "randomUnits": "milliseconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 390,
+        "y": 280,
+        "wires": [
+            [
+                "9a2c358a84ab881b"
             ]
         ]
     },
@@ -4951,6 +5196,275 @@
         "broker": "983d6a50321671e7",
         "x": 840,
         "y": 3220,
+        "wires": []
+    },
+    {
+        "id": "bf7587febea05b78",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "ABCD",
+        "payloadType": "str",
+        "x": 130,
+        "y": 3400,
+        "wires": [
+            [
+                "0dd347921a1d2f85",
+                "aa2a14568cbda5af"
+            ]
+        ]
+    },
+    {
+        "id": "0dd347921a1d2f85",
+        "type": "split",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "splt": "1",
+        "spltType": "len",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 310,
+        "y": 3460,
+        "wires": [
+            [
+                "e2fe275e2465b1ec"
+            ]
+        ]
+    },
+    {
+        "id": "aa2a14568cbda5af",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "abcde",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 160,
+        "y": 3560,
+        "wires": [
+            [
+                "c79244df8c81810d"
+            ]
+        ]
+    },
+    {
+        "id": "e2fe275e2465b1ec",
+        "type": "subflow:5368df95c04acfc4",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "env": [
+            {
+                "name": "MUTEX_NAME",
+                "value": "hoge",
+                "type": "str"
+            }
+        ],
+        "x": 320,
+        "y": 3500,
+        "wires": [
+            [
+                "094259532edc7402"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "c79244df8c81810d",
+        "type": "split",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "splt": "1",
+        "spltType": "len",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 310,
+        "y": 3560,
+        "wires": [
+            [
+                "c357863a2ab4ca3e"
+            ]
+        ]
+    },
+    {
+        "id": "094259532edc7402",
+        "type": "delay",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 3500,
+        "wires": [
+            [
+                "c6179ed0f36c07d2"
+            ]
+        ]
+    },
+    {
+        "id": "c357863a2ab4ca3e",
+        "type": "subflow:5368df95c04acfc4",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "env": [
+            {
+                "name": "MUTEX_NAME",
+                "value": "hoge",
+                "type": "str"
+            }
+        ],
+        "x": 320,
+        "y": 3600,
+        "wires": [
+            [
+                "f904421acb5858a1"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "c6179ed0f36c07d2",
+        "type": "subflow:30e34f3603ea8a90",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "env": [
+            {
+                "name": "MUTEX_NAME",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "x": 640,
+        "y": 3500,
+        "wires": [
+            [
+                "87da5a6473f11010"
+            ]
+        ]
+    },
+    {
+        "id": "f904421acb5858a1",
+        "type": "delay",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 3600,
+        "wires": [
+            [
+                "e4afb21b1e2923a9"
+            ]
+        ]
+    },
+    {
+        "id": "87da5a6473f11010",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 3500,
+        "wires": []
+    },
+    {
+        "id": "e4afb21b1e2923a9",
+        "type": "subflow:30e34f3603ea8a90",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "env": [
+            {
+                "name": "MUTEX_NAME",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "x": 640,
+        "y": 3600,
+        "wires": [
+            [
+                "bc6706e0849d5f78"
+            ]
+        ]
+    },
+    {
+        "id": "bc6706e0849d5f78",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 3600,
         "wires": []
     }
 ]
