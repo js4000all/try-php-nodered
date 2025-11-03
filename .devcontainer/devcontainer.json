@@ -4,6 +4,7 @@
   "name": "try-vibe-coding-with-nextjs",
   "dockerComposeFile": ["../compose.yml"],
   "service": "php",
+  "remoteUser": "app",
   "workspaceFolder": "/usr/src/app",
   "customizations": {
     "vscode": {

@@ -26,6 +26,5 @@ COPY ./profile.d /etc/profile.d
 
 WORKDIR /var/www/html
 RUN chown -R app:app /var/www/html
-USER app
 
 CMD ["php-fpm"]
