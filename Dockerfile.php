@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8-fpm
 
 RUN set -x \
     && apt-get update \
