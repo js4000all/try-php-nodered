@@ -884,6 +884,34 @@
         "h": 162
     },
     {
+        "id": "273aa06cc521ed23",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "mutex的なもの",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "bf7587febea05b78",
+            "0dd347921a1d2f85",
+            "aa2a14568cbda5af",
+            "e2fe275e2465b1ec",
+            "c79244df8c81810d",
+            "094259532edc7402",
+            "c357863a2ab4ca3e",
+            "c6179ed0f36c07d2",
+            "f904421acb5858a1",
+            "87da5a6473f11010",
+            "e4afb21b1e2923a9",
+            "bc6706e0849d5f78",
+            "998c87930d5f084a"
+        ],
+        "x": 34,
+        "y": 3359,
+        "w": 872,
+        "h": 322
+    },
+    {
         "id": "b0568bb261bbf464",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -1101,33 +1129,6 @@
         "y": 2479,
         "w": 352,
         "h": 82
-    },
-    {
-        "id": "273aa06cc521ed23",
-        "type": "group",
-        "z": "b0836e657c45cee4",
-        "name": "mutex的なもの",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "bf7587febea05b78",
-            "0dd347921a1d2f85",
-            "aa2a14568cbda5af",
-            "e2fe275e2465b1ec",
-            "c79244df8c81810d",
-            "094259532edc7402",
-            "c357863a2ab4ca3e",
-            "c6179ed0f36c07d2",
-            "f904421acb5858a1",
-            "87da5a6473f11010",
-            "e4afb21b1e2923a9",
-            "bc6706e0849d5f78"
-        ],
-        "x": 34,
-        "y": 3359,
-        "w": 872,
-        "h": 282
     },
     {
         "id": "0bd359638a80e03e",
@@ -2042,7 +2043,7 @@
         "type": "function",
         "z": "30e34f3603ea8a90",
         "name": "reset mutex",
-        "func": "const mutexName = msg.mutexName || \"__mutex_\" + env.get(\"MUTEX_NAME\");\nglobal.get(mutexName).lock = false;\nreturn msg;\n",
+        "func": "const mutexName = msg.mutexName || env.get(\"MUTEX_NAME\");\nconst contextName = \"__mutex_\" + mutexName;\nglobal.get(contextName).lock = false;\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2060,7 +2061,7 @@
         "type": "function",
         "z": "5368df95c04acfc4",
         "name": "mutex制御",
-        "func": "const mutexName = \"__mutex_\" + env.get(\"MUTEX_NAME\");\nif(!global.get(mutexName) || msg.reset){\n    global.set(mutexName, { lock: false });\n    context.set(\"q\", []);\n}\nconst mutex = global.get(mutexName);\nconst q = context.get(\"q\");\nfunction getStatus(){\n    return {\n        payload: `[${mutexName}] queued: ${q.length}, lock: ${mutex.lock}`\n    };\n}\n\nif (msg.reset) {\n    msg.isControl = true;\n}\n\nif (msg.isControl) {\n    // 監視メッセージの場合\n    if (!mutex.lock && q.length > 0) {\n        // mutex空き & キューに要素あり → 先頭要素を送出しロック\n        const nextMsg = q.shift();\n        mutex.lock = true;\n        return [nextMsg, null, getStatus()];\n    }\n    else{\n        return [null, msg, getStatus()];\n    }\n}\n\n// 通常メッセージの場合\nmsg.mutexName = mutexName;\nif (mutex.lock) {\n    // mutex使用中 → キューに格納\n    q.push(msg);\n    return [null, msg, getStatus()];\n}\nelse{\n    // mutex空き → 即時送出しmutexロック\n    mutex.lock = true;\n    return [msg, null, getStatus()];\n}\n",
+        "func": "const mutexName = env.get(\"MUTEX_NAME\");\nconst contextName = \"__mutex_\" + mutexName;\n\nif(!global.get(contextName) || msg.reset){\n    global.set(contextName, { lock: false });\n    context.set(\"q\", []);\n}\nconst mutex = global.get(contextName);\nconst q = context.get(\"q\");\nfunction getStatus(){\n    return {\n        payload: `[${mutexName}] queued: ${q.length}, lock: ${mutex.lock}`\n    };\n}\n\nif (msg.reset) {\n    msg.isControl = true;\n}\n\nif (msg.isControl) {\n    // 監視メッセージの場合\n    if (!mutex.lock && q.length > 0) {\n        // mutex空き & キューに要素あり → 先頭要素を送出しロック\n        const nextMsg = q.shift();\n        mutex.lock = true;\n        return [nextMsg, null, getStatus()];\n    }\n    else{\n        return [null, msg, getStatus()];\n    }\n}\n\n// 通常メッセージの場合\nmsg.mutexName = mutexName;\nif (mutex.lock) {\n    // mutex使用中 → キューに格納\n    q.push(msg);\n    return [null, msg, getStatus()];\n}\nelse{\n    // mutex空き → 即時送出しmutexロック\n    mutex.lock = true;\n    return [msg, null, getStatus()];\n}\n",
         "outputs": 3,
         "timeout": 0,
         "noerr": 0,
@@ -2096,6 +2097,7 @@
         "y": 280,
         "wires": [
             [
+                "124b55b38a4554f9",
                 "a7c7d2df69891c8f"
             ]
         ]
@@ -2117,11 +2119,36 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 390,
+        "x": 450,
         "y": 280,
         "wires": [
             [
                 "9a2c358a84ab881b"
+            ]
+        ]
+    },
+    {
+        "id": "124b55b38a4554f9",
+        "type": "delay",
+        "z": "5368df95c04acfc4",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 190,
+        "y": 320,
+        "wires": [
+            [
+                "a7c7d2df69891c8f"
             ]
         ]
     },
@@ -5466,5 +5493,32 @@
         "x": 800,
         "y": 3600,
         "wires": []
+    },
+    {
+        "id": "998c87930d5f084a",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "reset",
+        "props": [
+            {
+                "p": "reset",
+                "v": "true",
+                "vt": "bool"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 3640,
+        "wires": [
+            [
+                "e2fe275e2465b1ec",
+                "c357863a2ab4ca3e"
+            ]
+        ]
     }
 ]
