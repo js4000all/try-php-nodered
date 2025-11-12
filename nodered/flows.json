@@ -901,15 +901,20 @@
             "c357863a2ab4ca3e",
             "c6179ed0f36c07d2",
             "f904421acb5858a1",
-            "87da5a6473f11010",
             "e4afb21b1e2923a9",
-            "bc6706e0849d5f78",
-            "998c87930d5f084a"
+            "998c87930d5f084a",
+            "5afddcb0f1b6ee17",
+            "33c92960a6aae81b",
+            "c4a9f7161e4ead46",
+            "2130719a7c915c66",
+            "19465e6bb0067ef3",
+            "938cb6e741bb128e",
+            "2d1e02533eae0992"
         ],
         "x": 34,
         "y": 3359,
-        "w": 872,
-        "h": 322
+        "w": 712,
+        "h": 462
     },
     {
         "id": "b0568bb261bbf464",
@@ -2061,7 +2066,7 @@
         "type": "function",
         "z": "5368df95c04acfc4",
         "name": "mutex制御",
-        "func": "const mutexName = env.get(\"MUTEX_NAME\");\nconst contextName = \"__mutex_\" + mutexName;\n\nif(!global.get(contextName) || msg.reset){\n    global.set(contextName, { lock: false });\n    context.set(\"q\", []);\n}\nconst mutex = global.get(contextName);\nconst q = context.get(\"q\");\nfunction getStatus(){\n    return {\n        payload: `[${mutexName}] queued: ${q.length}, lock: ${mutex.lock}`\n    };\n}\n\nif (msg.reset) {\n    msg.isControl = true;\n}\n\nif (msg.isControl) {\n    // 監視メッセージの場合\n    if (!mutex.lock && q.length > 0) {\n        // mutex空き & キューに要素あり → 先頭要素を送出しロック\n        const nextMsg = q.shift();\n        mutex.lock = true;\n        return [nextMsg, null, getStatus()];\n    }\n    else{\n        return [null, msg, getStatus()];\n    }\n}\n\n// 通常メッセージの場合\nmsg.mutexName = mutexName;\nif (mutex.lock) {\n    // mutex使用中 → キューに格納\n    q.push(msg);\n    return [null, msg, getStatus()];\n}\nelse{\n    // mutex空き → 即時送出しmutexロック\n    mutex.lock = true;\n    return [msg, null, getStatus()];\n}\n",
+        "func": "const mutexName = env.get(\"MUTEX_NAME\");\nconst contextName = \"__mutex_\" + mutexName;\n\nif(!global.get(contextName) || msg.reset){\n    global.set(contextName, { lock: false });\n    context.set(\"q\", []);\n}\nconst mutex = global.get(contextName);\nconst q = context.get(\"q\");\nfunction getStatus(){\n    return {\n        payload: `[${mutexName}] queued: ${q.length}, lock: ${mutex.lock}`\n    };\n}\n\nif (msg.reset || msg.unlock) {\n    msg.isControl = true;\n}\nif (msg.unlock) {\n    mutex.lock = false;\n}\n\nif (msg.isControl) {\n    // 監視メッセージの場合\n    if (!mutex.lock && q.length > 0) {\n        // mutex空き & キューに要素あり → 先頭要素を送出しロック\n        const nextMsg = q.shift();\n        mutex.lock = true;\n        return [nextMsg, null, getStatus()];\n    }\n    else{\n        return [null, msg, getStatus()];\n    }\n}\n\n// 通常メッセージの場合\nmsg.mutexName = mutexName;\nif (mutex.lock) {\n    // mutex使用中 → キューに格納\n    q.push(msg);\n    return [null, msg, getStatus()];\n}\nelse{\n    // mutex空き → 即時送出しmutexロック\n    mutex.lock = true;\n    return [msg, null, getStatus()];\n}\n",
         "outputs": 3,
         "timeout": 0,
         "noerr": 0,
@@ -5318,7 +5323,8 @@
         "y": 3500,
         "wires": [
             [
-                "094259532edc7402"
+                "094259532edc7402",
+                "33c92960a6aae81b"
             ],
             []
         ]
@@ -5351,7 +5357,7 @@
         "g": "273aa06cc521ed23",
         "name": "",
         "pauseType": "delay",
-        "timeout": "2",
+        "timeout": "5",
         "timeoutUnits": "seconds",
         "rate": "1",
         "nbRateUnits": "1",
@@ -5387,7 +5393,8 @@
         "y": 3600,
         "wires": [
             [
-                "f904421acb5858a1"
+                "f904421acb5858a1",
+                "c4a9f7161e4ead46"
             ],
             []
         ]
@@ -5408,9 +5415,7 @@
         "x": 640,
         "y": 3500,
         "wires": [
-            [
-                "87da5a6473f11010"
-            ]
+            []
         ]
     },
     {
@@ -5440,23 +5445,6 @@
         ]
     },
     {
-        "id": "87da5a6473f11010",
-        "type": "debug",
-        "z": "b0836e657c45cee4",
-        "g": "273aa06cc521ed23",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 800,
-        "y": 3500,
-        "wires": []
-    },
-    {
         "id": "e4afb21b1e2923a9",
         "type": "subflow:30e34f3603ea8a90",
         "z": "b0836e657c45cee4",
@@ -5472,27 +5460,8 @@
         "x": 640,
         "y": 3600,
         "wires": [
-            [
-                "bc6706e0849d5f78"
-            ]
+            []
         ]
-    },
-    {
-        "id": "bc6706e0849d5f78",
-        "type": "debug",
-        "z": "b0836e657c45cee4",
-        "g": "273aa06cc521ed23",
-        "name": "debug 4",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 800,
-        "y": 3600,
-        "wires": []
     },
     {
         "id": "998c87930d5f084a",
@@ -5517,6 +5486,157 @@
         "wires": [
             [
                 "e2fe275e2465b1ec",
+                "c357863a2ab4ca3e"
+            ]
+        ]
+    },
+    {
+        "id": "5afddcb0f1b6ee17",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "unlock",
+        "props": [
+            {
+                "p": "unlock",
+                "v": "true",
+                "vt": "bool"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 210,
+        "y": 3780,
+        "wires": [
+            [
+                "2130719a7c915c66"
+            ]
+        ]
+    },
+    {
+        "id": "33c92960a6aae81b",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "debug 21",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 3460,
+        "wires": []
+    },
+    {
+        "id": "c4a9f7161e4ead46",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 3560,
+        "wires": []
+    },
+    {
+        "id": "2130719a7c915c66",
+        "type": "subflow:5368df95c04acfc4",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "env": [
+            {
+                "name": "MUTEX_NAME",
+                "value": "hoge",
+                "type": "str"
+            }
+        ],
+        "x": 360,
+        "y": 3740,
+        "wires": [
+            [
+                "938cb6e741bb128e"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "19465e6bb0067ef3",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "解放されないmutex",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "missing",
+        "payloadType": "str",
+        "x": 170,
+        "y": 3740,
+        "wires": [
+            [
+                "2130719a7c915c66"
+            ]
+        ]
+    },
+    {
+        "id": "938cb6e741bb128e",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "debug 25",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 3740,
+        "wires": []
+    },
+    {
+        "id": "2d1e02533eae0992",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "unlock",
+        "props": [
+            {
+                "p": "unlock",
+                "v": "true",
+                "vt": "bool"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 3680,
+        "wires": [
+            [
                 "c357863a2ab4ca3e"
             ]
         ]
