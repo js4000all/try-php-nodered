@@ -542,20 +542,6 @@
                         ]
                     }
                 }
-            },
-            {
-                "name": "INTERVAL",
-                "type": "num",
-                "value": "1",
-                "ui": {
-                    "type": "input",
-                    "opts": {
-                        "types": [
-                            "num",
-                            "env"
-                        ]
-                    }
-                }
             }
         ],
         "meta": {},
@@ -2095,7 +2081,7 @@
                 "vt": "bool"
             }
         ],
-        "repeat": "${INTERVAL}",
+        "repeat": "1",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
