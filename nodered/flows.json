@@ -493,7 +493,7 @@
         "id": "5368df95c04acfc4",
         "type": "subflow",
         "name": "get mutex",
-        "info": "投入されたメッセージにmutexを割り当て、送出する。\nmutexが既に使われている場合は、メッセージをキューに保存する。\n一定秒数(INTERVALプロパティ)ごとにmutexの状態を確認し、空いていれば\nキューの先頭メッセージに割り当てる。\n\n同じMUTEX_NAMEを指定したノード同士はmutexを共有する。\nmutexの状態はグローバルコンテキストに保存される。\n一方で、キューは各ノードが個別に持つ。\n\nmsg.resetにtrueを指定して入力すると、mutexが解放され、\nノードのキューがクリアされる。\n\nmsg.unlockにtrueを指定して入力すると、mutextが解放される。\n",
+        "info": "投入されたメッセージにmutexを割り当て、送出する。\nmutexが既に使われている場合は、メッセージをキューに保存する。\n0.5秒ごとにmutexの状態を確認し、空いていれば\nキューの先頭メッセージに割り当てる。\n\n同じMUTEX_NAMEを指定したノード同士はmutexを共有する。\nmutexの状態はグローバルコンテキストに保存される。\n一方で、キューは各ノードが個別に持つ。\n\nmsg.resetにtrueを指定して入力すると、mutexが解放され、\nノードのキューがクリアされる。\n\nmsg.unlockにtrueを指定して入力すると、mutextが解放される。\n\nmutexには期限が設定されており、期限が過ぎると\n自動的にロックが外れる。\nデフォルトでは30秒でタイムアウトし、\nノードごとにTIMEOUT_SECで指定できる。\n",
         "category": "",
         "in": [
             {
@@ -538,6 +538,20 @@
                     "opts": {
                         "types": [
                             "str",
+                            "env"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "TIMEOUT_SEC",
+                "type": "num",
+                "value": "",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "num",
                             "env"
                         ]
                     }
@@ -2054,7 +2068,7 @@
         "type": "function",
         "z": "5368df95c04acfc4",
         "name": "mutex制御",
-        "func": "const mutexName = env.get(\"MUTEX_NAME\");\nconst contextName = \"__mutex_\" + mutexName;\n\nif(!global.get(contextName)){\n    global.set(contextName, { lock: false });\n}\nconst mutex = global.get(contextName);\nconst q = context.get(\"q\");\nfunction getStatus(){\n    return {\n        payload: `[${mutexName}] queued: ${q.length}, lock: ${mutex.lock}`\n    };\n}\n\nconst isControl = msg.isControl || msg.reset || msg.unlock;\nconst shouldUnlock = msg.reset || msg.unlock;\nconst shouldReset = msg.reset;\nif (shouldUnlock) {\n    mutex.lock = false;\n}\nif (shouldReset){\n    q.length = 0;\n}\n\nif (isControl) {\n    // 制御メッセージの場合\n    if (!mutex.lock && q.length > 0) {\n        // mutex空き & キューに要素あり → 先頭要素を送出しロック\n        const nextMsg = q.shift();\n        mutex.lock = true;\n        return [nextMsg, null, getStatus()];\n    }\n    else{\n        return [null, msg, getStatus()];\n    }\n}\n\n// 通常メッセージの場合\nmsg.mutexName = mutexName;\nif (mutex.lock) {\n    // mutex使用中 → キューに格納\n    q.push(msg);\n    return [null, msg, getStatus()];\n}\nelse{\n    // mutex空き → 即時送出しmutexロック\n    mutex.lock = true;\n    return [msg, null, getStatus()];\n}\n",
+        "func": "const mutexName = env.get(\"MUTEX_NAME\");\nconst timeoutSec = Number(env.get('TIMEOUT_SEC')) || 30;\n\nconst nowMsec = Date.now();\nfunction lock(mutex){\n    mutex.lock = true;\n    mutex.expireAtMsec = nowMsec + timeoutSec * 1000;\n}\nfunction lockIsExpired(mutex){\n    return mutex.lock && mutex.expireAtMsec < nowMsec;\n}\n\nconst contextName = \"__mutex_\" + mutexName;\n\nif(!global.get(contextName)){\n    global.set(contextName, { lock: false });\n}\nconst mutex = global.get(contextName);\nconst q = context.get(\"q\");\nfunction getStatus(){\n    return {\n        payload: `[${mutexName}] queued: ${q.length}, lock: ${mutex.lock}`\n    };\n}\n\nconst isControl = msg.isControl || msg.reset || msg.unlock;\nconst shouldUnlock = msg.reset || msg.unlock || lockIsExpired(mutex);\nconst shouldReset = msg.reset;\n\nif (shouldUnlock) {\n    mutex.lock = false;\n}\nif (shouldReset){\n    q.length = 0;\n}\n\nif (isControl) {\n    // 制御メッセージの場合\n    if (!mutex.lock && q.length > 0) {\n        // mutex空き & キューに要素あり → 先頭要素を送出しロック\n        const nextMsg = q.shift();\n        lock(mutex);\n        return [nextMsg, null, getStatus()];\n    }\n    else{\n        return [null, msg, getStatus()];\n    }\n}\n\n// 通常メッセージの場合\nmsg.mutexName = mutexName;\nif (mutex.lock) {\n    // mutex使用中 → キューに格納\n    q.push(msg);\n    return [null, msg, getStatus()];\n}\nelse{\n    // mutex空き → 即時送出しmutexロック\n    lock(mutex);\n    return [msg, null, getStatus()];\n}\n",
         "outputs": 3,
         "timeout": 0,
         "noerr": 0,
@@ -5548,6 +5562,11 @@
                 "name": "MUTEX_NAME",
                 "value": "hoge",
                 "type": "str"
+            },
+            {
+                "name": "TIMEOUT_SEC",
+                "value": "2",
+                "type": "num"
             }
         ],
         "x": 360,
