@@ -474,7 +474,7 @@
             {
                 "name": "MUTEX_NAME",
                 "type": "str",
-                "value": "default",
+                "value": "",
                 "ui": {
                     "type": "input",
                     "opts": {
