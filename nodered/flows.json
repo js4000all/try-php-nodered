@@ -911,12 +911,15 @@
             "938cb6e741bb128e",
             "2d1e02533eae0992",
             "c00d4522445ceeb7",
-            "525aa384a0a7a3e1"
+            "525aa384a0a7a3e1",
+            "e8f1831e75db5165",
+            "e9d03732a318de59",
+            "64d36943666f5eab"
         ],
         "x": 34,
         "y": 3359,
         "w": 712,
-        "h": 462
+        "h": 502
     },
     {
         "id": "b0568bb261bbf464",
@@ -2050,7 +2053,7 @@
         "type": "function",
         "z": "30e34f3603ea8a90",
         "name": "reset mutex",
-        "func": "const mutexName = msg.mutexName || env.get(\"MUTEX_NAME\");\nconst contextName = \"__mutex_\" + mutexName;\nglobal.get(contextName).lock = false;\nreturn msg;\n",
+        "func": "const mutexName = msg.mutexName || env.get(\"MUTEX_NAME\");\nconst contextName = \"__mutex_\" + mutexName;\nconst mutex = global.get(contextName);\nif(mutex){\n    mutex.lock = false;\n}\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -5698,5 +5701,69 @@
                 "e2fe275e2465b1ec"
             ]
         ]
+    },
+    {
+        "id": "e8f1831e75db5165",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "名無しリリース",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 3820,
+        "wires": [
+            [
+                "e9d03732a318de59"
+            ]
+        ]
+    },
+    {
+        "id": "e9d03732a318de59",
+        "type": "subflow:30e34f3603ea8a90",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "",
+        "env": [
+            {
+                "name": "MUTEX_NAME",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "x": 360,
+        "y": 3820,
+        "wires": [
+            [
+                "64d36943666f5eab"
+            ]
+        ]
+    },
+    {
+        "id": "64d36943666f5eab",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "273aa06cc521ed23",
+        "name": "debug 23",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 3820,
+        "wires": []
     }
 ]
