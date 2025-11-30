@@ -572,6 +572,232 @@
         }
     },
     {
+        "id": "91854a4752891db4",
+        "type": "subflow",
+        "name": "sync mqtt call",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 160,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "8b93c25c0a541c2e"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1020,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "9f1ae414e8de4bcb",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "MQTT_BROKER",
+                "type": "mqtt-broker",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "MQTTブローカー"
+                    },
+                    "type": "conf-types"
+                }
+            },
+            {
+                "name": "OUT_TOPIC",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "送信トピック"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "env"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "IN_TOPIC",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "受信トピック"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "env"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "QOS",
+                "type": "num",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "QoS(0=0or1, 1=1+, 2=1)"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "num",
+                            "env"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99",
+        "status": {
+            "x": 780,
+            "y": 240,
+            "wires": [
+                {
+                    "id": "eedf9b761f4fab5c",
+                    "port": 1
+                }
+            ]
+        }
+    },
+    {
+        "id": "aa3504a827f7eed8",
+        "type": "subflow",
+        "name": "sessioned mqtt in",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 520,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "abe6ed34672fc7fa",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "MQTT_BROKER",
+                "type": "mqtt-broker",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "MQTTブローカー"
+                    },
+                    "type": "conf-types"
+                }
+            },
+            {
+                "name": "IN_TOPIC",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "受信トピック"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "env"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "5130969c4980900c",
+        "type": "subflow",
+        "name": "sessioned mqtt out",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 180,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "1010d640e509a446"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [
+            {
+                "name": "MQTT_BROKER",
+                "type": "mqtt-broker",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "MQTTブローカー"
+                    },
+                    "type": "conf-types"
+                }
+            },
+            {
+                "name": "OUT_TOPIC",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "送信トピック"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "env"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "QOS",
+                "type": "num",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "ja": "QoS(0=0or1, 1=1+, 2=1)"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "num",
+                            "env"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
         "id": "e24847f2f9e351d8",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -1139,6 +1365,71 @@
         "y": 2479,
         "w": 352,
         "h": 82
+    },
+    {
+        "id": "7484cd5d2f4d2170",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "g": "81b19ea575102aa4",
+        "name": "sync mqtt",
+        "style": {
+            "label": true,
+            "fill": "#ffbfbf",
+            "fill-opacity": "0.25"
+        },
+        "nodes": [
+            "d65d34827372e5ca",
+            "271191c4abd6fdbb",
+            "c41dae9b01472485"
+        ],
+        "x": 74,
+        "y": 3979,
+        "w": 352,
+        "h": 82
+    },
+    {
+        "id": "1e9f6ce0bbcb0062",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "g": "81b19ea575102aa4",
+        "name": "ダミーサーバー",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "6e68b7491cd7a1c3",
+            "c8f236e535c4caa9",
+            "f5e7fce1277942ef",
+            "350a14a3a3efe093"
+        ],
+        "x": 74,
+        "y": 4079,
+        "w": 712,
+        "h": 82
+    },
+    {
+        "id": "81b19ea575102aa4",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "同期MQTT",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "5841dde2d29632c9",
+            "bdd8fe1dc5dd9b7f",
+            "c236b0d1b44e619f",
+            "7484cd5d2f4d2170",
+            "1e9f6ce0bbcb0062",
+            "058a8594d34f6886",
+            "3ca65edc31e5d999",
+            "6141365f9ae8bc28",
+            "edc0d03b04877ecc"
+        ],
+        "x": 34,
+        "y": 3879,
+        "w": 802,
+        "h": 308
     },
     {
         "id": "0bd359638a80e03e",
@@ -2161,6 +2452,287 @@
                 "a7c7d2df69891c8f"
             ]
         ]
+    },
+    {
+        "id": "eedf9b761f4fab5c",
+        "type": "function",
+        "z": "91854a4752891db4",
+        "name": "セッション管理",
+        "func": "const KEY = \"CACHE\";\nif(!context.get(KEY)){\n    context.set(KEY, {});\n}\nconst cache = context.get(KEY);\nfunction status(){\n    const n = Object.keys(cache).length;\n    const shape = (n > 0) ? \"dot\" : \"ring\";\n    return { payload: {text: `${n}`, fill: \"blue\", shape: shape }};\n}\n\nif(msg.isResponse === true){\n    const original = cache[msg.smq_session];\n    delete cache[msg.smq_session];\n    const newMsg = { ...original, payload: msg.payload};\n    return [newMsg, status()];\n\n}\nelse{\n    cache[msg.smq_session] = msg;\n    return [null, status()];\n}\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 220,
+        "wires": [
+            [
+                "9f1ae414e8de4bcb"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "8b93c25c0a541c2e",
+        "type": "function",
+        "z": "91854a4752891db4",
+        "name": "セッションID付与",
+        "func": "msg.smq_session = crypto.randomUUID();\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "crypto",
+                "module": "crypto"
+            }
+        ],
+        "x": 310,
+        "y": 100,
+        "wires": [
+            [
+                "eedf9b761f4fab5c",
+                "611e7739170ccc28"
+            ]
+        ]
+    },
+    {
+        "id": "611e7739170ccc28",
+        "type": "subflow:5130969c4980900c",
+        "z": "91854a4752891db4",
+        "name": "",
+        "env": [
+            {
+                "name": "MQTT_BROKER",
+                "value": "${MQTT_BROKER}",
+                "type": "conf-type"
+            },
+            {
+                "name": "OUT_TOPIC",
+                "value": "OUT_TOPIC",
+                "type": "env"
+            },
+            {
+                "name": "QOS",
+                "value": "QOS",
+                "type": "env"
+            }
+        ],
+        "x": 650,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "075d6373327a5abe",
+        "type": "subflow:aa3504a827f7eed8",
+        "z": "91854a4752891db4",
+        "name": "",
+        "env": [
+            {
+                "name": "MQTT_BROKER",
+                "value": "${MQTT_BROKER}",
+                "type": "conf-type"
+            },
+            {
+                "name": "IN_TOPIC",
+                "value": "IN_TOPIC",
+                "type": "env"
+            }
+        ],
+        "x": 230,
+        "y": 180,
+        "wires": [
+            [
+                "0a6374236b1542be"
+            ]
+        ]
+    },
+    {
+        "id": "0a6374236b1542be",
+        "type": "change",
+        "z": "91854a4752891db4",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "isResponse",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 220,
+        "wires": [
+            [
+                "eedf9b761f4fab5c"
+            ]
+        ]
+    },
+    {
+        "id": "9f1ae414e8de4bcb",
+        "type": "change",
+        "z": "91854a4752891db4",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "smq_session",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 870,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4ef63c8e3cdc61f9",
+        "type": "mqtt in",
+        "z": "aa3504a827f7eed8",
+        "name": "",
+        "topic": "${IN_TOPIC}",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "${MQTT_BROKER}",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 100,
+        "wires": [
+            [
+                "abe6ed34672fc7fa"
+            ]
+        ]
+    },
+    {
+        "id": "abe6ed34672fc7fa",
+        "type": "change",
+        "z": "aa3504a827f7eed8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "smq_session",
+                "pt": "msg",
+                "to": "payload.smq_session",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.payload",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1010d640e509a446",
+        "type": "change",
+        "z": "5130969c4980900c",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "__wk_payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{}",
+                "tot": "json"
+            },
+            {
+                "t": "move",
+                "p": "__wk_payload",
+                "pt": "msg",
+                "to": "payload.payload",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "smq_session",
+                "pt": "msg",
+                "to": "payload.smq_session",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "OUT_TOPIC",
+                "tot": "env"
+            },
+            {
+                "t": "set",
+                "p": "qos",
+                "pt": "msg",
+                "to": "QOS",
+                "tot": "env"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 120,
+        "wires": [
+            [
+                "794d56fbf6cdb571"
+            ]
+        ]
+    },
+    {
+        "id": "794d56fbf6cdb571",
+        "type": "mqtt out",
+        "z": "5130969c4980900c",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "${MQTT_BROKER}",
+        "x": 550,
+        "y": 120,
+        "wires": []
     },
     {
         "id": "fbe42d48d5ef483c",
@@ -5764,6 +6336,320 @@
         "statusType": "auto",
         "x": 520,
         "y": 3820,
+        "wires": []
+    },
+    {
+        "id": "5841dde2d29632c9",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "81b19ea575102aa4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "ABC",
+        "payloadType": "str",
+        "x": 130,
+        "y": 3920,
+        "wires": [
+            [
+                "058a8594d34f6886"
+            ]
+        ]
+    },
+    {
+        "id": "d65d34827372e5ca",
+        "type": "link in",
+        "z": "b0836e657c45cee4",
+        "g": "7484cd5d2f4d2170",
+        "name": "sync mqtt",
+        "links": [],
+        "x": 115,
+        "y": 4020,
+        "wires": [
+            [
+                "c41dae9b01472485"
+            ]
+        ]
+    },
+    {
+        "id": "bdd8fe1dc5dd9b7f",
+        "type": "link call",
+        "z": "b0836e657c45cee4",
+        "g": "81b19ea575102aa4",
+        "name": "",
+        "links": [
+            "d65d34827372e5ca"
+        ],
+        "linkType": "static",
+        "timeout": "5",
+        "x": 420,
+        "y": 3920,
+        "wires": [
+            [
+                "c236b0d1b44e619f",
+                "6141365f9ae8bc28"
+            ]
+        ]
+    },
+    {
+        "id": "c236b0d1b44e619f",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "81b19ea575102aa4",
+        "name": "debug 24",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 3960,
+        "wires": []
+    },
+    {
+        "id": "6e68b7491cd7a1c3",
+        "type": "delay",
+        "z": "b0836e657c45cee4",
+        "g": "1e9f6ce0bbcb0062",
+        "name": "",
+        "pauseType": "delayv",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "3",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 500,
+        "y": 4120,
+        "wires": [
+            [
+                "f5e7fce1277942ef"
+            ]
+        ]
+    },
+    {
+        "id": "271191c4abd6fdbb",
+        "type": "link out",
+        "z": "b0836e657c45cee4",
+        "g": "7484cd5d2f4d2170",
+        "name": "link out 3",
+        "mode": "return",
+        "links": [],
+        "x": 385,
+        "y": 4020,
+        "wires": []
+    },
+    {
+        "id": "c41dae9b01472485",
+        "type": "subflow:91854a4752891db4",
+        "z": "b0836e657c45cee4",
+        "g": "7484cd5d2f4d2170",
+        "name": "",
+        "env": [
+            {
+                "name": "MQTT_BROKER",
+                "value": "983d6a50321671e7",
+                "type": "conf-type"
+            },
+            {
+                "name": "OUT_TOPIC",
+                "value": "test/sync/call",
+                "type": "str"
+            },
+            {
+                "name": "IN_TOPIC",
+                "value": "test/sync/return",
+                "type": "str"
+            },
+            {
+                "name": "QOS",
+                "value": "2",
+                "type": "num"
+            }
+        ],
+        "x": 250,
+        "y": 4020,
+        "wires": [
+            [
+                "271191c4abd6fdbb"
+            ]
+        ]
+    },
+    {
+        "id": "c8f236e535c4caa9",
+        "type": "subflow:aa3504a827f7eed8",
+        "z": "b0836e657c45cee4",
+        "g": "1e9f6ce0bbcb0062",
+        "name": "",
+        "env": [
+            {
+                "name": "MQTT_BROKER",
+                "value": "983d6a50321671e7",
+                "type": "conf-type"
+            },
+            {
+                "name": "IN_TOPIC",
+                "value": "test/sync/call",
+                "type": "str"
+            }
+        ],
+        "x": 190,
+        "y": 4120,
+        "wires": [
+            [
+                "350a14a3a3efe093"
+            ]
+        ]
+    },
+    {
+        "id": "f5e7fce1277942ef",
+        "type": "subflow:5130969c4980900c",
+        "z": "b0836e657c45cee4",
+        "g": "1e9f6ce0bbcb0062",
+        "name": "",
+        "env": [
+            {
+                "name": "MQTT_BROKER",
+                "value": "983d6a50321671e7",
+                "type": "conf-type"
+            },
+            {
+                "name": "OUT_TOPIC",
+                "value": "test/sync/return",
+                "type": "str"
+            },
+            {
+                "name": "QOS",
+                "value": "1",
+                "type": "num"
+            }
+        ],
+        "x": 670,
+        "y": 4120,
+        "wires": []
+    },
+    {
+        "id": "058a8594d34f6886",
+        "type": "split",
+        "z": "b0836e657c45cee4",
+        "g": "81b19ea575102aa4",
+        "name": "",
+        "splt": "1",
+        "spltType": "len",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 270,
+        "y": 3920,
+        "wires": [
+            [
+                "bdd8fe1dc5dd9b7f",
+                "3ca65edc31e5d999"
+            ]
+        ]
+    },
+    {
+        "id": "3ca65edc31e5d999",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "81b19ea575102aa4",
+        "name": "debug 26",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 3960,
+        "wires": []
+    },
+    {
+        "id": "350a14a3a3efe093",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "1e9f6ce0bbcb0062",
+        "name": "function 3",
+        "func": "const delay = Math.floor(Math.random() * 5 + 1) * 500;\nmsg.payload = {\n    name: msg.payload,\n    delay,\n};\nmsg.delay = delay;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 4120,
+        "wires": [
+            [
+                "6e68b7491cd7a1c3"
+            ]
+        ]
+    },
+    {
+        "id": "6141365f9ae8bc28",
+        "type": "join",
+        "z": "b0836e657c45cee4",
+        "g": "81b19ea575102aa4",
+        "name": "",
+        "mode": "auto",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "useparts": false,
+        "accumulate": true,
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 590,
+        "y": 3920,
+        "wires": [
+            [
+                "edc0d03b04877ecc"
+            ]
+        ]
+    },
+    {
+        "id": "edc0d03b04877ecc",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "81b19ea575102aa4",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 3920,
         "wires": []
     }
 ]
