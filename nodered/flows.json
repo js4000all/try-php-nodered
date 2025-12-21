@@ -1172,6 +1172,30 @@
         "h": 308
     },
     {
+        "id": "e87c8bc22c6dab86",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "同期MQTT: サーバ側でsessionedノードを使わなくても、payload.smq_sessionさえ返却してくれれば動作する",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "e51fa2586a86b9c3",
+            "1db6209f047dc23a",
+            "eebfb3bf75e2d711",
+            "0723366615f22603",
+            "15ecd6e862eccc3e",
+            "bec785de07c0d38f",
+            "698f20f133cd2073",
+            "a0c8605518565ebe",
+            "063b2d6b430e5cc5"
+        ],
+        "x": 34,
+        "y": 4199,
+        "w": 818,
+        "h": 308
+    },
+    {
         "id": "b0568bb261bbf464",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -1432,30 +1456,6 @@
         "h": 82
     },
     {
-        "id": "e87c8bc22c6dab86",
-        "type": "group",
-        "z": "b0836e657c45cee4",
-        "name": "同期MQTT: サーバ側でsessionedノードを使わなくても、payload.smq_sessionさえ返却してくれれば動作する",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "e51fa2586a86b9c3",
-            "1db6209f047dc23a",
-            "eebfb3bf75e2d711",
-            "0723366615f22603",
-            "15ecd6e862eccc3e",
-            "bec785de07c0d38f",
-            "698f20f133cd2073",
-            "a0c8605518565ebe",
-            "063b2d6b430e5cc5"
-        ],
-        "x": 34,
-        "y": 4199,
-        "w": 818,
-        "h": 308
-    },
-    {
         "id": "0723366615f22603",
         "type": "group",
         "z": "b0836e657c45cee4",
@@ -1495,6 +1495,32 @@
         "y": 4399,
         "w": 752,
         "h": 82
+    },
+    {
+        "id": "7554b1377d5740ef",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "サンプルAPI群",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "b1f31a35df43839a",
+            "9b7c80033aed594f",
+            "9763cd1412994e87",
+            "d95266087d316cb1",
+            "b3980c280c9d4911",
+            "94b328ddb38c6d88",
+            "3565984c2de38a89",
+            "685d84b8776d6715",
+            "af614281cec980eb",
+            "94e54057e6ec9dd2",
+            "e0c3beb2ccd8fe61"
+        ],
+        "x": 34,
+        "y": 4539,
+        "w": 572,
+        "h": 282
     },
     {
         "id": "0bd359638a80e03e",
@@ -7018,5 +7044,211 @@
         "x": 710,
         "y": 4440,
         "wires": []
+    },
+    {
+        "id": "b1f31a35df43839a",
+        "type": "http in",
+        "z": "b0836e657c45cee4",
+        "g": "7554b1377d5740ef",
+        "name": "",
+        "url": "v1/areas/",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 4580,
+        "wires": [
+            [
+                "9b7c80033aed594f"
+            ]
+        ]
+    },
+    {
+        "id": "9b7c80033aed594f",
+        "type": "template",
+        "z": "b0836e657c45cee4",
+        "g": "7554b1377d5740ef",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "yaml",
+        "syntax": "plain",
+        "template": "- 共通棟\n- A棟\n- B棟\n",
+        "output": "yaml",
+        "x": 360,
+        "y": 4580,
+        "wires": [
+            [
+                "9763cd1412994e87"
+            ]
+        ]
+    },
+    {
+        "id": "9763cd1412994e87",
+        "type": "http response",
+        "z": "b0836e657c45cee4",
+        "g": "7554b1377d5740ef",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 530,
+        "y": 4580,
+        "wires": []
+    },
+    {
+        "id": "d95266087d316cb1",
+        "type": "http in",
+        "z": "b0836e657c45cee4",
+        "g": "7554b1377d5740ef",
+        "name": "",
+        "url": "v1/d_types/",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 4620,
+        "wires": [
+            [
+                "b3980c280c9d4911"
+            ]
+        ]
+    },
+    {
+        "id": "b3980c280c9d4911",
+        "type": "template",
+        "z": "b0836e657c45cee4",
+        "g": "7554b1377d5740ef",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "yaml",
+        "syntax": "plain",
+        "template": "- 気温\n- 湿度\n- 流量\n",
+        "output": "yaml",
+        "x": 360,
+        "y": 4620,
+        "wires": [
+            [
+                "94b328ddb38c6d88"
+            ]
+        ]
+    },
+    {
+        "id": "94b328ddb38c6d88",
+        "type": "http response",
+        "z": "b0836e657c45cee4",
+        "g": "7554b1377d5740ef",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 530,
+        "y": 4620,
+        "wires": []
+    },
+    {
+        "id": "3565984c2de38a89",
+        "type": "http in",
+        "z": "b0836e657c45cee4",
+        "g": "7554b1377d5740ef",
+        "name": "",
+        "url": "v1/d_ids/",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 4660,
+        "wires": [
+            [
+                "e0c3beb2ccd8fe61"
+            ]
+        ]
+    },
+    {
+        "id": "685d84b8776d6715",
+        "type": "template",
+        "z": "b0836e657c45cee4",
+        "g": "7554b1377d5740ef",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "yaml",
+        "syntax": "plain",
+        "template": "気温:\n    共通棟: 2005\n    A棟: 2006\n    B棟: 2007 \n湿度:\n    共通棟: 3005\n    A棟: 3006\n    B棟: 3007\n流量:\n    共通棟: 4005\n    A棟: 4006\n    B棟: 4007\n",
+        "output": "yaml",
+        "x": 140,
+        "y": 4740,
+        "wires": [
+            [
+                "94e54057e6ec9dd2"
+            ]
+        ]
+    },
+    {
+        "id": "af614281cec980eb",
+        "type": "http response",
+        "z": "b0836e657c45cee4",
+        "g": "7554b1377d5740ef",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 370,
+        "y": 4780,
+        "wires": []
+    },
+    {
+        "id": "94e54057e6ec9dd2",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "7554b1377d5740ef",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$lookup(payload, d_type)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 160,
+        "y": 4780,
+        "wires": [
+            [
+                "af614281cec980eb"
+            ]
+        ]
+    },
+    {
+        "id": "e0c3beb2ccd8fe61",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "7554b1377d5740ef",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload.d_type",
+                "pt": "msg",
+                "to": "d_type",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 200,
+        "y": 4700,
+        "wires": [
+            [
+                "685d84b8776d6715"
+            ]
+        ]
     }
 ]
