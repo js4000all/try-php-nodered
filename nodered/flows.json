@@ -1225,14 +1225,9 @@
         "id": "0439f5e668c2b128",
         "type": "group",
         "z": "b0836e657c45cee4",
+        "name": "センサーマスターデータAPI",
         "style": {
-            "stroke": "#999999",
-            "stroke-opacity": "1",
-            "fill": "none",
-            "fill-opacity": "1",
-            "label": true,
-            "label-position": "nw",
-            "color": "#a4a4a4"
+            "label": true
         },
         "nodes": [
             "76b1ade921a33a87",
@@ -1255,12 +1250,15 @@
             "0ef6ebca8924936f",
             "f1cb3c1c3cceaf4e",
             "dbcd102cc842f745",
-            "3c8cb17893183457"
+            "3c8cb17893183457",
+            "2f645c011f57ba02",
+            "f249ebba3982e5b9",
+            "adc6c4fba4b90570"
         ],
         "x": 34,
         "y": 4859,
-        "w": 892,
-        "h": 522
+        "w": 992,
+        "h": 582
     },
     {
         "id": "b0568bb261bbf464",
@@ -1658,6 +1656,19 @@
         "wires": [
             [
                 "4defa3b2329c5fbd"
+            ]
+        ]
+    },
+    {
+        "id": "adc6c4fba4b90570",
+        "type": "junction",
+        "z": "b0836e657c45cee4",
+        "g": "0439f5e668c2b128",
+        "x": 540,
+        "y": 5320,
+        "wires": [
+            [
+                "743057de5f54e42b"
             ]
         ]
     },
@@ -7352,8 +7363,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 820,
-        "y": 5220,
+        "x": 920,
+        "y": 5260,
         "wires": []
     },
     {
@@ -7383,10 +7394,10 @@
         "skipBodyParsing": false,
         "swaggerDoc": "",
         "x": 170,
-        "y": 5300,
+        "y": 5320,
         "wires": [
             [
-                "743057de5f54e42b"
+                "adc6c4fba4b90570"
             ]
         ]
     },
@@ -7398,7 +7409,7 @@
         "name": "",
         "statusCode": "",
         "headers": {},
-        "x": 810,
+        "x": 770,
         "y": 5300,
         "wires": []
     },
@@ -7408,14 +7419,14 @@
         "z": "b0836e657c45cee4",
         "g": "0439f5e668c2b128",
         "name": "store or get sensors",
-        "func": "const KEY = 'sensors';\nif(msg.load){\n    const groups = Object.groupBy(msg.payload, ({area_class}) => area_class);\n    const idGroups = Object.fromEntries(\n        Object.entries(groups).map(([key, items]) => [\n            key,\n            items.map(item => item.id).join(\",\")\n        ])\n    );\n    context.set(KEY, {\n            sensors: msg.payload,\n            groups : idGroups\n        });\n}\n\nconst ctx = context.get(KEY);\nmsg.payload = (msg.target == 'groups') ? ctx.groups : ctx.sensors;\nreturn msg;\n",
+        "func": "const KEY = 'sensors';\nif(msg.load){\n    const groups = Object.groupBy(msg.payload, ({area_class}) => area_class);\n    const ids = Object.fromEntries(\n        Object.entries(groups).map(([key, items]) => [\n            key,\n            items.map(item => item.id).join(\",\")\n        ])\n    );\n    context.set(KEY, {\n            sensors: msg.payload,\n            groups,\n            ids\n        });\n}\n\nconst ctx = context.get(KEY);\nif(msg.group_id){\n    msg.payload = ctx.groups[msg.group_id];\n}\nelse{\n    msg.payload = (msg.target === 'groups') ? ctx.ids : ctx.sensors;\n}\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 600,
+        "x": 700,
         "y": 5260,
         "wires": [
             [
@@ -7500,23 +7511,19 @@
         "z": "b0836e657c45cee4",
         "g": "0439f5e668c2b128",
         "name": "",
-        "property": "load",
+        "property": "req",
         "propertyType": "msg",
         "rules": [
             {
-                "t": "true"
-            },
-            {
-                "t": "else"
+                "t": "nnull"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 2,
-        "x": 810,
-        "y": 5260,
+        "outputs": 1,
+        "x": 650,
+        "y": 5300,
         "wires": [
-            [],
             [
                 "15e4f1ba060af6b2"
             ]
@@ -7719,13 +7726,13 @@
         "z": "b0836e657c45cee4",
         "g": "0439f5e668c2b128",
         "name": "",
-        "url": "api/v1/groups",
+        "url": "api/v1/idGroups",
         "method": "get",
         "upload": false,
         "skipBodyParsing": false,
         "swaggerDoc": "",
-        "x": 170,
-        "y": 5340,
+        "x": 180,
+        "y": 5360,
         "wires": [
             [
                 "3c8cb17893183457"
@@ -7753,10 +7760,57 @@
         "to": "",
         "reg": false,
         "x": 380,
-        "y": 5340,
+        "y": 5360,
         "wires": [
             [
-                "743057de5f54e42b"
+                "adc6c4fba4b90570"
+            ]
+        ]
+    },
+    {
+        "id": "2f645c011f57ba02",
+        "type": "http in",
+        "z": "b0836e657c45cee4",
+        "g": "0439f5e668c2b128",
+        "name": "",
+        "url": "api/v1/groups/:name",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 5400,
+        "wires": [
+            [
+                "f249ebba3982e5b9"
+            ]
+        ]
+    },
+    {
+        "id": "f249ebba3982e5b9",
+        "type": "change",
+        "z": "b0836e657c45cee4",
+        "g": "0439f5e668c2b128",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "group_id",
+                "pt": "msg",
+                "to": "req.params.name",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 5400,
+        "wires": [
+            [
+                "adc6c4fba4b90570"
             ]
         ]
     }
