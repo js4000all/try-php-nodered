@@ -1,0 +1,13 @@
+FROM node:22-alpine
+
+WORKDIR /usr/src/nodered
+
+COPY package.nodered.json ./package.json
+RUN npm install --unsafe-perm 
+
+ENV NODE_RED_HOME=/data
+ENV NODE_PATH=/data/node_modules:/usr/src/nodered/node_modules
+
+USER node
+# 起動
+CMD ["npm", "start"]

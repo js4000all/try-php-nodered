@@ -27,7 +27,7 @@ services:
   nodered:
     build:
       context: .
-      dockerfile: Dockerfile.rednode
+      dockerfile: Dockerfile.nodered
     ports:
       - "41880:1880"
     volumes:

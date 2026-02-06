@@ -1,0 +1,16 @@
+- id: 111
+  area: living_room
+  equip: air_conditioner
+  device_class: temperature
+- id: 222
+  area: living_room
+  equip: air_conditioner
+  device_class: power
+- id: 333
+  area: living_room
+  equip: heater
+  device_class: temperature
+- id: 444
+  area: bedroom
+  equip: air_conditioner
+  device_class: temperature

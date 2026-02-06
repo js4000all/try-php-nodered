@@ -1,0 +1,16 @@
+- id: 2001
+  area: common_area
+  equip: air_conditioner
+  device_class: temperature
+- id: 2002
+  area: common_area
+  equip: air_conditioner
+  device_class: power
+- id: 2003
+  area: common_area
+  equip: heater
+  device_class: temperature
+- id: 2004
+  area: common_area
+  equip: heater
+  device_class: power
