@@ -1562,6 +1562,25 @@
         "h": 82
     },
     {
+        "id": "6a1f00b98d34d9df",
+        "type": "group",
+        "z": "b0836e657c45cee4",
+        "name": "pingデモ",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "3d82615c691357a5",
+            "00fc242d8698fef5",
+            "49263e3d50c7155e",
+            "2454ebe1a84822af"
+        ],
+        "x": 34,
+        "y": 5471.5,
+        "w": 782,
+        "h": 97
+    },
+    {
         "id": "0bd359638a80e03e",
         "type": "junction",
         "z": "9c93b5a27f1f0d8c",
@@ -7419,7 +7438,7 @@
         "z": "b0836e657c45cee4",
         "g": "0439f5e668c2b128",
         "name": "store or get sensors",
-        "func": "const KEY = 'sensors';\nif(msg.load){\n    const groups = Object.groupBy(msg.payload, ({area_class}) => area_class);\n    const ids = Object.fromEntries(\n        Object.entries(groups).map(([key, items]) => [\n            key,\n            items.map(item => item.id).join(\",\")\n        ])\n    );\n    context.set(KEY, {\n            sensors: msg.payload,\n            groups,\n            ids\n        });\n}\n\nconst ctx = context.get(KEY);\nif(msg.group_id){\n    msg.payload = ctx.groups[msg.group_id];\n}\nelse{\n    msg.payload = (msg.target === 'groups') ? ctx.ids : ctx.sensors;\n}\nreturn msg;\n",
+        "func": "const KEY = 'sensors';\nif(msg.load){\n    const groups = Object.groupBy(msg.payload, ({area_class}) => area_class);\n    const ids = Object.entries(groups).map(([key, items]) => ({\n            __text: key,\n            __value: items.map(item => item.id).join(\",\")\n        }));\n    context.set(KEY, {\n            sensors: msg.payload,\n            groups,\n            ids\n        });\n}\n\nconst ctx = context.get(KEY);\nif(msg.group_id){\n    msg.payload = ctx.groups[msg.group_id];\n}\nelse{\n    msg.payload = (msg.target === 'groups') ? ctx.ids : ctx.sensors;\n}\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -7813,5 +7832,92 @@
                 "adc6c4fba4b90570"
             ]
         ]
+    },
+    {
+        "id": "3d82615c691357a5",
+        "type": "inject",
+        "z": "b0836e657c45cee4",
+        "g": "6a1f00b98d34d9df",
+        "name": "",
+        "props": [
+            {
+                "p": "host",
+                "v": "192.168.1.1",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 5520,
+        "wires": [
+            [
+                "00fc242d8698fef5"
+            ]
+        ]
+    },
+    {
+        "id": "00fc242d8698fef5",
+        "type": "exec",
+        "z": "b0836e657c45cee4",
+        "g": "6a1f00b98d34d9df",
+        "command": "ping -c3 ",
+        "addpay": "host",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "10",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 300,
+        "y": 5520,
+        "wires": [
+            [
+                "49263e3d50c7155e"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "49263e3d50c7155e",
+        "type": "function",
+        "z": "b0836e657c45cee4",
+        "g": "6a1f00b98d34d9df",
+        "name": "parse",
+        "func": "const pattern = /\\s+time[<=]=?([\\d.]+)\\s*ms/;\nconst lines = (msg.payload || '').split('\\n');\nconst rtts = lines\n    .map(s => s.match(pattern))\n    .filter(m => m)\n    .map(m => Number(m[1]));\n\nconst successCount = rtts.length;\nconst success = successCount > 0;\n\nmsg.payload = {\n    host: msg.host,\n    success,\n    successCount,\n    successRate: successCount / 3,\n    rtts,\n    avgRtt: success ? rtts.reduce((a, b) => a+b, 0) / successCount : null\n}\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 5520,
+        "wires": [
+            [
+                "2454ebe1a84822af"
+            ]
+        ]
+    },
+    {
+        "id": "2454ebe1a84822af",
+        "type": "debug",
+        "z": "b0836e657c45cee4",
+        "g": "6a1f00b98d34d9df",
+        "name": "debug 32",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 5520,
+        "wires": []
     }
 ]
